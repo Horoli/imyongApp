@@ -33,19 +33,25 @@ import 'package:imyong_app/preset/router.dart' as ROUTER;
 part 'global.dart';
 
 // widgets
-// part 'widgets/common_widgets.dart';
-// part 'helper/navigator.dart';
+part 'widgets/common_widgets.dart';
+part 'widgets/bottom_navigator.dart';
+part 'helper/navigator.dart';
 
 // view
 part 'view/splash.dart';
 part 'view/home.dart';
+part 'view/tabbar.dart';
+part 'view/wish.dart';
+part 'view/progress_rate.dart';
+part 'view/qna.dart';
 
 // part 'view/login.dart';
 // part 'view/home.dart';
 // part 'view/loading.dart';
 
 // page
-// part 'view/page/dashboard.dart';
+part 'view/page/subject_list.dart';
+
 // part 'view/page/question.dart';
 // part 'view/page/guest.dart';
 // part 'view/page/maincategory.dart';

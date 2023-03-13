@@ -19,12 +19,12 @@ class _ViewSplashState extends State<ViewSplash>
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 5000), () {
+    Timer(Duration(milliseconds: 1000), () {
       push();
     });
   }
 
   void push() {
-    Navigator.pushNamed(context, ROUTER.HOME);
+    Navigator.pushNamed(context, ROUTER.TABBAR);
   }
 }

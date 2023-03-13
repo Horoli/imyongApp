@@ -1,9 +1,12 @@
 part of 'common.dart';
 
+// ignore: constant_identifier_names
+enum TabItem { Home, Wish, ProcessRate, QnA }
+
 const String baseURL = 'http://localhost:3000';
 
-// final HelperNavigator GHelperNavigator = HelperNavigator.getInstance();
-// final GlobalKey<NavigatorState> GNavigatorKey = GlobalKey<NavigatorState>();
+final HelperNavigator GHelperNavigator = HelperNavigator.getInstance();
+final GlobalKey<NavigatorState> GNavigatorKey = GlobalKey<NavigatorState>();
 
 Uri getRequestUri(String path) => Uri.parse(p.join(baseURL, path));
 

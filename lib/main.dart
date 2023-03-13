@@ -42,7 +42,8 @@ Future<void> main() async {
 class AppRoot extends StatelessWidget {
   final Map<String, Widget Function(BuildContext)> routes = {
     ROUTER.SPLASH: (BuildContext context) => ViewSplash(),
-    ROUTER.HOME: (BuildContext context) => ViewHome(),
+    ROUTER.TABBAR: (BuildContext context) => ViewTabbar(),
+    ROUTER.SUBJECT_LIST: (BuildContext context) => PageSubjectList(),
 
     // ROUTER.LOGIN: (BuildContext context) => ViewLogin(),
 
@@ -53,6 +54,7 @@ class AppRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: GNavigatorKey,
       initialRoute: ROUTER.SPLASH,
       routes: routes,
     );
