@@ -1,45 +1,45 @@
-part of '/common.dart';
+// part of '/common.dart';
 
-class ViewTabbar extends StatefulWidget {
-  const ViewTabbar({Key? key}) : super(key: key);
+// class ViewTabbar extends StatefulWidget {
+//   const ViewTabbar({Key? key}) : super(key: key);
 
-  @override
-  _ViewTabbarState createState() => _ViewTabbarState();
-}
+//   @override
+//   _ViewTabbarState createState() => _ViewTabbarState();
+// }
 
-class _ViewTabbarState extends State<ViewTabbar>
-    with SingleTickerProviderStateMixin {
-  int currentIndex = 0;
-  late PersistentTabController ctrTab = PersistentTabController();
-  final List<Widget> views = [
-    ViewHome(),
-    ViewWish(),
-    ViewProgressRate(),
-    ViewQnA(),
-  ];
+// class _ViewTabbarState extends State<ViewTabbar>
+//     with SingleTickerProviderStateMixin {
+//   int currentIndex = 0;
+//   late PersistentTabController ctrTab = PersistentTabController();
+//   final List<Widget> views = [
+//     ViewHome(),
+//     ViewWish(),
+//     ViewProgressRate(),
+//     ViewQnA(),
+//   ];
 
-  late List<PersistentBottomNavBarItem> items = List.generate(
-    views.length,
-    (index) => PersistentBottomNavBarItem(
-      icon: const Icon(
-        Icons.abc_outlined,
-      ),
-    ),
-  );
+//   late List<PersistentBottomNavBarItem> items = List.generate(
+//     views.length,
+//     (index) => PersistentBottomNavBarItem(
+//       icon: const Icon(
+//         Icons.abc_outlined,
+//       ),
+//     ),
+//   );
 
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: PersistentTabView(
-        context,
-        controller: ctrTab,
-        screens: views,
-        items: items,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return WillPopScope(
+//       onWillPop: () async => false,
+//       child: PersistentTabView(
+//         context,
+//         controller: ctrTab,
+//         screens: views,
+//         items: items,
+//       ),
+//     );
+//   }
+// }
   //   return DefaultTabController(
   //     length: views.length,
   //     child: Scaffold(

@@ -25,6 +25,6 @@ class _ViewSplashState extends State<ViewSplash>
   }
 
   void push() {
-    Navigator.pushNamed(context, ROUTER.TABBAR);
+    Navigator.pushNamedAndRemoveUntil(context, ROUTER.MAIN, (route) => false);
   }
 }

@@ -1,17 +1,21 @@
 part of '/common.dart';
 
-class PageSubjectList extends StatefulWidget {
-  const PageSubjectList({Key? key}) : super(key: key);
+class ViewSubjectList extends CommonView {
+  const ViewSubjectList({
+    super.routeName = ROUTER.SUBJECT_LIST,
+    super.key,
+  });
 
   @override
-  _PageSubjectListState createState() => _PageSubjectListState();
+  ViewSubjectListState createState() => ViewSubjectListState();
 }
 
-class _PageSubjectListState extends State<PageSubjectList>
+class ViewSubjectListState extends State<ViewSubjectList>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Container(color: Colors.green),
     );
   }

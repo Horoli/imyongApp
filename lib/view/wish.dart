@@ -1,7 +1,10 @@
 part of '/common.dart';
 
-class ViewWish extends StatefulWidget {
-  const ViewWish({Key? key}) : super(key: key);
+class ViewWish extends CommonView {
+  const ViewWish({
+    super.routeName = ROUTER.WISH,
+    super.key,
+  });
 
   @override
   _ViewWishState createState() => _ViewWishState();

@@ -32,16 +32,19 @@ import 'package:imyong_app/preset/router.dart' as ROUTER;
 
 // global
 part 'global.dart';
+part 'root.dart';
 
 // widgets
 part 'widgets/common_widgets.dart';
-part 'widgets/bottom_navigator.dart';
+// part 'widgets/bottom_navigator.dart';
 part 'helper/navigator.dart';
 
 // view
+part 'view/main.dart';
+part 'view/view.dart';
 part 'view/splash.dart';
 part 'view/home.dart';
-part 'view/tabbar.dart';
+// part 'view/tabbar.dart';
 part 'view/wish.dart';
 part 'view/progress_rate.dart';
 part 'view/qna.dart';

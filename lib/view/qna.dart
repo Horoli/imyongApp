@@ -1,7 +1,10 @@
 part of '/common.dart';
 
-class ViewQnA extends StatefulWidget {
-  const ViewQnA({Key? key}) : super(key: key);
+class ViewQnA extends CommonView {
+  const ViewQnA({
+    super.routeName = ROUTER.QNA,
+    super.key,
+  });
 
   @override
   _ViewQnAState createState() => _ViewQnAState();

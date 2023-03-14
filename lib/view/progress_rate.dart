@@ -1,7 +1,10 @@
 part of '/common.dart';
 
-class ViewProgressRate extends StatefulWidget {
-  const ViewProgressRate({Key? key}) : super(key: key);
+class ViewProgressRate extends CommonView {
+  const ViewProgressRate({
+    super.routeName = ROUTER.PROGRESS_RATE,
+    super.key,
+  });
 
   @override
   _ViewProgressRateState createState() => _ViewProgressRateState();

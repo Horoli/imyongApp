@@ -39,26 +39,30 @@ Future<void> main() async {
 //   GServiceMainCategory.get();
 // }
 
-class AppRoot extends StatelessWidget {
-  final Map<String, Widget Function(BuildContext)> routes = {
-    ROUTER.SPLASH: (BuildContext context) => ViewSplash(),
-    ROUTER.TABBAR: (BuildContext context) => ViewTabbar(),
+// class MainView extends StatelessWidget {
+//   final Map<String, Widget Function(BuildContext)> routes = {
+//     ROUTER.SPLASH: (BuildContext context) => ViewSplash(),
+//     ROUTER.TABBAR: (BuildContext context) => ViewTabbar(),
     // ROUTER.SUBJECT_LIST: (BuildContext context) => PageSubjectList(),
 
     // ROUTER.LOGIN: (BuildContext context) => ViewLogin(),
 
     // ROUTER.LOADING: (BuildContext context) => ViewLoading(),
     // ROUTER.HOME: (BuildContext context) => ViewHome(),
-  };
+  // };
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: GNavigatorKey,
-      initialRoute: ROUTER.SPLASH,
-      routes: routes,
-    );
-    return Container();
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     home: GBottomNavigationBar(
+  //       body: MaterialApp(
+  //         navigatorKey: GNavigatorKey,
+  //         // initialRoute: ROUTER.SPLASH,
+  //         routes: routes,
+  //       ),
+  //     ),
+  //   );
+    // return Container();
     //   return TStreamBuilder(
     //     stream: GServiceTheme.$theme.browse$,
     //     builder: (context, ThemeData theme) {
@@ -72,5 +76,5 @@ class AppRoot extends StatelessWidget {
     //     },
     //   );
     // }
-  }
-}
+  // }
+// }
