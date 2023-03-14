@@ -43,7 +43,7 @@ class AppRoot extends StatelessWidget {
   final Map<String, Widget Function(BuildContext)> routes = {
     ROUTER.SPLASH: (BuildContext context) => ViewSplash(),
     ROUTER.TABBAR: (BuildContext context) => ViewTabbar(),
-    ROUTER.SUBJECT_LIST: (BuildContext context) => PageSubjectList(),
+    // ROUTER.SUBJECT_LIST: (BuildContext context) => PageSubjectList(),
 
     // ROUTER.LOGIN: (BuildContext context) => ViewLogin(),
 

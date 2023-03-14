@@ -11,14 +11,8 @@ class ViewHome extends StatefulWidget {
 
 class _ViewHomeState extends State<ViewHome>
     with SingleTickerProviderStateMixin {
-  PageController ctrPage = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
-    List<Widget> asd = [zxc(), PageSubjectList()];
-    return PageView(children: asd);
-  }
-
-  Widget zxc() {
     return Column(
       children: [
         Container(color: Colors.blue).expand(),
@@ -26,7 +20,11 @@ class _ViewHomeState extends State<ViewHome>
           width: double.infinity,
           child: Text('subject'),
           onPressed: () {
-            GHelperNavigator.PushSubjectList();
+            // GHelperNavigator.PushSubjectList();
+            PersistentNavBarNavigator.pushNewScreen(
+              context,
+              screen: PageSubjectList(),
+            );
           },
         ).expand(),
         buildElevatedButton(
