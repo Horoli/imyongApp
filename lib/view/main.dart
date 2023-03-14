@@ -12,21 +12,18 @@ class ViewMain extends CommonView {
 
 class ViewMainState extends State<ViewMain> {
   final Map<String, Widget Function(BuildContext)> routes = {
-    // ROUTER.SPLASH: (BuildContext context) => ViewSplash(),
     ROUTER.HOME: (BuildContext context) => ViewHome(),
-    // ROUTER.SUBJECT_LIST: (BuildContext context) => PageSubjectList(),
-
-    // ROUTER.LOGIN: (BuildContext context) => ViewLogin(),
-
-    // ROUTER.LOADING: (BuildContext context) => ViewLoading(),
-    // ROUTER.HOME: (BuildContext context) => ViewHome(),
+    ROUTER.WISH: (BuildContext context) => ViewWish(),
+    ROUTER.PROGRESS_RATE: (BuildContext context) => ViewProgressRate(),
+    ROUTER.QNA: (BuildContext context) => ViewQnA(),
   };
 
   final List<VoidCallback> viewNavigator = [
-    () => GHelperNavigator.push(const ViewHome(), GNavigatorKey),
-    () => GHelperNavigator.push(const ViewWish(), GNavigatorKey),
-    () => GHelperNavigator.push(const ViewProgressRate(), GNavigatorKey),
-    () => GHelperNavigator.push(const ViewQnA(), GNavigatorKey),
+    () => GHelperNavigator.pushReplacement(const ViewHome(), GNavigatorKey),
+    () => GHelperNavigator.pushReplacement(const ViewWish(), GNavigatorKey),
+    () => GHelperNavigator.pushReplacement(
+        const ViewProgressRate(), GNavigatorKey),
+    () => GHelperNavigator.pushReplacement(const ViewQnA(), GNavigatorKey),
   ];
 
   int currentIndex = 0;
@@ -36,9 +33,9 @@ class ViewMainState extends State<ViewMain> {
     return Scaffold(
       body: MaterialApp(
         navigatorKey: GNavigatorKey,
-        // initialRoute: ROUTER.HOME,
+        initialRoute: ROUTER.HOME,
         routes: routes,
-        home: ViewHome(),
+        // home: const ViewHome(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

@@ -23,10 +23,12 @@ class HelperNavigator {
 
   void pushReplacement(CommonView view, GlobalKey<NavigatorState> key) {
     _routeCheck(view, key, () {
-      Navigator.of(key.currentContext!).pushReplacement(MaterialPageRoute(
-        settings: RouteSettings(name: view.routeName),
-        builder: (_) => view,
-      ));
+      Navigator.of(key.currentContext!).pushReplacement(
+        MaterialPageRoute(
+          settings: RouteSettings(name: view.routeName),
+          builder: (_) => view,
+        ),
+      );
     });
   }
 
@@ -54,55 +56,54 @@ class HelperNavigator {
       return true;
     });
 
-  // void PushHome() {
-  //   //
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       settings: const RouteSettings(name: ROUTER.HOME),
-  //       builder: (BuildContext context) => ViewHome(),
-  //     ),
-  //   );
-  // }
+    // void PushHome() {
+    //   //
+    //   Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //       settings: const RouteSettings(name: ROUTER.HOME),
+    //       builder: (BuildContext context) => ViewHome(),
+    //     ),
+    //   );
+    // }
 
-  // void PushWish() {
-  //   //
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       settings: const RouteSettings(name: ROUTER.WISH),
-  //       builder: (BuildContext context) => ViewWish(),
-  //     ),
-  //   );
-  // }
+    // void PushWish() {
+    //   //
+    //   Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //       settings: const RouteSettings(name: ROUTER.WISH),
+    //       builder: (BuildContext context) => ViewWish(),
+    //     ),
+    //   );
+    // }
 
-  // void PushProgressRate() {
-  //   //
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       settings: const RouteSettings(name: ROUTER.PROGRESS_RATE),
-  //       builder: (BuildContext context) => ViewProgressRate(),
-  //     ),
-  //   );
-  // }
+    // void PushProgressRate() {
+    //   //
+    //   Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //       settings: const RouteSettings(name: ROUTER.PROGRESS_RATE),
+    //       builder: (BuildContext context) => ViewProgressRate(),
+    //     ),
+    //   );
+    // }
 
-  // void PushQnA() {
-  //   //
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       settings: const RouteSettings(name: ROUTER.QNA),
-  //       builder: (BuildContext context) => ViewQnA(),
-  //     ),
-  //   );
-  // }
+    // void PushQnA() {
+    //   //
+    //   Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //       settings: const RouteSettings(name: ROUTER.QNA),
+    //       builder: (BuildContext context) => ViewQnA(),
+    //     ),
+    //   );
+    // }
 
-  // void PushSubjectList() {
-  //   //
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       settings: const RouteSettings(name: ROUTER.SUBJECT_LIST),
-  //       builder: (BuildContext context) => PageSubjectList(),
-  //     ),
-  //   );
-  // }
-
+    // void PushSubjectList() {
+    //   //
+    //   Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //       settings: const RouteSettings(name: ROUTER.SUBJECT_LIST),
+    //       builder: (BuildContext context) => PageSubjectList(),
+    //     ),
+    //   );
+    // }
   }
 }

@@ -8,8 +8,9 @@ class AppRoot extends StatelessWidget {
       ROUTER.SPLASH: (BuildContext context) => const ViewSplash(),
     };
     return MaterialApp(
+      // initialRoute: ROUTER.SPLASH,
       routes: routes,
-      initialRoute: ROUTER.SPLASH,
+      home: const ViewSplash(),
     );
   }
 }
