@@ -28,7 +28,7 @@ class _ViewHomeState extends State<ViewHome>
           ).expand(),
           buildElevatedButton(
             width: double.infinity,
-            child: Text(''),
+            child: Text('wish'),
             onPressed: () {},
           ).expand(),
           buildElevatedButton(
