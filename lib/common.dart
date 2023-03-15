@@ -20,15 +20,17 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 // preset
 // import 'package:imyong/preset/color.dart' as COLOR;
-// import 'package:imyong/preset/path.dart' as PATH;
-// import 'package:imyong/preset/hive_id.dart' as HIVE_ID;
+import 'package:imyong_app/preset/path.dart' as PATH;
+import 'package:imyong_app/preset/hive_id.dart' as HIVE_ID;
 import 'package:imyong_app/preset/router.dart' as ROUTER;
+import 'package:imyong_app/preset/header.dart' as HEADER;
+import 'package:imyong_app/preset/status.dart' as STATUS;
 // import 'package:imyong/preset/tab.dart' as TAB;
 // import 'package:imyong/preset/theme.dart' as THEME;
 
 // import inner packages
-// import 'package:imyong/service/lib.dart';
-// import 'package:imyong/model/lib.dart';
+import 'package:imyong_app/service/lib.dart';
+import 'package:imyong_app/model/lib.dart';
 
 // global
 part 'global.dart';

@@ -2,19 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:imyong_app/common.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:imyong/service/lib.dart';
-// import 'package:imyong/model/lib.dart';
+import 'package:imyong_app/service/lib.dart';
+import 'package:imyong_app/model/lib.dart';
 import 'package:tnd_pkg_widget/tnd_pkg_widget.dart';
 import 'preset/router.dart' as ROUTER;
 // import 'preset/color.dart' as COLOR;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // _initHive();
-  // _registerHiveAdapter();
-  // _initService();
+  _initHive();
+  _registerHiveAdapter();
+  _initService();
   // _getData();
   runApp(AppRoot());
+}
+
+Future<void> _initHive() async {
+  await Hive.initFlutter();
+  hiveMGuestLogin = await Hive.openBox('login');
+  // GServiceTheme.fetch();
+}
+
+void _initService() {
+  GServiceGuestLogin = ServiceMGuestLogin.getInstance();
+  GServiceGuest = ServiceGuest.getInstance();
 }
 
 // Future<void> _initHive() async {
@@ -23,9 +34,9 @@ Future<void> main() async {
 //   GServiceTheme.fetch();
 // }
 
-// Future<void> _registerHiveAdapter() async {
-//   Hive.registerAdapter<MLogin>(MLoginAdapter());
-// }
+Future<void> _registerHiveAdapter() async {
+  Hive.registerAdapter<MGuestLogin>(MGuestLoginAdapter());
+}
 
 // void _initService() {
 //   GServiceType = ServiceType.getInstance();

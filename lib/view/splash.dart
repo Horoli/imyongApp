@@ -13,15 +13,46 @@ class _ViewSplashState extends State<ViewSplash>
   Widget build(BuildContext context) {
     return Container(
       color: Colors.red,
+      child: buildElevatedButton(
+        child: Text(''),
+        onPressed: () async {
+          String guestID = GServiceGuest.guest.id;
+          RestfulResult result = await GServiceGuestLogin.login(guestID);
+          print(result.data);
+          print(result.isSuccess);
+
+          if (result.isSuccess) {
+            push();
+          }
+        },
+      ),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 1000), () {
-      push();
+
+    String guestID = '';
+
+    // TODO : must delete
+    Timer(Duration(milliseconds: 1000), () async {
+      if (hiveMGuestLogin.isEmpty) {
+        guestID = newUUID();
+      } else {
+        guestID = hiveMGuestLogin.keys.first;
+      }
+
+      print('guestID $guestID');
+      RestfulResult result = await GServiceGuest.post(uuid: guestID);
+      print('result ${result.data}');
+      print('result ${result.isSuccess}');
     });
+
+    // Timer(Duration(milliseconds: 3000), () {
+    // hiveMGuestLogin.put(GServiceGuest.guest.id, MGuestLogin(token: ''));
+    //   print('hiveMGuestLogin ${hiveMGuestLogin.keys}');
+    // });
   }
 
   void push() {
