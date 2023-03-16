@@ -12,50 +12,48 @@ class _ViewSplashState extends State<ViewSplash>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
-      child: buildElevatedButton(
-        child: Text(''),
-        onPressed: () async {
-          String guestID = GServiceGuest.guest.id;
-          RestfulResult result = await GServiceGuestLogin.login(guestID);
-          print(result.data);
-          print(result.isSuccess);
-
-          if (result.isSuccess) {
-            push();
-          }
-        },
-      ),
+      color: Colors.grey,
     );
   }
 
   @override
   void initState() {
     super.initState();
+    loadData();
+  }
+
+  // 데이터 로딩 후 메인화면으로 이동
+  Future<void> loadData() async {
+    await _initHive();
+    _initService();
 
     String guestID = '';
 
     // TODO : must delete
-    Timer(Duration(milliseconds: 1000), () async {
-      if (hiveMGuestLogin.isEmpty) {
-        guestID = newUUID();
-      } else {
-        guestID = hiveMGuestLogin.keys.first;
-      }
+    if (hiveMGuestLogin.isEmpty) {
+      guestID = newUUID();
+    } else {
+      guestID = hiveMGuestLogin.keys.first;
+    }
 
-      print('guestID $guestID');
-      RestfulResult result = await GServiceGuest.post(uuid: guestID);
-      print('result ${result.data}');
-      print('result ${result.isSuccess}');
-    });
+    RestfulResult result = await GServiceGuest.post(uuid: guestID);
+    RestfulResult loginResult = await GServiceGuestLogin.login(guestID);
+    print(loginResult.isSuccess);
 
-    // Timer(Duration(milliseconds: 3000), () {
-    // hiveMGuestLogin.put(GServiceGuest.guest.id, MGuestLogin(token: ''));
-    //   print('hiveMGuestLogin ${hiveMGuestLogin.keys}');
-    // });
+    Navigator.pushNamedAndRemoveUntil(context, ROUTER.MAIN, (route) => false);
   }
 
-  void push() {
-    Navigator.pushNamedAndRemoveUntil(context, ROUTER.MAIN, (route) => false);
+  Future<void> _initHive() async {
+    await Hive.initFlutter();
+    Hive.registerAdapter<MGuestLogin>(MGuestLoginAdapter());
+    hiveMGuestLogin = await Hive.openBox('MGuestLogin');
+    // GServiceTheme.fetch();
+  }
+
+  void _initService() {
+    GServiceGuestLogin = ServiceMGuestLogin.getInstance();
+    GServiceGuest = ServiceGuest.getInstance();
+    GServiceMainCategory = ServiceMainCategory.getInstance();
+    GServiceSubCategory = ServiceSubCategory.getInstance();
   }
 }

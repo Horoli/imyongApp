@@ -57,6 +57,8 @@ part 'view/qna.dart';
 
 // page
 part 'view/page/subject_list.dart';
+part 'view/page/selected_subject.dart';
+
 
 // part 'view/page/question.dart';
 // part 'view/page/guest.dart';

@@ -10,23 +10,10 @@ import 'preset/router.dart' as ROUTER;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  _initHive();
-  _registerHiveAdapter();
-  _initService();
-  // _getData();
   runApp(AppRoot());
 }
 
-Future<void> _initHive() async {
-  await Hive.initFlutter();
-  hiveMGuestLogin = await Hive.openBox('login');
-  // GServiceTheme.fetch();
-}
 
-void _initService() {
-  GServiceGuestLogin = ServiceMGuestLogin.getInstance();
-  GServiceGuest = ServiceGuest.getInstance();
-}
 
 // Future<void> _initHive() async {
 //   await Hive.initFlutter();
@@ -34,16 +21,11 @@ void _initService() {
 //   GServiceTheme.fetch();
 // }
 
-Future<void> _registerHiveAdapter() async {
-  Hive.registerAdapter<MGuestLogin>(MGuestLoginAdapter());
-}
 
 // void _initService() {
 //   GServiceType = ServiceType.getInstance();
 //   GServiceLogin = ServiceLogin.getInstance();
 //   GServiceGuest = ServiceGuest.getInstance();
-//   GServiceMainCategory = ServiceMainCategory.getInstance();
-// GServiceSubCategory = ServiceSubCategory.getInstance();
 // }
 
 // void _getData() {

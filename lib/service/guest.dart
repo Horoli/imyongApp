@@ -19,12 +19,18 @@ class ServiceGuest {
         .post(getRequestUri(PATH.GUEST),
             headers: createHeaders(), body: encodeData)
         .then((response) {
-      Map<String, dynamic> item =
+      Map<String, dynamic> result = 
           Map.from(jsonDecode(response.body)['data'] ?? {});
-      print('item $item');
 
-      MGuest tmpGuest = MGuest.fromMap(item);
+      print('item $result');
+
+      MGuest tmpGuest = MGuest.fromMap(result);
       $guest.sink$(tmpGuest);
+      return completer.complete(RestfulResult.fromMap(
+        // result,
+        jsonDecode(response.body),
+        response.statusCode,
+      ));
     }).catchError((error) {
       // TODO : create error page(pop)
       print('error $error');

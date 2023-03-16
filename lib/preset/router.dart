@@ -5,4 +5,5 @@ const String HOME = '/home';
 const String WISH = '/wish';
 const String QNA = '/qna';
 const String PROGRESS_RATE = '/progress_rate';
-const String SUBJECT_LIST = '/subjectlist';
+const String SUBJECT_LIST = '/subject_list';
+const String SELECTED_SUBJECT = '/selected_subject';

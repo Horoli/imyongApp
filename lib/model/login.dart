@@ -1,9 +1,9 @@
 part of 'lib.dart';
 
-@HiveType(typeId: HIVE_ID.LOGIN)
+@HiveType(typeId: HIVE_ID.GUEST_LOGIN)
 class MGuestLogin {
   late String token;
-  late int expireAt;
+  // late int expireAt;
 
   MGuestLogin({
     required this.token,
@@ -29,7 +29,7 @@ class MGuestLogin {
 
 class MGuestLoginAdapter extends TypeAdapter<MGuestLogin> {
   @override
-  final typeId = HIVE_ID.LOGIN;
+  final typeId = HIVE_ID.GUEST_LOGIN;
 
   @override
   MGuestLogin read(BinaryReader reader) {
