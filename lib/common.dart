@@ -26,7 +26,7 @@ import 'package:imyong_app/preset/router.dart' as ROUTER;
 import 'package:imyong_app/preset/header.dart' as HEADER;
 import 'package:imyong_app/preset/status.dart' as STATUS;
 // import 'package:imyong/preset/tab.dart' as TAB;
-// import 'package:imyong/preset/theme.dart' as THEME;
+import 'package:imyong_app/preset/theme.dart' as THEME;
 
 // import inner packages
 import 'package:imyong_app/service/lib.dart';

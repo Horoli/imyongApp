@@ -10,6 +10,8 @@ import 'preset/router.dart' as ROUTER;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  GServiceTheme.fetch();
   runApp(AppRoot());
 }
 

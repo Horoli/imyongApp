@@ -48,6 +48,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
 
                           GHelperNavigator.push(
                             ViewSelectedSubjectList(
+                                selectedSubjectLabel: subjects[index],
                                 selectedSubject:
                                     GServiceSubCategory.subCategory),
                             GNavigatorKey,
@@ -68,10 +69,10 @@ class ViewSubjectListState extends State<ViewSubjectList>
   @override
   void initState() {
     super.initState();
-    aa();
+    getMainCategory();
   }
 
-  Future<void> aa() async {
+  Future<void> getMainCategory() async {
     await GServiceMainCategory.get();
   }
 }

@@ -1,8 +1,11 @@
 part of '/common.dart';
 
 class ViewSelectedSubjectList extends CommonView {
+  final String selectedSubjectLabel;
+
   final List<MSubCategory> selectedSubject;
   const ViewSelectedSubjectList({
+    required this.selectedSubjectLabel,
     required this.selectedSubject,
     super.routeName = ROUTER.SELECTED_SUBJECT,
     super.key,
@@ -25,7 +28,15 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
           width: width,
           height: height,
           child: Column(
-            children: subjectSubcategories(),
+            children: [
+              Text('${widget.selectedSubjectLabel}').expand(),
+              ListView.builder(
+                itemCount: subjectSubcategories().length,
+                itemBuilder: ((BuildContext context, index) {
+                  return subjectSubcategories()[index];
+                }),
+              ).expand(),
+            ],
           ),
         ),
       ),
@@ -46,9 +57,14 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
         onPressed: () {
           print(selectedSubject[index].id);
           print(selectedSubject[index].name);
-          print(selectedSubject[index].children);
+          print(selectedSubject[index].parent);
         },
-      ).expand(),
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

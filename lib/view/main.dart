@@ -31,12 +31,17 @@ class ViewMainState extends State<ViewMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MaterialApp(
-        navigatorKey: GNavigatorKey,
-        initialRoute: ROUTER.HOME,
-        routes: routes,
-        // home: const ViewHome(),
-      ),
+      body: TStreamBuilder(
+          stream: GServiceTheme.$theme.browse$,
+          builder: (context, ThemeData theme) {
+            return MaterialApp(
+              theme: theme,
+              navigatorKey: GNavigatorKey,
+              initialRoute: ROUTER.HOME,
+              routes: routes,
+              // home: const ViewHome(),
+            );
+          }),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
