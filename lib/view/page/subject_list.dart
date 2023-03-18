@@ -17,6 +17,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: SizedBox(
           height: height,
@@ -48,9 +49,9 @@ class ViewSubjectListState extends State<ViewSubjectList>
 
                           GHelperNavigator.push(
                             ViewSelectedSubjectList(
-                                selectedSubjectLabel: subjects[index],
-                                selectedSubject:
-                                    GServiceSubCategory.subCategory),
+                              selectedSubjectLabel: subjects[index],
+                              selectedSubject: GServiceSubCategory.subCategory,
+                            ),
                             GNavigatorKey,
                           );
                         },

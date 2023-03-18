@@ -40,7 +40,20 @@ class _ViewSplashState extends State<ViewSplash>
     RestfulResult loginResult = await GServiceGuestLogin.login(guestID);
     print(loginResult.isSuccess);
 
-    Navigator.pushNamedAndRemoveUntil(context, ROUTER.MAIN, (route) => false);
+    // TODO : splash image가 2초 출력되고 넘어가야함
+    // Timer(const Duration(milliseconds: 2000), () {
+    //   Navigator.pushNamedAndRemoveUntil(
+    //     context,
+    //     ROUTER.MAIN,
+    //     (route) => false,
+    //   );
+    // });
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      ROUTER.MAIN,
+      (route) => false,
+    );
   }
 
   Future<void> _initHive() async {

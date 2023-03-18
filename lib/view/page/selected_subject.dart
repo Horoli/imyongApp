@@ -23,6 +23,7 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: SizedBox(
           width: width,
@@ -58,6 +59,12 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
           print(selectedSubject[index].id);
           print(selectedSubject[index].name);
           print(selectedSubject[index].parent);
+          GHelperNavigator.push(
+            PageQuestion(
+              selectedSubCategory: selectedSubject[index],
+            ),
+            GNavigatorKey,
+          );
         },
       ),
     );
