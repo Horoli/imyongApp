@@ -16,14 +16,16 @@ class ViewSelectedSubjectList extends CommonView {
 }
 
 class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
-  List<MSubCategory> get selectedSubject => widget.selectedSubject;
+  List<MSubCategory> get selectedSubjects => widget.selectedSubject;
 
   late final double width = MediaQuery.of(context).size.width * 0.8;
   late final double height = MediaQuery.of(context).size.height * 0.85;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('selected Subject'),
+      ),
       body: Center(
         child: SizedBox(
           width: width,
@@ -51,17 +53,17 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
 
   List<Widget> subjectSubcategories() {
     return List.generate(
-      selectedSubject.length,
+      selectedSubjects.length,
       (index) => buildElevatedButton(
         width: double.infinity,
-        child: Text('${selectedSubject[index].name}'),
+        child: Text('${selectedSubjects[index].name}'),
         onPressed: () {
-          print(selectedSubject[index].id);
-          print(selectedSubject[index].name);
-          print(selectedSubject[index].parent);
+          print(selectedSubjects[index].id);
+          print(selectedSubjects[index].name);
+          print(selectedSubjects[index].parent);
           GHelperNavigator.push(
             PageQuestion(
-              selectedSubCategory: selectedSubject[index],
+              selectedSubCategory: selectedSubjects[index],
             ),
             GNavigatorKey,
           );

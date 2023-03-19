@@ -14,17 +14,28 @@ class PageQuestion extends CommonView {
 
 class PageQuestionState extends State<PageQuestion> {
   MSubCategory get sub => widget.selectedSubCategory;
+
+  late final double width = MediaQuery.of(context).size.width * 0.8;
+  late final double height = MediaQuery.of(context).size.height * 0.85;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Container(color: Colors.amber).expand(),
-          Text('${sub.id}').expand(),
-          Text('${sub.name}').expand(),
-          Text('${sub.children}').expand(),
-        ],
+      appBar: AppBar(
+        title: Text(sub.name),
+      ),
+      body: Center(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Column(
+            children: [
+              Container(color: Colors.amber).expand(),
+              Text('${sub.id}').expand(),
+              Text('${sub.name}').expand(),
+              Text('${sub.children}').expand(),
+            ],
+          ),
+        ),
       ),
     );
   }
