@@ -33,6 +33,12 @@ class PageQuestionState extends State<PageQuestion> {
               Text('${sub.id}').expand(),
               Text('${sub.name}').expand(),
               Text('${sub.children}').expand(),
+              buildElevatedButton(
+                child: Text('post'),
+                onPressed: () {
+                  GServiceQuestion.getFilteredQuestion(categoryID: sub.id);
+                },
+              ),
             ],
           ),
         ),
@@ -43,10 +49,13 @@ class PageQuestionState extends State<PageQuestion> {
   @override
   void initState() {
     super.initState();
+    getFilteredQuestions();
   }
 
   // TODO : selectedSubCategory를 활용해서 필터링한 문제를 가져옴
-  void getFilteredQuestios() {}
+  void getFilteredQuestions() {
+    print('widget.selectedSubCategory ${widget.selectedSubCategory.name}');
+  }
 
   // TODO : filteredQuestions에 포함된 문제 중 1개를 랜덤으로 1개 출력하는 streambuilder
   Widget buildQuestionFiels() {

@@ -25,6 +25,6 @@ part 'login.dart';
 part 'restful_result.dart';
 part 'maincategory.dart';
 part 'subcategory.dart';
+part 'question.dart';
 // part 'type.dart';
-// part 'question.dart';
 // part 'difficulty.dart';
