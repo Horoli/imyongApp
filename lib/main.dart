@@ -9,6 +9,7 @@ import 'preset/router.dart' as ROUTER;
 // import 'preset/color.dart' as COLOR;
 
 Future<void> main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
 
   GServiceTheme.fetch();

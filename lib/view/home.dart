@@ -7,10 +7,10 @@ class ViewHome extends CommonView {
   });
 
   @override
-  _ViewHomeState createState() => _ViewHomeState();
+  ViewHomeState createState() => ViewHomeState();
 }
 
-class _ViewHomeState extends State<ViewHome>
+class ViewHomeState extends State<ViewHome>
     with SingleTickerProviderStateMixin {
   late final double width = MediaQuery.of(context).size.width * 0.6;
   late final double height = MediaQuery.of(context).size.height * 0.6;

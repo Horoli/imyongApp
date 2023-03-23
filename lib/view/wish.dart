@@ -7,10 +7,10 @@ class ViewWish extends CommonView {
   });
 
   @override
-  _ViewWishState createState() => _ViewWishState();
+  ViewWishState createState() => ViewWishState();
 }
 
-class _ViewWishState extends State<ViewWish>
+class ViewWishState extends State<ViewWish>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {

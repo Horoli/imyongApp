@@ -7,10 +7,10 @@ class ViewProgressRate extends CommonView {
   });
 
   @override
-  _ViewProgressRateState createState() => _ViewProgressRateState();
+  ViewProgressRateState createState() => ViewProgressRateState();
 }
 
-class _ViewProgressRateState extends State<ViewProgressRate>
+class ViewProgressRateState extends State<ViewProgressRate>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {

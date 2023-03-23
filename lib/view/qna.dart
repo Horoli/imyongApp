@@ -7,10 +7,10 @@ class ViewQnA extends CommonView {
   });
 
   @override
-  _ViewQnAState createState() => _ViewQnAState();
+  ViewQNAState createState() => ViewQNAState();
 }
 
-class _ViewQnAState extends State<ViewQnA> with SingleTickerProviderStateMixin {
+class ViewQNAState extends State<ViewQnA> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

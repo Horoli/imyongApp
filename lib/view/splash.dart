@@ -1,13 +1,15 @@
 part of '/common.dart';
 
 class ViewSplash extends StatefulWidget {
-  const ViewSplash({Key? key}) : super(key: key);
+  const ViewSplash({
+    super.key,
+  });
 
   @override
-  _ViewSplashState createState() => _ViewSplashState();
+  ViewSplashState createState() => ViewSplashState();
 }
 
-class _ViewSplashState extends State<ViewSplash>
+class ViewSplashState extends State<ViewSplash>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
