@@ -28,9 +28,17 @@ class ServiceQuestion {
             body: _encodeData, headers: _headers)
         .then((response) {
       Map result = json.decode(response.body);
-      print('result $result');
+      List<MQuestion> questionList = [];
 
-      // get();
+      for (dynamic item in result['data']) {
+        MQuestion convertQuestion = MQuestion.fromMap(item);
+        questionList.add(convertQuestion);
+      }
+
+      $question.sink$(questionList);
+
+      completer.complete(
+          RestfulResult(statusCode: STATUS.SUCCESS_CODE, message: 'ok'));
 
       if (result['statusCode'] == 403) {
         // GHelperNavigator.pushLogin();

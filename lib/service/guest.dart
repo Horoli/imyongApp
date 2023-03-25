@@ -19,12 +19,13 @@ class ServiceGuest {
         .post(getRequestUri(PATH.GUEST),
             headers: createHeaders(), body: encodeData)
         .then((response) {
-      Map<String, dynamic> result = 
+      Map<String, dynamic> result =
           Map.from(jsonDecode(response.body)['data'] ?? {});
 
-      print('item $result');
-
       MGuest tmpGuest = MGuest.fromMap(result);
+      print('tmpGuest ${tmpGuest}');
+      print('tmpGuest.wishQuestion ${tmpGuest.wishQuestion}');
+
       $guest.sink$(tmpGuest);
       return completer.complete(RestfulResult.fromMap(
         // result,
@@ -56,6 +57,39 @@ class ServiceGuest {
     String query = 'guest?id=${guestID}';
 
     http.get(getRequestUri(query), headers: _headers).then((response) {
+      print('get ${response.body}');
+    });
+
+    // if (response.statusCode != STATUS.SUCCESS_CODE) {
+    //   throw Exception(STATUS.LOAD_FAILED_MSG);
+    // }
+
+    // Map<String, dynamic> item =
+    //     Map.from(jsonDecode(response.body)['data']['guest'] ?? {});
+
+    // Map<String, MGuest> convertedItem = item.map<String, MGuest>(
+    //     (key, value) => MapEntry(key, MGuest.fromMap(value)));
+
+    // $guest.sink$(convertedItem);
+    return completer.future;
+  }
+
+  Future<RestfulResult> patch(MGuest guest) async {
+    Completer<RestfulResult> completer = Completer<RestfulResult>();
+
+    final Map<String, String> _headers = createHeaders(
+      tokenKey: HEADER.TOKEN,
+      tokenValue: hiveMGuestLogin.values.first.token,
+    );
+
+    String encodeData = jsonEncode({
+      "id": guest.id,
+      "wishQuestion": guest.wishQuestion,
+    });
+
+    http
+        .patch(getRequestUri(PATH.GUEST), headers: _headers, body: encodeData)
+        .then((response) {
       print('get ${response.body}');
     });
 

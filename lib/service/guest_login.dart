@@ -44,8 +44,8 @@ class ServiceMGuestLogin {
       if (response.statusCode == STATUS.SUCCESS_CODE) {
         MGuestLogin convertedItem = MGuestLogin.fromMap(result['data'] ?? {});
 
-        print('convertedItem $convertedItem');
-        print('convertedItem ${convertedItem.token}');
+        // print('convertedGuest $convertedItem');
+        // print('convertedGuest ${convertedItem.token}');
         $token.sink$(convertedItem.token);
         hiveMGuestLogin.put(guestID, convertedItem);
       } else {

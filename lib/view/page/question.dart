@@ -14,6 +14,9 @@ class PageQuestion extends CommonView {
 
 class PageQuestionState extends State<PageQuestion> {
   MSubCategory get sub => widget.selectedSubCategory;
+  List<MQuestion> get questions => GServiceQuestion.question;
+
+  int selectedIndex = 0;
 
   late final double width = MediaQuery.of(context).size.width * 0.8;
   late final double height = MediaQuery.of(context).size.height * 0.85;
@@ -27,19 +30,59 @@ class PageQuestionState extends State<PageQuestion> {
         child: SizedBox(
           width: width,
           height: height,
-          child: Column(
-            children: [
-              Container(color: Colors.amber).expand(),
-              Text('${sub.id}').expand(),
-              Text('${sub.name}').expand(),
-              Text('${sub.children}').expand(),
-              buildElevatedButton(
-                child: Text('post'),
-                onPressed: () {
-                  GServiceQuestion.getFilteredQuestion(categoryID: sub.id);
-                },
-              ),
-            ],
+          child: TStreamBuilder(
+            stream: GServiceQuestion.$question.browse$,
+            builder: (BuildContext context, List<MQuestion> questions) {
+              return Column(
+                children: [
+                  QuestionTile(question: questions[selectedIndex]).expand(),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    child: buildElevatedButton(
+                      child: Text('wish'),
+                      onPressed: () {
+                        MGuest tmpGuest = GServiceGuest.guest;
+
+                        List<String> wish = tmpGuest.wishQuestion;
+                        wish.add(questions[selectedIndex].id);
+
+                        tmpGuest = tmpGuest.copyWith(wishQuestion: wish);
+
+                        GServiceGuest.patch(tmpGuest);
+                      },
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      buildElevatedButton(
+                        child: const Text('remove'),
+                        onPressed: () {
+                          setState(() {
+                            if (selectedIndex != 0) {
+                              selectedIndex--;
+                            }
+                          });
+                        },
+                      ).expand(),
+                      const Padding(padding: EdgeInsets.all(5)),
+                      buildElevatedButton(
+                        child: const Text('add'),
+                        onPressed: () {
+                          GServiceGuest.patch(GServiceGuest.guest);
+
+                          // setState(() {
+                          // if (selectedIndex < questions.length - 1) {
+                          //   selectedIndex++;
+                          // }
+                          // });
+                        },
+                      ).expand(),
+                    ],
+                  ).expand(),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -49,16 +92,12 @@ class PageQuestionState extends State<PageQuestion> {
   @override
   void initState() {
     super.initState();
-    getFilteredQuestions();
-  }
-
-  // TODO : selectedSubCategory를 활용해서 필터링한 문제를 가져옴
-  void getFilteredQuestions() {
-    print('widget.selectedSubCategory ${widget.selectedSubCategory.name}');
+    GServiceQuestion.getFilteredQuestion(categoryID: sub.id);
+    print('GServiceGuest.guest ${GServiceGuest.guest}');
   }
 
   // TODO : filteredQuestions에 포함된 문제 중 1개를 랜덤으로 1개 출력하는 streambuilder
-  Widget buildQuestionFiels() {
+  Widget buildQuestionFields() {
     return Container();
   }
 

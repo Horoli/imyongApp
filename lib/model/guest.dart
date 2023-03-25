@@ -4,11 +4,11 @@ part of 'lib.dart';
 @HiveType(typeId: HIVE_ID.GUEST)
 class MGuest extends MCommonBase {
   final List<String> wishQuestion;
-  final List<String> currentQuestion;
+  final List<String> currectQuestion;
   final List<String> wrongQuestion;
   MGuest({
     required this.wishQuestion,
-    required this.currentQuestion,
+    required this.currectQuestion,
     required this.wrongQuestion,
     required super.id,
     required super.createdAt,
@@ -20,7 +20,7 @@ class MGuest extends MCommonBase {
     List<String> wishQuestion = List<String>.from(item['wishQuestion'] ?? []);
     int createdAt = item['createdAt'] ?? 0;
     int updatedAt = item['updatedAt'] ?? 0;
-    List<String> currentQuestion =
+    List<String> currectQuestion =
         List<String>.from(item['currentQuestion'] ?? []);
     List<String> wrongQuestion = List<String>.from(item['wrongQuestion'] ?? []);
 
@@ -29,7 +29,7 @@ class MGuest extends MCommonBase {
       createdAt: createdAt,
       updatedAt: updatedAt,
       wishQuestion: wishQuestion,
-      currentQuestion: currentQuestion,
+      currectQuestion: currectQuestion,
       wrongQuestion: wrongQuestion,
     );
   }
@@ -39,7 +39,25 @@ class MGuest extends MCommonBase {
         'id': id,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
-        'currentQuestion': currentQuestion,
+        'currentQuestion': currectQuestion,
         'wrongQuestion': wrongQuestion,
+        'wishQuestion': wishQuestion,
       };
+
+  MGuest copyWith({
+    String? id,
+    int? createdAt,
+    int? updatedAt,
+    List<String>? currectQuestion,
+    List<String>? wrongQuestion,
+    List<String>? wishQuestion,
+  }) =>
+      MGuest(
+        id: id ?? this.id,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        currectQuestion: currectQuestion ?? this.currectQuestion,
+        wrongQuestion: wrongQuestion ?? this.wrongQuestion,
+        wishQuestion: wishQuestion ?? this.wishQuestion,
+      );
 }
