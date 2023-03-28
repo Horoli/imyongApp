@@ -37,22 +37,26 @@ class PageQuestionState extends State<PageQuestion> {
                 children: [
                   QuestionTile(question: questions[selectedIndex]).expand(),
                   Container(
-                    width: 50,
-                    height: 50,
                     child: buildElevatedButton(
                       child: Text('wish'),
                       onPressed: () {
                         MGuest tmpGuest = GServiceGuest.guest;
-
                         List<String> wish = tmpGuest.wishQuestion;
-                        wish.add(questions[selectedIndex].id);
+                        print('wish $wish');
+
+                        String questionID = questions[selectedIndex].id;
+                        bool hasCheck = wish.contains(questionID);
+
+                        hasCheck
+                            ? wish.remove(questionID)
+                            : wish.add(questionID);
 
                         tmpGuest = tmpGuest.copyWith(wishQuestion: wish);
 
                         GServiceGuest.patch(tmpGuest);
                       },
                     ),
-                  ),
+                  ).expand(),
                   Row(
                     children: [
                       buildElevatedButton(
