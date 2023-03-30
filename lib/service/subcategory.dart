@@ -97,19 +97,18 @@ class ServiceSubCategory {
   }) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> headers = createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
-    String _encodeData = jsonEncode({
+    String encodeData = jsonEncode({
       "name": name,
       "parent": parent,
     });
 
     http
-        .post(getRequestUri(PATH.CATEGORY),
-            body: _encodeData, headers: _headers)
+        .post(getRequestUri(PATH.CATEGORY), body: encodeData, headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
 
@@ -136,18 +135,18 @@ class ServiceSubCategory {
   }) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> headers = createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
-    String _encodeData = jsonEncode({
+    String encodeData = jsonEncode({
       "id": id,
     });
 
     http
         .delete(getRequestUri(PATH.CATEGORY),
-            body: _encodeData, headers: _headers)
+            body: encodeData, headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
       return completer.complete(

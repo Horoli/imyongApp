@@ -9,12 +9,10 @@ class ServiceGuest {
   TStream<MGuest> $guest = TStream<MGuest>();
   MGuest get guest => $guest.lastValue;
 
-  // TODO : change http.post to completer
   Future<RestfulResult> post({required String uuid}) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
     String encodeData = jsonEncode({"id": uuid});
 
-    // assert(uuid == '', "uuid is empty(" ")");
     http
         .post(getRequestUri(PATH.GUEST),
             headers: createHeaders(), body: encodeData)
@@ -28,7 +26,6 @@ class ServiceGuest {
 
       $guest.sink$(tmpGuest);
       return completer.complete(RestfulResult.fromMap(
-        // result,
         jsonDecode(response.body),
         response.statusCode,
       ));
@@ -90,7 +87,18 @@ class ServiceGuest {
     http
         .patch(getRequestUri(PATH.GUEST), headers: _headers, body: encodeData)
         .then((response) {
-      print('get ${response.body}');
+      Map<String, dynamic> result =
+          Map.from(jsonDecode(response.body)['data'] ?? {});
+
+      MGuest tmpGuest = MGuest.fromMap(result);
+      print('tmpGuest ${tmpGuest}');
+      print('tmpGuest.wishQuestion ${tmpGuest.wishQuestion}');
+
+      $guest.sink$(tmpGuest);
+      return completer.complete(RestfulResult.fromMap(
+        jsonDecode(response.body),
+        response.statusCode,
+      ));
     });
 
     // if (response.statusCode != STATUS.SUCCESS_CODE) {

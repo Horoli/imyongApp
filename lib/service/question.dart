@@ -6,44 +6,47 @@ class ServiceQuestion {
       _instance ??= ServiceQuestion._internal();
   ServiceQuestion._internal();
 
-  TStream<List<MQuestion>> $question = TStream<List<MQuestion>>();
-  List<MQuestion> get question => $question.lastValue;
+  final TStream<int> $selectedIndex = TStream<int>();
+  int get selectedIndex => $selectedIndex.lastValue;
+
+  final TStream<List<MQuestion>> $questions = TStream<List<MQuestion>>();
+  List<MQuestion> get questions => $questions.lastValue;
 
   Future<RestfulResult> getFilteredQuestion({
     required String categoryID,
   }) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> headers = createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
-    String _encodeData = jsonEncode({
+    String encodeData = jsonEncode({
       "subCategoryID": categoryID,
     });
 
     http
         .post(getRequestUri(PATH.FILTERED_QUESTION),
-            body: _encodeData, headers: _headers)
+            body: encodeData, headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
+      assert(result['data'].length != 0);
       List<MQuestion> questionList = [];
 
       for (dynamic item in result['data']) {
         MQuestion convertQuestion = MQuestion.fromMap(item);
+
         questionList.add(convertQuestion);
       }
 
-      $question.sink$(questionList);
+      $questions.sink$(questionList);
 
       completer.complete(
           RestfulResult(statusCode: STATUS.SUCCESS_CODE, message: 'ok'));
-
-      if (result['statusCode'] == 403) {
-        // GHelperNavigator.pushLogin();
-        return Error();
-      }
+    }).catchError((error) {
+      print('error $error');
+      // GHelperNavigator.pushLogin();
     });
 
     //
