@@ -13,45 +13,61 @@ class PageQuestion extends CommonView {
 }
 
 class PageQuestionState extends State<PageQuestion>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   MSubCategory get sub => widget.selectedSubCategory;
-  List<MQuestion> get getQuestions => GServiceQuestion.questions;
-  late List<int> indexOfQuestion;
+  List<MQuestion> questions = [];
+  late Map<MQuestion, bool> checkQuestion;
 
   late final TabController ctrTab;
 
-  late final double width = MediaQuery.of(context).size.width * 0.8;
-  late final double height = MediaQuery.of(context).size.height * 0.85;
+  double get width => MediaQuery.of(context).size.width * 0.8;
+  double get height => MediaQuery.of(context).size.height * 0.85;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(sub.name),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: TStreamBuilder(
-            stream: GServiceQuestion.$questions.browse$,
-            builder: (BuildContext context, List<MQuestion> questions) {
-              return TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: ctrTab,
-                children: List.generate(
-                  questions.length,
-                  (index) => Column(
-                    children: [
-                      QuestionTile(question: questions[index]).expand(),
-                      buildActionButtons(questions[index]).expand(),
-                    ],
+    return FutureBuilder(
+      future: GServiceQuestion.getFilteredQuestion(categoryID: sub.id),
+      builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+        if (snapshot.hasData) {
+          // TODO : questions를 랜덤하게 섞어서 저장
+          questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
+
+          // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
+          checkQuestion = questions.asMap().map((index, question) => MapEntry(
+                question,
+                index == 0 ? true : false,
+              ));
+
+          ctrTab = TabController(length: questions.length, vsync: this);
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(sub.name),
+            ),
+            body: Center(
+              child: SizedBox(
+                width: width,
+                height: height,
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: ctrTab,
+                  children: List.generate(
+                    questions.length,
+                    (index) => Column(
+                      children: [
+                        QuestionTile(question: questions[index]).expand(),
+                        buildActionButtons(questions[index]).expand(),
+                      ],
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      ),
+              ),
+            ),
+          );
+        }
+        return Scaffold(
+          body: CircularProgress(),
+        );
+      },
     );
   }
 
@@ -68,27 +84,21 @@ class PageQuestionState extends State<PageQuestion>
         buildElevatedButton(
           child: const Text('next Q'),
           onPressed: () {
-            // TODO : indexOfQuestion.isEmpty가 true면
-            // 문제리스트가 끝났다는 걸 보여주는 다이얼로그 출력
-            if (indexOfQuestion.isEmpty) {
-              print('is lastQuestion');
-              return;
-            }
-            print('getQuestions $getQuestions');
-            print('indexOfQuestion 1 $indexOfQuestion');
-            int randomInt = Random().nextInt(indexOfQuestion.length);
+            bool hasNextQuestion = checkQuestion.values.any((q) => q == false);
+            // TODO : alertDialog 출력
+            if (!hasNextQuestion) return;
 
-            int getRandomInt = indexOfQuestion[randomInt];
-            print('getRandomInt ${getRandomInt}');
+            // TODO : questions에서 checkQuestion이 false인 첫번째 문제를 가져옴
+            MQuestion nextQuestion = questions
+                .firstWhere((question) => checkQuestion[question] == false);
 
-            indexOfQuestion.remove(getRandomInt);
+            // TODO : 해당 문제의 value를 true로 변경
+            checkQuestion[nextQuestion] = true;
 
-            // print('randomInt $randomInt');
-            // indexOfQuestion.remove(randomInt);
-            print('indexOfQuestion 2 $indexOfQuestion');
+            // TODO : 해당 문제의 index를 가져옴
+            int nextIndex = questions.indexOf(nextQuestion);
 
-            // GServiceQuestion.$questions.sink$(GServiceQuestion.questions);
-            ctrTab.animateTo(getRandomInt);
+            ctrTab.animateTo(nextIndex);
           },
         ).expand(),
       ],
@@ -98,15 +108,6 @@ class PageQuestionState extends State<PageQuestion>
   @override
   void initState() {
     super.initState();
-    initFuture();
-  }
-
-  Future<void> initFuture() async {
-    await GServiceQuestion.getFilteredQuestion(categoryID: sub.id);
-    indexOfQuestion = List.generate(getQuestions.length, (index) => index);
-    // TODO : remove first index
-    indexOfQuestion.remove(0);
-    ctrTab = TabController(length: getQuestions.length, vsync: this);
   }
 
   // TODO : 문제 해설 Dialog
@@ -130,8 +131,7 @@ class PageQuestionState extends State<PageQuestion>
                     child: Column(
                       children: [
                         Text(question.answer).expand(),
-                        Container(color: Colors.amber).expand(),
-                        Container(color: Colors.blue).expand(),
+                        buildImageList(question.imageIDs).expand(),
                       ],
                     ),
                   ),
@@ -144,9 +144,29 @@ class PageQuestionState extends State<PageQuestion>
     );
   }
 
+  Widget buildImageList(List<String> imageIDs) {
+    return ListView.builder(
+      itemCount: imageIDs.length,
+      itemBuilder: (context, index) {
+        Future<RestfulResult> getImage =
+            GServiceQuestion.getImage(imageIDs[index]);
+        return FutureBuilder(
+          future: getImage,
+          builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+            if (snapshot.hasData) {
+              return Image.memory(base64Decode(snapshot.data!.data));
+            }
+            return CircularProgress();
+          },
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
-    super.dispose();
+    ctrTab.dispose();
     GServiceQuestion.$questions.sink$([]);
+    super.dispose();
   }
 }

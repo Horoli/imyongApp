@@ -6,6 +6,7 @@ class MQuestion extends MCommonBase {
   final String categoryID;
   final String difficulty;
   final int score;
+  final List<String> imageIDs;
 
   MQuestion({
     required super.id,
@@ -16,6 +17,7 @@ class MQuestion extends MCommonBase {
     required this.categoryID,
     required this.difficulty,
     required this.score,
+    required this.imageIDs,
   });
 
   @override
@@ -25,6 +27,7 @@ class MQuestion extends MCommonBase {
         'categoryID': categoryID,
         'difficulty': difficulty,
         'score': score,
+        'imageIDs': imageIDs,
         'id': id,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
@@ -39,6 +42,7 @@ class MQuestion extends MCommonBase {
     String categoryID = item['categoryID'] ?? '';
     String difficulty = item['difficulty'] ?? '';
     int score = item['score'] ?? 0;
+    List<String> imageIDs = List<String>.from(item['imageIDs'] ?? []);
 
     return MQuestion(
       id: id,
@@ -49,6 +53,7 @@ class MQuestion extends MCommonBase {
       categoryID: categoryID,
       difficulty: difficulty,
       score: score,
+      imageIDs: imageIDs,
     );
   }
 
@@ -61,6 +66,7 @@ class MQuestion extends MCommonBase {
     String? categoryID,
     String? difficulty,
     int? score,
+    List<String>? imageIDs,
   }) =>
       MQuestion(
         id: id ?? this.id,
@@ -71,5 +77,6 @@ class MQuestion extends MCommonBase {
         categoryID: categoryID ?? this.categoryID,
         difficulty: difficulty ?? this.difficulty,
         score: score ?? this.score,
+        imageIDs: imageIDs ?? this.imageIDs,
       );
 }
