@@ -40,6 +40,7 @@ part 'root.dart';
 // widgets
 part 'widgets/common_widgets.dart';
 part 'widgets/tile_question.dart';
+part 'widgets/question_detail.dart';
 // part 'widgets/bottom_navigator.dart';
 part 'helper/navigator.dart';
 

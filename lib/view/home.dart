@@ -52,6 +52,5 @@ class ViewHomeState extends State<ViewHome>
   @override
   void initState() {
     super.initState();
-    // }
   }
 }

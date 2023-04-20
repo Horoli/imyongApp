@@ -25,7 +25,7 @@ class PageQuestionState extends State<PageQuestion>
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: GServiceQuestion.getFilteredQuestion(categoryID: sub.id),
+      future: GServiceQuestion.getFiltered(categoryID: sub.id),
       builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
         if (snapshot.hasData) {
           // TODO : questions를 랜덤하게 섞어서 저장
@@ -77,7 +77,7 @@ class PageQuestionState extends State<PageQuestion>
         buildElevatedButton(
           child: const Text('explanation'),
           onPressed: () {
-            buildPopExplanation(question);
+            showQuestionDetail(question);
           },
         ).expand(),
         const Padding(padding: EdgeInsets.all(5)),
@@ -110,58 +110,49 @@ class PageQuestionState extends State<PageQuestion>
     super.initState();
   }
 
-  // TODO : 문제 해설 Dialog
-  Future<void> buildPopExplanation(MQuestion question) async {
+  Future<void> showQuestionDetail(MQuestion question) {
     return showDialog(
       context: context,
-      builder: (context) => ScaffoldMessenger(
-        child: Builder(
-          builder: (context) => Scaffold(
-            backgroundColor: Colors.transparent,
-            body: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => Navigator.of(context).pop(),
-              child: GestureDetector(
-                onTap: () {},
-                child: AlertDialog(
-                  contentPadding: EdgeInsets.zero,
-                  content: SizedBox(
-                    width: width * 0.9,
-                    height: height * 0.6,
-                    child: Column(
-                      children: [
-                        Text(question.answer).expand(),
-                        buildImageList(question.imageIDs).expand(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+      builder: (context) => QuestionDetail(
+        context: context,
+        question: question,
       ),
     );
   }
 
-  Widget buildImageList(List<String> imageIDs) {
-    return ListView.builder(
-      itemCount: imageIDs.length,
-      itemBuilder: (context, index) {
-        Future<RestfulResult> getImage =
-            GServiceQuestion.getImage(imageIDs[index]);
-        return FutureBuilder(
-          future: getImage,
-          builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
-            if (snapshot.hasData) {
-              return Image.memory(base64Decode(snapshot.data!.data));
-            }
-            return CircularProgress();
-          },
-        );
-      },
-    );
-  }
+  // TODO : 문제 해설 Dialog
+  // Future<void> buildPopExplanation(MQuestion question) async {
+  //   return showDialog(
+  //     context: context,
+  //     builder: (context) => ScaffoldMessenger(
+  //       child: Builder(
+  //         builder: (context) => Scaffold(
+  //           backgroundColor: Colors.transparent,
+  //           body: GestureDetector(
+  //             behavior: HitTestBehavior.opaque,
+  //             onTap: () => Navigator.of(context).pop(),
+  //             child: GestureDetector(
+  //               onTap: () {},
+  //               child: AlertDialog(
+  //                 contentPadding: EdgeInsets.zero,
+  //                 content: SizedBox(
+  //                   width: width * 0.9,
+  //                   height: height * 0.6,
+  //                   child: Column(
+  //                     children: [
+  //                       Text(question.answer).expand(),
+  //                       buildImageList(question.imageIDs).expand(),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   void dispose() {

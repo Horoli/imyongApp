@@ -13,7 +13,54 @@ class ServiceQuestion {
     ..sink$([]);
   List<MQuestion> get questions => $questions.lastValue;
 
-  Future<RestfulResult> getFilteredQuestion({
+  final TStream<Map<String, MQuestion>> $mapOfQuestion =
+      TStream<Map<String, MQuestion>>()..sink$({});
+
+  Map<String, MQuestion> get mapOfQuestion => $mapOfQuestion.lastValue;
+
+  Future<RestfulResult> getAll() {
+    Completer<RestfulResult> completer = Completer<RestfulResult>();
+
+    final Map<String, String> headers = createHeaders(
+      tokenKey: HEADER.TOKEN,
+      tokenValue: hiveMGuestLogin.values.first.token,
+    );
+
+    http
+        .get(getRequestUri(PATH.QUESTION_QUERY), headers: headers)
+        .then((response) {
+      Map result = json.decode(response.body);
+      assert(result['data'].length != 0, 'result[data] is empty.');
+      print('result $result');
+      Map<String, MQuestion> mapOfQuestion = {};
+
+      for (dynamic item in result['data']) {
+        MQuestion convertQuestion = MQuestion.fromMap(item);
+        mapOfQuestion[convertQuestion.id] = convertQuestion;
+      }
+
+      $mapOfQuestion.sink$(mapOfQuestion);
+
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.SUCCESS_CODE,
+          message: 'ok',
+          data: mapOfQuestion,
+        ),
+      );
+    }).catchError((error) {
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.ERROR_CODE,
+          message: 'getAllQuestionError $error',
+        ),
+      );
+    });
+
+    return completer.future;
+  }
+
+  Future<RestfulResult> getFiltered({
     required String categoryID,
   }) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
