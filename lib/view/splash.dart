@@ -27,7 +27,8 @@ class ViewSplashState extends State<ViewSplash>
   // 데이터 로딩 후 메인화면으로 이동
   Future<void> loadData() async {
     await _initHive();
-    _initService();
+    await _initService();
+    GServiceMainCategory.get();
 
     String guestID = '';
 
@@ -67,7 +68,7 @@ class ViewSplashState extends State<ViewSplash>
     // GServiceTheme.fetch();
   }
 
-  void _initService() {
+  Future<void> _initService() async {
     GServiceGuestLogin = ServiceMGuestLogin.getInstance();
     GServiceGuest = ServiceGuest.getInstance();
     GServiceMainCategory = ServiceMainCategory.getInstance();

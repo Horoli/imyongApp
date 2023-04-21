@@ -18,6 +18,7 @@ class ViewWishState extends State<ViewWish>
     return Scaffold(
       appBar: AppBar(
         title: const Text('wish list'),
+        automaticallyImplyLeading: false,
       ),
       body: FutureBuilder(
         future: GServiceQuestion.getAll(),

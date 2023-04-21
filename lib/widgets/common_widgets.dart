@@ -46,11 +46,13 @@ void buildErrorDialog(
 Widget buildBorderContainer({Widget? child}) {
   return Padding(
     padding: commonPadding,
-    child: Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+    child: Center(
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+        ),
+        child: child,
       ),
-      child: child,
     ),
   );
 }

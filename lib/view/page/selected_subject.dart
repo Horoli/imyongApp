@@ -24,7 +24,7 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('selected Subject'),
+        title: Text('selected Subject : ${widget.selectedSubjectLabel}'),
       ),
       body: Center(
         child: SizedBox(

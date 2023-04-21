@@ -12,11 +12,21 @@ class ViewProgressRate extends CommonView {
 
 class ViewProgressRateState extends State<ViewProgressRate>
     with SingleTickerProviderStateMixin {
+  double get width => MediaQuery.of(context).size.width;
+  double get height => MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.amber,
+      appBar: AppBar(
+        title: const Text('progress rate'),
+        automaticallyImplyLeading: false,
+      ),
+      body: buildBorderContainer(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Container(color: Colors.amber),
+        ),
       ),
     );
   }

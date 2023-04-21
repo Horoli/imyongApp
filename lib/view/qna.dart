@@ -11,12 +11,17 @@ class ViewQnA extends CommonView {
 }
 
 class ViewQNAState extends State<ViewQnA> with SingleTickerProviderStateMixin {
+  double get width => MediaQuery.of(context).size.width;
+  double get height => MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        // color: Colors.blue,
-        child: buildThemeChangeButtons(),
+      body: buildBorderContainer(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: buildThemeChangeButtons(),
+        ),
       ),
     );
   }

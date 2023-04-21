@@ -17,7 +17,9 @@ class ViewSubjectListState extends State<ViewSubjectList>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Subject List'),
+      ),
       body: Center(
         child: SizedBox(
           height: height,
@@ -70,10 +72,10 @@ class ViewSubjectListState extends State<ViewSubjectList>
   @override
   void initState() {
     super.initState();
-    getMainCategory();
+    // getMainCategory();
   }
 
-  Future<void> getMainCategory() async {
-    await GServiceMainCategory.get();
-  }
+  // Future<void> getMainCategory() async {
+  //   await GServiceMainCategory.get();
+  // }
 }

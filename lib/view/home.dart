@@ -10,14 +10,13 @@ class ViewHome extends CommonView {
   ViewHomeState createState() => ViewHomeState();
 }
 
-class ViewHomeState extends State<ViewHome>
-    with SingleTickerProviderStateMixin {
+class ViewHomeState extends State<ViewHome> {
   late final double width = MediaQuery.of(context).size.width * 0.6;
   late final double height = MediaQuery.of(context).size.height * 0.6;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: buildBorderContainer(
         child: SizedBox(
           width: width,
           height: height,
@@ -29,7 +28,10 @@ class ViewHomeState extends State<ViewHome>
                 width: double.infinity,
                 child: Text('subject'),
                 onPressed: () {
-                  GHelperNavigator.push(ViewSubjectList(), GNavigatorKey);
+                  GHelperNavigator.push(
+                    ViewSubjectList(),
+                    GNavigatorKey,
+                  );
                 },
               ).expand(),
               buildElevatedButton(
