@@ -28,7 +28,6 @@ class ViewSplashState extends State<ViewSplash>
   Future<void> loadData() async {
     await _initHive();
     await _initService();
-    GServiceMainCategory.get();
 
     String guestID = '';
 
@@ -39,6 +38,7 @@ class ViewSplashState extends State<ViewSplash>
       guestID = hiveMGuestLogin.keys.first;
     }
 
+    // RestfulResult mainCategory = await GServiceMainCategory.get();
     RestfulResult result = await GServiceGuest.post(uuid: guestID);
     RestfulResult loginResult = await GServiceGuestLogin.login(guestID);
 

@@ -72,10 +72,10 @@ class ViewSubjectListState extends State<ViewSubjectList>
   @override
   void initState() {
     super.initState();
-    // getMainCategory();
+    getMainCategory();
   }
 
-  // Future<void> getMainCategory() async {
-  //   await GServiceMainCategory.get();
-  // }
+  Future<void> getMainCategory() async {
+    await GServiceMainCategory.get();
+  }
 }
