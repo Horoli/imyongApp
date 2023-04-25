@@ -28,10 +28,18 @@ class ViewHomeState extends State<ViewHome> {
                 width: double.infinity,
                 child: Text('subject'),
                 onPressed: () {
-                  GHelperNavigator.push(
+                  GHelperNavigator.pushWithActions(
                     ViewSubjectList(),
                     GNavigatorKey,
+                    prePushHandler: () async {
+                      GServiceMainCategory.get();
+                    },
                   );
+
+                  // GHelperNavigator.push(
+                  //   ViewSubjectList(),
+                  //   GNavigatorKey,
+                  // );
                 },
               ).expand(),
               buildElevatedButton(

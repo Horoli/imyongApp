@@ -14,11 +14,22 @@ class HelperNavigator {
 
   void push(CommonView view, GlobalKey<NavigatorState> key) {
     _routeCheck(view, key, () {
+      // $loading.sink$(true);
       Navigator.of(key.currentContext!).push(MaterialPageRoute(
         settings: RouteSettings(name: view.routeName),
         builder: (_) => view,
       ));
     });
+  }
+
+  Future<void> pushWithActions(CommonView view, GlobalKey<NavigatorState> key,
+      {Function? prePushHandler, Function? afterPushHandler}) async {
+    $loading.sink$(true);
+    if (prePushHandler != null) await prePushHandler();
+    push(view, key);
+    await wait(500);
+    if (afterPushHandler != null) await afterPushHandler();
+    $loading.sink$(false);
   }
 
   void pushReplacement(CommonView view, GlobalKey<NavigatorState> key) {

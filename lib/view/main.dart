@@ -30,35 +30,61 @@ class ViewMainState extends State<ViewMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: TStreamBuilder(
-          stream: GServiceTheme.$theme.browse$,
-          builder: (context, ThemeData theme) {
-            return MaterialApp(
-              theme: theme,
-              navigatorKey: GNavigatorKey,
-              initialRoute: ROUTER.HOME,
-              routes: routes,
-              // home: const ViewHome(),
-            );
-          }),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-          viewNavigator[index]();
-        },
-        items: const [
-          BottomNavigationBarItem(label: '홈', icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: '저장문제', icon: Icon(Icons.abc)),
-          BottomNavigationBarItem(label: '진도율', icon: Icon(Icons.abc)),
-          BottomNavigationBarItem(
-              label: 'QnA', icon: Icon(Icons.question_mark)),
-        ],
-      ),
+    return Stack(
+      children: [
+        Scaffold(
+          body: TStreamBuilder(
+              stream: GServiceTheme.$theme.browse$,
+              builder: (context, ThemeData theme) {
+                return MaterialApp(
+                  theme: theme,
+                  navigatorKey: GNavigatorKey,
+                  initialRoute: ROUTER.HOME,
+                  routes: routes,
+                  // home: const ViewHome(),
+                );
+              }),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: currentIndex,
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+              viewNavigator[index]();
+            },
+            items: const [
+              BottomNavigationBarItem(label: '홈', icon: Icon(Icons.home)),
+              BottomNavigationBarItem(label: '저장문제', icon: Icon(Icons.abc)),
+              BottomNavigationBarItem(label: '진도율', icon: Icon(Icons.abc)),
+              BottomNavigationBarItem(
+                  label: 'QnA', icon: Icon(Icons.question_mark)),
+            ],
+          ),
+        ),
+
+        // TODO : 로딩화면 애니메이션 관리
+        // TweenAnimationBuilder(
+        //   tween: tween,
+        //   duration: duration,
+        //   builder: builder,
+        // ).expand(),
+
+        // TODO : loading Widget // tween
+        TStreamBuilder(
+            stream: $loading.browse$,
+            builder: (context, bool loading) {
+              print('loading: $loading');
+              return IgnorePointer(
+                ignoring: !loading,
+                child: Container(
+                  color: loading ? Colors.amber : Colors.transparent,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
+              );
+            }),
+      ],
     );
   }
 
