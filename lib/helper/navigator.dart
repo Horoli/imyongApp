@@ -24,6 +24,7 @@ class HelperNavigator {
 
   // TODO : prePushHandler에서 다음 페이지에서 사용될 data를 get하거나 post하는 함수를 실행
   // TODO : flag를 활용해서 push인지, replacement인지 구분하여 사용 할 수 있도록 수정
+  // TODO : 주석
   Future<void> pushWithActions(CommonView view, GlobalKey<NavigatorState> key,
       {Function? prePushHandler, Function? afterPushHandler}) async {
     $loading.sink$(true);
