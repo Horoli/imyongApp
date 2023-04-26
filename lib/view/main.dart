@@ -19,11 +19,22 @@ class ViewMainState extends State<ViewMain> {
   };
 
   final List<VoidCallback> viewNavigator = [
-    () => GHelperNavigator.pushReplacement(const ViewHome(), GNavigatorKey),
-    () => GHelperNavigator.pushReplacement(const ViewWish(), GNavigatorKey),
     () => GHelperNavigator.pushReplacement(
-        const ViewProgressRate(), GNavigatorKey),
-    () => GHelperNavigator.pushReplacement(const ViewQnA(), GNavigatorKey),
+          const ViewHome(),
+          GNavigatorKey,
+        ),
+    () => GHelperNavigator.pushReplacement(
+          const ViewWish(),
+          GNavigatorKey,
+        ),
+    () => GHelperNavigator.pushReplacement(
+          const ViewProgressRate(),
+          GNavigatorKey,
+        ),
+    () => GHelperNavigator.pushReplacement(
+          const ViewQnA(),
+          GNavigatorKey,
+        ),
   ];
 
   int currentIndex = 0;
@@ -81,9 +92,12 @@ class ViewMainState extends State<ViewMain> {
                 opacity: loading ? 1 : 0,
                 duration: const Duration(milliseconds: 500),
                 child: Container(
-                  color: Colors.amber,
+                  color: GServiceTheme.theme.scaffoldBackgroundColor,
                   width: double.infinity,
                   height: double.infinity,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               ),
             );
