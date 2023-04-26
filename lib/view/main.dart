@@ -72,18 +72,23 @@ class ViewMainState extends State<ViewMain> {
 
         // TODO : loading Widget // tween
         TStreamBuilder(
-            stream: $loading.browse$,
-            builder: (context, bool loading) {
-              print('loading: $loading');
-              return IgnorePointer(
-                ignoring: !loading,
+          stream: $loading.browse$,
+          builder: (context, bool loading) {
+            print('loading: $loading');
+            return IgnorePointer(
+              ignoring: !loading,
+              child: AnimatedOpacity(
+                opacity: loading ? 1 : 0,
+                duration: const Duration(milliseconds: 500),
                 child: Container(
-                  color: loading ? Colors.amber : Colors.transparent,
+                  color: Colors.amber,
                   width: double.infinity,
                   height: double.infinity,
                 ),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ],
     );
   }

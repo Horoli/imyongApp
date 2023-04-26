@@ -55,6 +55,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                               selectedSubject: GServiceSubCategory.subCategory,
                             ),
                             GNavigatorKey,
+                            true,
                           );
                         },
                       );

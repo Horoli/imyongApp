@@ -66,6 +66,7 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
               selectedSubCategory: selectedSubjects[index],
             ),
             GNavigatorKey,
+            true,
           );
         },
       ),

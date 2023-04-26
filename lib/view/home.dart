@@ -34,6 +34,7 @@ class ViewHomeState extends State<ViewHome> {
                     prePushHandler: () async {
                       GServiceMainCategory.get();
                     },
+                    isPush: false,
                   );
 
                   // GHelperNavigator.push(

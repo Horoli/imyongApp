@@ -10,7 +10,7 @@ Uri getRequestUri(String path) => Uri.parse(p.join(PATH.URL, path));
 
 // TODO : utill Class 만들어서 포함
 Future<void> wait(int? milliseconds) {
-  if (milliseconds == null) milliseconds = 0;
+  milliseconds ??= 0;
   return Future.delayed(Duration(milliseconds: milliseconds));
 }
 
