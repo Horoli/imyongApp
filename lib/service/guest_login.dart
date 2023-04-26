@@ -30,8 +30,8 @@ class ServiceMGuestLogin {
     String encodeData = jsonEncode({"id": guestID});
 
     http
-        .post(getRequestUri(PATH.GUEST_LOGIN),
-            headers: createHeaders(), body: encodeData)
+        .post(GUtility.getRequestUri(PATH.GUEST_LOGIN),
+            headers: GUtility.createHeaders(), body: encodeData)
         .then((response) {
       if (response == null) {
         return completer.complete(RestfulResult(

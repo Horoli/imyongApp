@@ -13,12 +13,12 @@ class ServiceMainCategory {
   Future<RestfulResult> get() {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
-    http.get(getRequestUri(PATH.CATEGORY), headers: _headers).then(
+    http.get(GUtility.getRequestUri(PATH.CATEGORY), headers: _headers).then(
       (response) {
         Map result = json.decode(response.body);
 

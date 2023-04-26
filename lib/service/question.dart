@@ -21,13 +21,13 @@ class ServiceQuestion {
   Future<RestfulResult> getAll() {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> headers = createHeaders(
+    final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http
-        .get(getRequestUri(PATH.QUESTION_QUERY), headers: headers)
+        .get(GUtility.getRequestUri(PATH.QUESTION_QUERY), headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
       assert(result['data'].length != 0, 'result[data] is empty.');
@@ -65,7 +65,7 @@ class ServiceQuestion {
   }) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> headers = createHeaders(
+    final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
@@ -75,7 +75,7 @@ class ServiceQuestion {
     });
 
     http
-        .post(getRequestUri(PATH.FILTERED_QUESTION),
+        .post(GUtility.getRequestUri(PATH.FILTERED_QUESTION),
             body: encodeData, headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
@@ -115,13 +115,14 @@ class ServiceQuestion {
   Future<RestfulResult> getImage(String imageID) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http
-        .get(getRequestUri(PATH.QUESTION_IMAGE + imageID), headers: _headers)
+        .get(GUtility.getRequestUri(PATH.QUESTION_IMAGE + imageID),
+            headers: _headers)
         .then((response) {
       String imageResult = base64Encode(response.bodyBytes);
 

@@ -61,7 +61,7 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
           print(selectedSubjects[index].id);
           print(selectedSubjects[index].name);
           print(selectedSubjects[index].parent);
-          GHelperNavigator.push(
+          GHelperNavigator._push(
             PageQuestion(
               selectedSubCategory: selectedSubjects[index],
             ),

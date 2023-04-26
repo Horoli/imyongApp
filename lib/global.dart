@@ -6,16 +6,13 @@ enum TabItem { Home, Wish, ProcessRate, QnA }
 final HelperNavigator GHelperNavigator = HelperNavigator.getInstance();
 final GlobalKey<NavigatorState> GNavigatorKey = GlobalKey<NavigatorState>();
 
-Uri getRequestUri(String path) => Uri.parse(p.join(PATH.URL, path));
+// TODO : 유틸리티 class
+final Utility GUtility = Utility();
 
-// TODO : utill Class 만들어서 포함
-Future<void> wait(int? milliseconds) {
-  milliseconds ??= 0;
-  return Future.delayed(Duration(milliseconds: milliseconds));
-}
-
+// TODO : theme는 global에서 instance 생성
 final ServiceTheme GServiceTheme = ServiceTheme.getInstance();
-// late ServiceType GServiceType;
+
+// TODO : 나머지 서비스들은 splash에서 instance 생성
 late ServiceGuest GServiceGuest;
 late ServiceMGuestLogin GServiceGuestLogin;
 late ServiceMainCategory GServiceMainCategory;
@@ -25,14 +22,3 @@ late ServiceQuestion GServiceQuestion;
 late final Box<MGuestLogin> hiveMGuestLogin;
 
 TStream<bool> $loading = TStream<bool>()..sink$(false);
-
-Map<String, String> createHeaders({String? tokenKey, String? tokenValue}) {
-  Map<String, String> headers = {
-    HEADER.CONTENT_TYPE: HEADER.JSON,
-  };
-  if (tokenKey != null) {
-    headers[tokenKey] = tokenValue!;
-  }
-
-  return headers;
-}

@@ -34,6 +34,7 @@ import 'package:imyong_app/service/lib.dart';
 import 'package:imyong_app/model/lib.dart';
 
 // global
+part 'utility.dart';
 part 'global.dart';
 part 'root.dart';
 

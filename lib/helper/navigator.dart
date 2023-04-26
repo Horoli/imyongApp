@@ -9,21 +9,6 @@ class HelperNavigator {
 
   BuildContext get context => GNavigatorKey.currentContext!;
 
-  void pop<T extends Object?>(GlobalKey<NavigatorState> key, {T? result}) =>
-      Navigator.pop(key.currentContext!, result);
-
-  // is
-  void push(CommonView view, GlobalKey<NavigatorState> key, bool isPush) {
-    NavigatorState state = Navigator.of(key.currentContext!);
-    MaterialPageRoute page = MaterialPageRoute(
-      settings: RouteSettings(name: view.routeName),
-      builder: (_) => view,
-    );
-
-    _routeCheck(view, key,
-        () => isPush ? state.push(page) : state.pushReplacement(page));
-  }
-
   // TODO : prePushHandler에서 다음 페이지에서 사용될 data를 get하거나 post하는 함수를 실행
   // TODO : flag를 활용해서 push인지, replacement인지 구분하여 사용 할 수 있도록 수정
   // TODO : 주석
@@ -36,8 +21,8 @@ class HelperNavigator {
   }) async {
     $loading.sink$(true);
     if (prePushHandler != null) await prePushHandler();
-    await wait(500);
-    push(view, key, isPush);
+    await GUtility.wait(500);
+    _push(view, key, isPush);
     if (afterPushHandler != null) await afterPushHandler();
     $loading.sink$(false);
   }
@@ -65,6 +50,13 @@ class HelperNavigator {
     });
   }
 
+  void pop<T extends Object?>(GlobalKey<NavigatorState> key, {T? result}) =>
+      Navigator.pop(key.currentContext!, result);
+
+  ///
+  ///
+  ///
+
   void _routeCheck(
     CommonView? view,
     GlobalKey<NavigatorState> key,
@@ -76,5 +68,16 @@ class HelperNavigator {
       func();
       return true;
     });
+  }
+
+  void _push(CommonView view, GlobalKey<NavigatorState> key, bool isPush) {
+    NavigatorState state = Navigator.of(key.currentContext!);
+    MaterialPageRoute page = MaterialPageRoute(
+      settings: RouteSettings(name: view.routeName),
+      builder: (_) => view,
+    );
+
+    _routeCheck(view, key,
+        () => isPush ? state.push(page) : state.pushReplacement(page));
   }
 }

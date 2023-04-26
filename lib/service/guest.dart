@@ -14,8 +14,8 @@ class ServiceGuest {
     String encodeData = jsonEncode({"id": uuid});
 
     http
-        .post(getRequestUri(PATH.GUEST),
-            headers: createHeaders(), body: encodeData)
+        .post(GUtility.getRequestUri(PATH.GUEST),
+            headers: GUtility.createHeaders(), body: encodeData)
         .then((response) {
       Map<String, dynamic> result =
           Map.from(jsonDecode(response.body)['data'] ?? {});
@@ -46,14 +46,14 @@ class ServiceGuest {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
     print('guestID $guestID');
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     String query = 'guest?id=${guestID}';
 
-    http.get(getRequestUri(query), headers: _headers).then((response) {
+    http.get(GUtility.getRequestUri(query), headers: _headers).then((response) {
       print('get ${response.body}');
     });
 
@@ -74,7 +74,7 @@ class ServiceGuest {
   Future<RestfulResult> patch(MGuest guest) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
@@ -85,7 +85,8 @@ class ServiceGuest {
     });
 
     http
-        .patch(getRequestUri(PATH.GUEST), headers: _headers, body: encodeData)
+        .patch(GUtility.getRequestUri(PATH.GUEST),
+            headers: _headers, body: encodeData)
         .then((response) {
       Map<String, dynamic> result =
           Map.from(jsonDecode(response.body)['data'] ?? {});

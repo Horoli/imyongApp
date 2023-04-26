@@ -49,7 +49,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                           await GServiceSubCategory.get(
                               parent: subjects[index]);
 
-                          GHelperNavigator.push(
+                          GHelperNavigator._push(
                             ViewSelectedSubjectList(
                               selectedSubjectLabel: subjects[index],
                               selectedSubject: GServiceSubCategory.subCategory,

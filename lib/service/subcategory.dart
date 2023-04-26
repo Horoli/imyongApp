@@ -22,13 +22,13 @@ class ServiceSubCategory {
   Future<RestfulResult> getAll() {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http
-        .get(getRequestUri('subcategory?map=map'), headers: _headers)
+        .get(GUtility.getRequestUri('subcategory?map=map'), headers: _headers)
         .then((value) {
       Map result = json.decode(value.body);
       Map<String, MSubCategory> convertResult = {};
@@ -61,12 +61,12 @@ class ServiceSubCategory {
       query = 'nochildrencategory';
     }
 
-    final Map<String, String> _headers = createHeaders(
+    final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
 
-    http.get(getRequestUri(query), headers: _headers).then(
+    http.get(GUtility.getRequestUri(query), headers: _headers).then(
       (response) {
         Map result = json.decode(response.body);
         List<MSubCategory> subList = [];
@@ -97,7 +97,7 @@ class ServiceSubCategory {
   }) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> headers = createHeaders(
+    final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
@@ -108,7 +108,8 @@ class ServiceSubCategory {
     });
 
     http
-        .post(getRequestUri(PATH.CATEGORY), body: encodeData, headers: headers)
+        .post(GUtility.getRequestUri(PATH.CATEGORY),
+            body: encodeData, headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
 
@@ -135,7 +136,7 @@ class ServiceSubCategory {
   }) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    final Map<String, String> headers = createHeaders(
+    final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: hiveMGuestLogin.values.first.token,
     );
@@ -145,7 +146,7 @@ class ServiceSubCategory {
     });
 
     http
-        .delete(getRequestUri(PATH.CATEGORY),
+        .delete(GUtility.getRequestUri(PATH.CATEGORY),
             body: encodeData, headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
