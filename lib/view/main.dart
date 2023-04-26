@@ -90,7 +90,7 @@ class ViewMainState extends State<ViewMain> {
               ignoring: !loading,
               child: AnimatedOpacity(
                 opacity: loading ? 1 : 0,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 250),
                 child: Container(
                   color: GServiceTheme.theme.scaffoldBackgroundColor,
                   width: double.infinity,

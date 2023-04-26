@@ -20,9 +20,10 @@ class HelperNavigator {
   }) async {
     $loading.sink$(true);
     if (prePushHandler != null) await prePushHandler();
-    await GUtility.wait(500);
+    await GUtility.wait(300);
     _push(view, key, isPush);
     if (afterPushHandler != null) await afterPushHandler();
+    await GUtility.wait(300);
     $loading.sink$(false);
   }
 
