@@ -16,6 +16,7 @@ class ViewQNAState extends State<ViewQnA> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: buildBorderContainer(
         child: SizedBox(
           width: width,

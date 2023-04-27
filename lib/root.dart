@@ -7,9 +7,12 @@ class AppRoot extends StatelessWidget {
       ROUTER.MAIN: (BuildContext context) => const ViewMain(),
       ROUTER.SPLASH: (BuildContext context) => const ViewSplash(),
     };
+
     return TStreamBuilder(
+      initialData: ThemeData.light(),
       stream: GServiceTheme.$theme.browse$,
       builder: (context, ThemeData theme) {
+        print('theme');
         return MaterialApp(
           theme: theme,
           onGenerateInitialRoutes: onGenerateInitialRoutes,

@@ -19,19 +19,23 @@ class ViewMainState extends State<ViewMain> {
   };
 
   final List<VoidCallback> viewNavigator = [
-    () => GHelperNavigator.pushReplacement(
+    () => GHelperNavigator.pushAndRemoveUntil(
           const ViewHome(),
           GNavigatorKey,
         ),
-    () => GHelperNavigator.pushReplacement(
+    () => GHelperNavigator.pushWithActions(
           const ViewWish(),
           GNavigatorKey,
+          prePushHandler: () {
+            GServiceQuestion.getAll();
+          },
+          isPush: false,
         ),
-    () => GHelperNavigator.pushReplacement(
+    () => GHelperNavigator.pushAndRemoveUntil(
           const ViewProgressRate(),
           GNavigatorKey,
         ),
-    () => GHelperNavigator.pushReplacement(
+    () => GHelperNavigator.pushAndRemoveUntil(
           const ViewQnA(),
           GNavigatorKey,
         ),
@@ -73,13 +77,6 @@ class ViewMainState extends State<ViewMain> {
             ],
           ),
         ),
-
-        // TODO : 로딩화면 애니메이션 관리
-        // TweenAnimationBuilder(
-        //   tween: tween,
-        //   duration: duration,
-        //   builder: builder,
-        // ).expand(),
 
         // TODO : loading Widget // tween
         TStreamBuilder(

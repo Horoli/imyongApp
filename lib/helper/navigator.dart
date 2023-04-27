@@ -27,6 +27,7 @@ class HelperNavigator {
     $loading.sink$(false);
   }
 
+  // TODO : 최근에 push한 페이지를 제거하고 push
   void pushReplacement(CommonView view, GlobalKey<NavigatorState> key) {
     _routeCheck(view, key, () {
       Navigator.of(key.currentContext!).pushReplacement(
@@ -38,6 +39,7 @@ class HelperNavigator {
     });
   }
 
+  // TODO : 이전에 push한 페이지를 모두 제거하고 push
   void pushAndRemoveUntil(CommonView view, GlobalKey<NavigatorState> key) {
     _routeCheck(view, key, () {
       Navigator.of(key.currentContext!).pushAndRemoveUntil(
