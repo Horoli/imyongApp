@@ -21,11 +21,12 @@ class ViewSplashState extends State<ViewSplash>
           opacity: splash ? 1 : 0,
           duration: const Duration(milliseconds: 500),
           child: Container(
-            color: GServiceTheme.theme.scaffoldBackgroundColor,
-            width: double.infinity,
-            height: double.infinity,
-            child: const Center(
-              child: Image(image: AssetImage('assets/images/nike_white.png')),
+            // color: GServiceTheme.theme.scaffoldBackgroundColor,
+            color: COLOR.green,
+            child: Image(
+              image: AssetImage(IMAGE.SPLASH),
+              width: double.infinity,
+              height: double.infinity,
             ),
           ),
         );

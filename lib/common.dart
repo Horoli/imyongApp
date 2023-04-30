@@ -20,13 +20,15 @@ import 'package:tnd_pkg_widget/tnd_pkg_widget.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 // preset
-// import 'package:imyong/preset/color.dart' as COLOR;
+import 'package:imyong_app/preset/color.dart' as COLOR;
 import 'package:imyong_app/preset/path.dart' as PATH;
 import 'package:imyong_app/preset/hive_id.dart' as HIVE_ID;
 import 'package:imyong_app/preset/router.dart' as ROUTER;
 import 'package:imyong_app/preset/header.dart' as HEADER;
 import 'package:imyong_app/preset/status.dart' as STATUS;
+
 // import 'package:imyong/preset/tab.dart' as TAB;
+import 'package:imyong_app/preset/image.dart' as IMAGE;
 import 'package:imyong_app/preset/theme.dart' as THEME;
 
 // import inner packages
