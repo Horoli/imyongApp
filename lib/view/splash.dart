@@ -11,6 +11,8 @@ class ViewSplash extends StatefulWidget {
 
 class ViewSplashState extends State<ViewSplash>
     with SingleTickerProviderStateMixin {
+  final int duration_splash = 1000;
+
   TStream<bool> $splash = TStream<bool>();
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ViewSplashState extends State<ViewSplash>
       builder: (contet, bool splash) {
         return AnimatedOpacity(
           opacity: splash ? 1 : 0,
-          duration: const Duration(milliseconds: 500),
+          duration: Duration(milliseconds: duration_splash),
           child: Container(
             // color: GServiceTheme.theme.scaffoldBackgroundColor,
             color: COLOR.green,
@@ -64,10 +66,10 @@ class ViewSplashState extends State<ViewSplash>
     // TODO : splash image가 2초 출력되고 넘어가야함
 
     $splash.sink$(true);
-    await GUtility.wait(1000);
+    await GUtility.wait(duration_splash);
     if (loginResult.isSuccess) {
       $splash.sink$(false);
-      await GUtility.wait(500);
+      await GUtility.wait(duration_splash);
       await Navigator.pushNamedAndRemoveUntil(
         context,
         ROUTER.MAIN,
