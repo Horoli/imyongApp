@@ -12,8 +12,8 @@ class ViewSubjectList extends CommonView {
 
 class ViewSubjectListState extends State<ViewSubjectList>
     with SingleTickerProviderStateMixin {
-  late final double width = MediaQuery.of(context).size.width * 0.8;
-  late final double height = MediaQuery.of(context).size.height * 0.85;
+  late final double width = MediaQuery.of(context).size.width;
+  late final double height = MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +22,8 @@ class ViewSubjectListState extends State<ViewSubjectList>
       ),
       body: Center(
         child: SizedBox(
-          height: height,
-          width: width,
+          height: height * 0.7,
+          width: width * 0.8,
           child: Column(
             children: [
               Container(color: Colors.red).expand(flex: 2),

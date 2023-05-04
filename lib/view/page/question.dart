@@ -21,7 +21,7 @@ class PageQuestionState extends State<PageQuestion>
   late final TabController ctrTab;
 
   double get width => MediaQuery.of(context).size.width * 0.8;
-  double get height => MediaQuery.of(context).size.height * 0.85;
+  double get height => MediaQuery.of(context).size.height * 0.8;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -54,7 +54,13 @@ class PageQuestionState extends State<PageQuestion>
                     questions.length,
                     (index) => Column(
                       children: [
-                        QuestionTile(question: questions[index]).expand(),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                              '${index + 1} / ${questions.length}'), // 문제 번호 출력
+                        ),
+                        QuestionTile(question: questions[index])
+                            .expand(flex: 5),
                         buildActionButtons(questions[index]).expand(),
                       ],
                     ),
@@ -75,33 +81,58 @@ class PageQuestionState extends State<PageQuestion>
     return Row(
       children: [
         buildElevatedButton(
-          child: const Text('explanation'),
+          child: const Text(LABEL.EXPLANATION),
           onPressed: () {
             showQuestionDetail(question);
           },
         ).expand(),
         const Padding(padding: EdgeInsets.all(5)),
-        buildElevatedButton(
-          child: const Text('next Q'),
-          onPressed: () {
-            bool hasNextQuestion = checkQuestion.values.any((q) => q == false);
-            // TODO : alertDialog 출력
-            if (!hasNextQuestion) return;
-
-            // TODO : questions에서 checkQuestion이 false인 첫번째 문제를 가져옴
-            MQuestion nextQuestion = questions
-                .firstWhere((question) => checkQuestion[question] == false);
-
-            // TODO : 해당 문제의 value를 true로 변경
-            checkQuestion[nextQuestion] = true;
-
-            // TODO : 해당 문제의 index를 가져옴
-            int nextIndex = questions.indexOf(nextQuestion);
-
-            ctrTab.animateTo(nextIndex);
-          },
-        ).expand(),
+        buildNextButton(context: context).expand(),
       ],
+    );
+  }
+
+  Widget buildNextButton({
+    required BuildContext context,
+    bool isExplanation = false,
+  }) {
+    return buildElevatedButton(
+      child: const Text(LABEL.NEXT_QUESTION),
+      onPressed: () {
+        bool hasNextQuestion = checkQuestion.values.any((q) => q == false);
+        // TODO : alertDialog 출력
+        if (!hasNextQuestion) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              content: const Text(MSG.LAST_QUESTION),
+              actions: [
+                TextButton(
+                  child: const Text(LABEL.EXIT),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
+            ),
+          );
+          return;
+        }
+        // TODO : questions에서 checkQuestion이 false인 첫번째 문제를 가져옴
+        MQuestion nextQuestion = questions
+            .firstWhere((question) => checkQuestion[question] == false);
+
+        // TODO : 해당 문제의 value를 true로 변경
+        checkQuestion[nextQuestion] = true;
+
+        // TODO : 해당 문제의 index를 가져옴
+        int nextIndex = questions.indexOf(nextQuestion);
+
+        // TODO : 문제 해설 dialog에서 실행했으면 pop 실행
+        if (isExplanation == true) {
+          Navigator.of(context).pop();
+        }
+
+        ctrTab.animateTo(nextIndex);
+      },
     );
   }
 
@@ -113,46 +144,20 @@ class PageQuestionState extends State<PageQuestion>
   Future<void> showQuestionDetail(MQuestion question) {
     return showDialog(
       context: context,
-      builder: (context) => QuestionDetail(
-        context: context,
-        question: question,
+      builder: (context) => Column(
+        children: [
+          QuestionDetail(
+            context: context,
+            question: question,
+            actionButton: buildNextButton(
+              context: context,
+              isExplanation: true,
+            ),
+          ).expand(),
+        ],
       ),
     );
   }
-
-  // TODO : 문제 해설 Dialog
-  // Future<void> buildPopExplanation(MQuestion question) async {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (context) => ScaffoldMessenger(
-  //       child: Builder(
-  //         builder: (context) => Scaffold(
-  //           backgroundColor: Colors.transparent,
-  //           body: GestureDetector(
-  //             behavior: HitTestBehavior.opaque,
-  //             onTap: () => Navigator.of(context).pop(),
-  //             child: GestureDetector(
-  //               onTap: () {},
-  //               child: AlertDialog(
-  //                 contentPadding: EdgeInsets.zero,
-  //                 content: SizedBox(
-  //                   width: width * 0.9,
-  //                   height: height * 0.6,
-  //                   child: Column(
-  //                     children: [
-  //                       Text(question.answer).expand(),
-  //                       buildImageList(question.imageIDs).expand(),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   void dispose() {

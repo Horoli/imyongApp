@@ -9,41 +9,49 @@ class QuestionTile extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text('${question.id}').expand(),
-            Text('${question.question}').expand(),
-            Text('${question.answer}').expand(),
-          ],
-        ).expand(),
-        TStreamBuilder(
-          stream: GServiceGuest.$guest.browse$,
-          builder: (BuildContext context, MGuest guest) {
-            bool hasCheck = guest.wishQuestion.contains(question.id);
-            return Container(
-              child: buildElevatedButton(
-                color: hasCheck ? Colors.amber : Colors.blue,
-                child: Text('wish'),
-                onPressed: () => patchWishGuest(guest),
-              ),
-            );
-          },
-        ).expand(),
-      ],
+    return buildBorderContainer(
+      height: double.infinity,
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Text(question.question),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: buildWishButton(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildWishButton() {
+    return TStreamBuilder(
+      stream: GServiceGuest.$guest.browse$,
+      builder: (BuildContext context, MGuest guest) {
+        bool hasCheck = guest.wishQuestion.contains(question.id);
+        return IconButton(
+          icon: Icon(
+            color: hasCheck ? Colors.amber : Colors.blue,
+            hasCheck ? Icons.favorite_outlined : Icons.favorite_outline_rounded,
+          ),
+          onPressed: () => patchWishGuest(guest),
+        );
+      },
     );
   }
 
   void patchWishGuest(MGuest guest) {
     MGuest tmpGuest = guest.copyWith();
     List<String> wish = tmpGuest.wishQuestion;
-    print('wish $wish');
 
     bool hasCheck = wish.contains(question.id);
 
     hasCheck ? wish.remove(question.id) : wish.add(question.id);
 
+    print('wish $wish');
     tmpGuest = tmpGuest.copyWith(wishQuestion: wish);
 
     GServiceGuest.patch(tmpGuest);

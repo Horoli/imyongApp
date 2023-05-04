@@ -3,9 +3,11 @@ part of '/common.dart';
 class QuestionDetail extends StatefulWidget {
   final BuildContext context;
   final MQuestion question;
+  final Widget? actionButton;
   const QuestionDetail({
     required this.context,
     required this.question,
+    this.actionButton,
     super.key,
   });
 
@@ -37,8 +39,20 @@ class QuestionDetailState extends State<QuestionDetail> {
                   height: height * 0.6,
                   child: Column(
                     children: [
-                      Text(question.answer).expand(),
-                      buildImageList(question.imageIDs).expand(),
+                      Text('${question.question} 문제 답안'),
+                      buildBorderContainer(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: Center(
+                          child: Text(question.answer),
+                        ),
+                      ).expand(),
+                      const Padding(padding: EdgeInsets.all(5)),
+                      const Text(LABEL.EXPLANATION_IMAGE),
+                      buildBorderContainer(
+                        child: buildImageList(question.imageIDs),
+                      ).expand(),
+                      if (widget.actionButton != null) widget.actionButton!
                     ],
                   ),
                 ),

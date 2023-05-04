@@ -43,11 +43,17 @@ void buildErrorDialog(
   // });
 }
 
-Widget buildBorderContainer({Widget? child}) {
+Widget buildBorderContainer({
+  Widget? child,
+  double? width,
+  double? height,
+}) {
   return Padding(
     padding: commonPadding,
     child: Center(
       child: Container(
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
         ),

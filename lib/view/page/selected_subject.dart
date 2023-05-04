@@ -18,8 +18,8 @@ class ViewSelectedSubjectList extends CommonView {
 class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
   List<MSubCategory> get selectedSubjects => widget.selectedSubject;
 
-  late final double width = MediaQuery.of(context).size.width * 0.8;
-  late final double height = MediaQuery.of(context).size.height * 0.85;
+  late final double width = MediaQuery.of(context).size.width;
+  late final double height = MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,18 +28,20 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
       ),
       body: Center(
         child: SizedBox(
-          width: width,
-          height: height,
-          child: Column(
-            children: [
-              Text('${widget.selectedSubjectLabel}').expand(),
-              ListView.builder(
-                itemCount: subjectSubcategories().length,
-                itemBuilder: ((BuildContext context, index) {
-                  return subjectSubcategories()[index];
-                }),
-              ).expand(),
-            ],
+          width: width * 0.6,
+          height: height * 0.6,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ListView.builder(
+                  itemCount: subjectSubcategories().length,
+                  itemBuilder: ((BuildContext context, index) {
+                    return subjectSubcategories()[index];
+                  }),
+                ).expand(),
+              ],
+            ),
           ),
         ),
       ),

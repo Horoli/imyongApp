@@ -17,42 +17,44 @@ class ViewWishState extends State<ViewWish>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('wish list'),
+        title: const Text(LABEL.APPBAR_WISH),
         automaticallyImplyLeading: false,
       ),
       body: FutureBuilder(
         future: GServiceQuestion.getAll(),
-        builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
-          if (snapshot.hasData) {
-            Map<String, MQuestion> mapOfQuestion = snapshot.data!.data;
+        builder: (context, AsyncSnapshot<RestfulResult> result) {
+          if (result.hasData) {
+            Map<String, MQuestion> mapOfQuestion = result.data!.data;
             return buildBorderContainer(
-              child: Column(
-                children: [
-                  ListView.builder(
-                    itemCount: guest.wishQuestion.length,
-                    itemBuilder: (context, index) {
-                      // TODO : guest에 저장된 wishQuestion의 id를 가져옴
-                      String getQuestionId = guest.wishQuestion[index];
+              // TODO : wishQuestion이 없을 때의 예외처리
+              child: guest.wishQuestion.isEmpty
+                  ? const Center(child: Text(MSG.NO_WISH))
+                  : Column(
+                      children: [
+                        ListView.builder(
+                          itemCount: guest.wishQuestion.length,
+                          itemBuilder: (context, index) {
+                            // TODO : guest에 저장된 wishQuestion의 id를 가져옴
+                            String getQuestionId = guest.wishQuestion[index];
 
-                      // TODO : GServiceQuestion.getAll()로 가져온 mapOfQuestion에서
-                      // id가 getQuestionId인 question을 가져옴
-                      MQuestion getQuestion = mapOfQuestion[getQuestionId]!;
+                            // TODO : GServiceQuestion.getAll()로 가져온 mapOfQuestion에서
+                            // id가 getQuestionId인 question을 가져옴
+                            MQuestion getQuestion =
+                                mapOfQuestion[getQuestionId]!;
 
-                      return Row(
-                        children: [
-                          Text('${getQuestion.question}').expand(),
-                          buildElevatedButton(
-                            child: Text('select'),
-                            onPressed: () {
-                              showQuestionDetail(getQuestion);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  ).expand(),
-                ],
-              ),
+                            return Row(
+                              children: [
+                                Text(getQuestion.question).expand(),
+                                buildElevatedButton(
+                                    child: const Text(LABEL.EXPLANATION),
+                                    onPressed: () =>
+                                        showQuestionDetail(getQuestion)),
+                              ],
+                            );
+                          },
+                        ).expand(),
+                      ],
+                    ),
             );
           }
           return Scaffold(
@@ -63,6 +65,11 @@ class ViewWishState extends State<ViewWish>
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<void> showQuestionDetail(MQuestion question) {
     return showDialog(
       context: context,
@@ -71,10 +78,5 @@ class ViewWishState extends State<ViewWish>
         question: question,
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 }

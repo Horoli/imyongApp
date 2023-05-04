@@ -70,8 +70,9 @@ class ViewMainState extends State<ViewMain> {
             },
             items: const [
               BottomNavigationBarItem(label: '홈', icon: Icon(Icons.home)),
-              BottomNavigationBarItem(label: '저장문제', icon: Icon(Icons.abc)),
-              BottomNavigationBarItem(label: '진도율', icon: Icon(Icons.abc)),
+              BottomNavigationBarItem(
+                  label: '저장문제', icon: Icon(Icons.favorite)),
+              BottomNavigationBarItem(label: '진도율', icon: Icon(Icons.percent)),
               BottomNavigationBarItem(
                   label: 'QnA', icon: Icon(Icons.question_mark)),
             ],
