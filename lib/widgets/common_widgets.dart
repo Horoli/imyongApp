@@ -1,6 +1,6 @@
 part of '/common.dart';
 
-const EdgeInsetsGeometry commonPadding = EdgeInsets.all(8);
+const EdgeInsetsGeometry commonPadding = EdgeInsets.all(4);
 
 ScaffoldFeatureController showSnackBar({
   required String msg,

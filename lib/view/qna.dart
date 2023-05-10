@@ -16,12 +16,23 @@ class ViewQNAState extends State<ViewQnA> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('설정'),
+      ),
       body: buildBorderContainer(
         child: SizedBox(
           width: width,
           height: height,
-          child: buildThemeChangeButtons(),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text('테마 변경').expand(),
+                  buildThemeChangeButtons().expand(flex: 5),
+                ],
+              ).expand(),
+            ],
+          ),
         ),
       ),
     );
@@ -30,19 +41,19 @@ class ViewQNAState extends State<ViewQnA> with SingleTickerProviderStateMixin {
   Widget buildThemeChangeButtons() {
     return Row(
       children: [
-        Text('ThemeChange').expand(),
         ElevatedButton(
-          child: Text('light'),
-          onPressed: () {
-            GServiceTheme.update(THEME.Type.light);
-          },
+          child: const Text('green'),
+          onPressed: () => GServiceTheme.update(THEME.Type.green),
         ).expand(),
-        const Padding(padding: EdgeInsets.all(8)),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
         ElevatedButton(
-          child: Text('dark'),
-          onPressed: () {
-            GServiceTheme.update(THEME.Type.dark);
-          },
+          child: const Text('light'),
+          onPressed: () => GServiceTheme.update(THEME.Type.light),
+        ).expand(),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
+        ElevatedButton(
+          child: const Text('dark'),
+          onPressed: () => GServiceTheme.update(THEME.Type.dark),
         ).expand(),
       ],
     );

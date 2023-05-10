@@ -23,7 +23,7 @@ class ViewHomeState extends State<ViewHome> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(color: Colors.blue).expand(),
+              Text('임고 뽀개기'),
               buildElevatedButton(
                 width: double.infinity,
                 child: Text('subject'),
@@ -36,18 +36,15 @@ class ViewHomeState extends State<ViewHome> {
                     },
                     isPush: false,
                   );
-
-                  // GHelperNavigator.push(
-                  //   ViewSubjectList(),
-                  //   GNavigatorKey,
-                  // );
                 },
               ).expand(),
+              const Divider(),
               buildElevatedButton(
                 width: double.infinity,
                 child: Text('wish'),
                 onPressed: () {},
               ).expand(),
+              const Divider(),
               buildElevatedButton(
                 width: double.infinity,
                 child: Text(''),

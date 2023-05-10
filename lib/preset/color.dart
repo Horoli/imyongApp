@@ -1,3 +1,3 @@
 import 'dart:ui';
 
-const Color green = Color(0xFF057751);
+const Color BASE_GREEN = Color(0xFF057751);

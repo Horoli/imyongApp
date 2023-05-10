@@ -34,7 +34,7 @@ class QuestionTile extends StatelessWidget {
         bool hasCheck = guest.wishQuestion.contains(question.id);
         return IconButton(
           icon: Icon(
-            color: hasCheck ? Colors.amber : Colors.blue,
+            color: hasCheck ? Colors.red : GServiceTheme.theme.primaryColor,
             hasCheck ? Icons.favorite_outlined : Icons.favorite_outline_rounded,
           ),
           onPressed: () => patchWishGuest(guest),

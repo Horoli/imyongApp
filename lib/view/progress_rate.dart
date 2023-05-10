@@ -18,14 +18,14 @@ class ViewProgressRateState extends State<ViewProgressRate>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('progress rate'),
+        title: const Text('진도율'),
         automaticallyImplyLeading: false,
       ),
       body: buildBorderContainer(
         child: SizedBox(
           width: width,
           height: height,
-          child: Container(color: Colors.amber),
+          child: const Center(child: Text(MSG.COMING_SOON)),
         ),
       ),
     );

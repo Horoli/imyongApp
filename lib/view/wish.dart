@@ -31,7 +31,29 @@ class ViewWishState extends State<ViewWish>
                   ? const Center(child: Text(MSG.NO_WISH))
                   : Column(
                       children: [
-                        ListView.builder(
+                        Row(
+                          children: [
+                            buildText(
+                              '과목',
+                              fontWeight: FontWeight.bold,
+                            ).expand(),
+                            buildText(
+                              '카테고리',
+                              fontWeight: FontWeight.bold,
+                            ).expand(),
+                            buildText(
+                              '문제',
+                              fontWeight: FontWeight.bold,
+                            ).expand(flex: 2),
+                            buildText(
+                              '해설보기',
+                              fontWeight: FontWeight.bold,
+                            ).expand(),
+                          ],
+                        ).sizedBox(height: kToolbarHeight),
+                        const Divider(),
+                        ListView.separated(
+                          separatorBuilder: (context, index) => const Divider(),
                           itemCount: guest.wishQuestion.length,
                           itemBuilder: (context, index) {
                             // TODO : guest에 저장된 wishQuestion의 id를 가져옴
@@ -42,13 +64,19 @@ class ViewWishState extends State<ViewWish>
                             MQuestion getQuestion =
                                 mapOfQuestion[getQuestionId]!;
 
+                            MSubCategory getSubCategory = GServiceSubCategory
+                                .allSubCategory[getQuestion.categoryID]!;
+
                             return Row(
                               children: [
-                                Text(getQuestion.question).expand(),
+                                buildText(getSubCategory.parent).expand(),
+                                buildText(getSubCategory.name).expand(),
+                                buildText(getQuestion.question).expand(flex: 2),
                                 buildElevatedButton(
-                                    child: const Text(LABEL.EXPLANATION),
-                                    onPressed: () =>
-                                        showQuestionDetail(getQuestion)),
+                                  child: const Text(LABEL.EXPLANATION),
+                                  onPressed: () =>
+                                      showQuestionDetail(getQuestion),
+                                ).expand(),
                               ],
                             );
                           },
@@ -62,6 +90,17 @@ class ViewWishState extends State<ViewWish>
           );
         },
       ),
+    );
+  }
+
+  Widget buildText(
+    String text, {
+    FontWeight fontWeight = FontWeight.normal,
+  }) {
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontWeight: fontWeight),
     );
   }
 

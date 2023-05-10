@@ -34,7 +34,8 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ListView.builder(
+                ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(),
                   itemCount: subjectSubcategories().length,
                   itemBuilder: ((BuildContext context, index) {
                     return subjectSubcategories()[index];

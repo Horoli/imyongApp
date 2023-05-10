@@ -28,6 +28,7 @@ class ViewMainState extends State<ViewMain> {
           GNavigatorKey,
           prePushHandler: () {
             GServiceQuestion.getAll();
+            GServiceSubCategory.getAll();
           },
           isPush: false,
         ),
@@ -73,8 +74,10 @@ class ViewMainState extends State<ViewMain> {
               BottomNavigationBarItem(
                   label: '저장문제', icon: Icon(Icons.favorite)),
               BottomNavigationBarItem(label: '진도율', icon: Icon(Icons.percent)),
-              BottomNavigationBarItem(
-                  label: 'QnA', icon: Icon(Icons.question_mark)),
+              BottomNavigationBarItem(label: '설정', icon: Icon(Icons.settings)),
+              // BottomNavigationBarItem(
+
+              //     label: 'QnA', icon: Icon(Icons.question_mark)),
             ],
           ),
         ),
