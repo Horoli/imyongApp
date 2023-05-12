@@ -10,14 +10,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path/path.dart' as p;
 import 'package:tnd_core/tnd_core.dart';
-import 'package:tnd_pkg_widget/extension.dart';
 import 'package:tnd_pkg_widget/tnd_pkg_widget.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 // preset
 import 'package:imyong_app/preset/color.dart' as COLOR;
