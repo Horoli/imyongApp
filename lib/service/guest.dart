@@ -48,7 +48,8 @@ class ServiceGuest {
     print('guestID $guestID');
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     String query = 'guest?id=${guestID}';
@@ -76,7 +77,9 @@ class ServiceGuest {
 
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     String encodeData = jsonEncode({

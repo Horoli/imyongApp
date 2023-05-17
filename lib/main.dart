@@ -4,22 +4,30 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:imyong_app/service/lib.dart';
 import 'package:imyong_app/model/lib.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:tnd_pkg_widget/tnd_pkg_widget.dart';
 import 'preset/router.dart' as ROUTER;
 // import 'preset/color.dart' as COLOR;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await _initHive();
+  // await _initHive();
   await _initService();
+  await _initLocalStorage();
+  // GServiceTheme.fetch();
   runApp(AppRoot());
 }
 
-Future<void> _initHive() async {
-  await Hive.initFlutter();
-  Hive.registerAdapter<MGuestLogin>(MGuestLoginAdapter());
-  hiveMGuestLogin = await Hive.openBox('MGuestLogin');
-  // GServiceTheme.fetch();
+// Future<void> _initHive() async {
+//   await Hive.initFlutter();
+//   Hive.registerAdapter<MGuestLogin>(MGuestLoginAdapter());
+//   hiveMGuestLogin = await Hive.openBox('MGuestLogin');
+// GServiceTheme.fetch();
+// }
+
+Future<void> _initLocalStorage() async {
+  localStorage = LocalStorage('local');
+  // themeStorage = LocalStorage('theme');
 }
 
 Future<void> _initService() async {

@@ -51,11 +51,26 @@ class ViewSplashState extends State<ViewSplash>
     String guestID = '';
 
     // TODO : must delete
-    if (hiveMGuestLogin.isEmpty) {
+    // if (hiveMGuestLogin.isEmpty) {
+
+    String getGuestToken = localStorage.getItem('token') ?? '';
+    print('getGuestToken $getGuestToken');
+
+    if (getGuestToken == '') {
       guestID = newUUID();
     } else {
-      guestID = hiveMGuestLogin.keys.first;
+      guestID = getGuestToken;
     }
+
+    // if (guestStorage.isNull) {
+    //   print('null check');
+    //   guestID = newUUID();
+    // } else {
+    //   print('none null check');
+    //   print('guestStorage.toJS ${guestStorage.getItem('token')}');
+    //   guestID = guestStorage.getItem('token');
+    //   // guestID = hiveMGuestLogin.keys.first;
+    // }
 
     final RestfulResult loginResult;
     final RestfulResult result;
@@ -76,19 +91,4 @@ class ViewSplashState extends State<ViewSplash>
       );
     }
   }
-
-  // Future<void> _initHive() async {
-  //   await Hive.initFlutter();
-  //   Hive.registerAdapter<MGuestLogin>(MGuestLoginAdapter());
-  //   hiveMGuestLogin = await Hive.openBox('MGuestLogin');
-  //   GServiceTheme.fetch();
-  // }
-
-  // Future<void> _initService() async {
-  //   GServiceGuestLogin = ServiceMGuestLogin.getInstance();
-  //   GServiceGuest = ServiceGuest.getInstance();
-  //   GServiceMainCategory = ServiceMainCategory.getInstance();
-  //   GServiceSubCategory = ServiceSubCategory.getInstance();
-  //   GServiceQuestion = ServiceQuestion.getInstance();
-  // }
 }

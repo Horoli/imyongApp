@@ -15,7 +15,9 @@ class ServiceMainCategory {
 
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http.get(GUtility.getRequestUri(PATH.CATEGORY), headers: _headers).then(

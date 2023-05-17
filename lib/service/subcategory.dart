@@ -24,7 +24,9 @@ class ServiceSubCategory {
 
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http
@@ -63,7 +65,8 @@ class ServiceSubCategory {
 
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http.get(GUtility.getRequestUri(query), headers: _headers).then(
@@ -99,7 +102,9 @@ class ServiceSubCategory {
 
     final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     String encodeData = jsonEncode({
@@ -138,7 +143,8 @@ class ServiceSubCategory {
 
     final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     String encodeData = jsonEncode({

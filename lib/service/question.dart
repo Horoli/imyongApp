@@ -23,7 +23,9 @@ class ServiceQuestion {
 
     final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http
@@ -67,7 +69,9 @@ class ServiceQuestion {
 
     final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     String encodeData = jsonEncode({
@@ -117,7 +121,9 @@ class ServiceQuestion {
 
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: hiveMGuestLogin.values.first.token,
+
+      tokenValue: localStorage.getItem('token'),
+      // tokenValue: hiveMGuestLogin.values.first.token,
     );
 
     http

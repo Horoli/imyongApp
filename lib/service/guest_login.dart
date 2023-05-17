@@ -11,11 +11,11 @@ class ServiceMGuestLogin {
 
   ServiceMGuestLogin._internal();
 
-  void hiveBoxlistener() {
-    hiveMGuestLogin.watch().listen((event) {
-      print('event $event');
-    });
-  }
+  // void hiveBoxlistener() {
+  //   hiveMGuestLogin.watch().listen((event) {
+  //     print('event $event');
+  //   });
+  // }
 
   Future<RestfulResult> login(String guestID) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
@@ -33,7 +33,7 @@ class ServiceMGuestLogin {
         .post(GUtility.getRequestUri(PATH.GUEST_LOGIN),
             headers: GUtility.createHeaders(), body: encodeData)
         .then((response) {
-      if (response == null) {
+      if (response.isNull) {
         return completer.complete(RestfulResult(
           statusCode: STATUS.UNKNOWN_CODE,
           message: STATUS.UNKNOWN_MSG,
@@ -42,18 +42,23 @@ class ServiceMGuestLogin {
 
       Map result = json.decode(response.body);
       if (response.statusCode == STATUS.SUCCESS_CODE) {
+        print('result $result');
         MGuestLogin convertedItem = MGuestLogin.fromMap(result['data'] ?? {});
 
         // print('convertedGuest $convertedItem');
         // print('convertedGuest ${convertedItem.token}');
         $token.sink$(convertedItem.token);
-        hiveMGuestLogin.put(guestID, convertedItem);
+        localStorage.setItem('token', convertedItem.token);
+        // hiveMGuestLogin.put(guestID, convertedItem);
       } else {
-        hiveMGuestLogin.put(guestID, MGuestLogin(token: ''));
+        localStorage.setItem('token', '');
+        // hiveMGuestLogin.put(guestID, MGuestLogin(token: ''));
       }
 
-      print(hiveMGuestLogin.keys);
-      print(hiveMGuestLogin.values.first.token);
+      print('guestStorage ${localStorage.getItem(guestID)}');
+
+      // print(hiveMGuestLogin.keys);
+      // print(hiveMGuestLogin.values.first.token);
 
       return completer.complete(RestfulResult.fromMap(
         result,

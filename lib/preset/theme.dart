@@ -5,8 +5,8 @@ enum Type { green, dark, light }
 
 final Map<Type, ThemeData> MAP = {
   Type.green: GREEN,
-  Type.dark: DARK,
   Type.light: LIGHT,
+  Type.dark: DARK,
 };
 
 List<Type> get TYPE_LIST => MAP.keys.toList();

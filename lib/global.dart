@@ -19,6 +19,9 @@ late ServiceMainCategory GServiceMainCategory;
 late ServiceSubCategory GServiceSubCategory;
 late ServiceQuestion GServiceQuestion;
 
-late final Box<MGuestLogin> hiveMGuestLogin;
+late final LocalStorage localStorage;
+late final LocalStorage themeStorage;
+
+// late final Box<MGuestLogin> hiveMGuestLogin;
 
 TStream<bool> $loading = TStream<bool>()..sink$(false);

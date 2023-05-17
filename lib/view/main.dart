@@ -50,6 +50,7 @@ class ViewMainState extends State<ViewMain> {
       children: [
         Scaffold(
           body: TStreamBuilder(
+              // initialData: ThemeData.dark(),
               stream: GServiceTheme.$theme.browse$,
               builder: (context, ThemeData theme) {
                 return MaterialApp(
@@ -93,7 +94,7 @@ class ViewMainState extends State<ViewMain> {
                 opacity: loading ? 1 : 0,
                 duration: const Duration(milliseconds: 250),
                 child: Container(
-                  color: GServiceTheme.theme.scaffoldBackgroundColor,
+                  // color: GServiceTheme.theme.scaffoldBackgroundColor,
                   width: double.infinity,
                   height: double.infinity,
                   child: const Center(
