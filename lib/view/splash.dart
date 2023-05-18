@@ -43,42 +43,23 @@ class ViewSplashState extends State<ViewSplash>
 
   // 데이터 로딩 후 메인화면으로 이동
   Future<void> loadData() async {
-    // await _initHive();
-    // await _initService();
-
     GServiceTheme.fetch();
 
     String guestID = '';
 
-    // TODO : must delete
-    // if (hiveMGuestLogin.isEmpty) {
-
-    String getGuestToken = localStorage.getItem('token') ?? '';
-    print('aaaaaaaaa getGuestToken $getGuestToken');
-
-    if (getGuestToken == '') {
-      print('id null');
+    if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) == null) {
       guestID = newUUID();
-      localStorage.setItem('guestId', guestID);
-    } else {
-      print('id not null');
-      guestID = localStorage.getItem('guestId');
+      GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestID);
     }
 
-    // if (guestStorage.isNull) {
-    //   print('null check');
-    //   guestID = newUUID();
-    // } else {
-    //   print('none null check');
-    //   print('guestStorage.toJS ${guestStorage.getItem('token')}');
-    //   guestID = guestStorage.getItem('token');
-    //   // guestID = hiveMGuestLogin.keys.first;
-    // }
+    if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) != null) {
+      guestID = GSharedPreferences.getString(HEADER.LOCAL_GUEST)!;
+    }
 
     final RestfulResult loginResult;
     final RestfulResult result;
 
-    result = await GServiceGuest.post(uuid: guestID);
+    result = await GServiceGuest.post(guestID: guestID);
     loginResult = await GServiceGuestLogin.login(guestID);
     // TODO : splash image가 2초 출력되고 넘어가야함
 

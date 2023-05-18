@@ -19,8 +19,8 @@ late ServiceMainCategory GServiceMainCategory;
 late ServiceSubCategory GServiceSubCategory;
 late ServiceQuestion GServiceQuestion;
 
-late final LocalStorage localStorage;
-// late final LocalStorage themeStorage;
+// late final LocalStorage localStorage;
+late final SharedPreferences GSharedPreferences;
 
 // late final Box<MGuestLogin> hiveMGuestLogin;
 

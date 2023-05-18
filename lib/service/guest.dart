@@ -9,9 +9,9 @@ class ServiceGuest {
   TStream<MGuest> $guest = TStream<MGuest>();
   MGuest get guest => $guest.lastValue;
 
-  Future<RestfulResult> post({required String uuid}) async {
+  Future<RestfulResult> post({required String guestID}) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
-    String encodeData = jsonEncode({"id": uuid});
+    String encodeData = jsonEncode({"id": guestID});
 
     http
         .post(GUtility.getRequestUri(PATH.GUEST),
@@ -48,8 +48,7 @@ class ServiceGuest {
     print('guestID $guestID');
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-      tokenValue: localStorage.getItem('token'),
-      // tokenValue: hiveMGuestLogin.values.first.token,
+      tokenValue: GSharedPreferences.getString('token'),
     );
 
     String query = 'guest?id=${guestID}';
@@ -77,9 +76,7 @@ class ServiceGuest {
 
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-
-      tokenValue: localStorage.getItem('token'),
-      // tokenValue: hiveMGuestLogin.values.first.token,
+      tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
     String encodeData = jsonEncode({

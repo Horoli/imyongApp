@@ -11,21 +11,10 @@ class ServiceMGuestLogin {
 
   ServiceMGuestLogin._internal();
 
-  // void hiveBoxlistener() {
-  //   hiveMGuestLogin.watch().listen((event) {
-  //     print('event $event');
-  //   });
-  // }
-
   Future<RestfulResult> login(String guestID) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    print('guestID $guestID');
-
-    // final Map<String, String> _headers = createHeaders(
-    //   tokenKey: HEADER.TOKEN,
-    //   tokenValue: hiveMGuestLogin.values.first.token,
-    // );
+    print('guestIDdddd $guestID');
 
     String encodeData = jsonEncode({"id": guestID});
 
@@ -33,7 +22,7 @@ class ServiceMGuestLogin {
         .post(GUtility.getRequestUri(PATH.GUEST_LOGIN),
             headers: GUtility.createHeaders(), body: encodeData)
         .then((response) {
-      if (response.isNull) {
+      if (response == null) {
         return completer.complete(RestfulResult(
           statusCode: STATUS.UNKNOWN_CODE,
           message: STATUS.UNKNOWN_MSG,
@@ -41,18 +30,18 @@ class ServiceMGuestLogin {
       }
 
       Map result = json.decode(response.body);
+
+      if (response.statusCode != STATUS.SUCCESS_CODE) {
+        GSharedPreferences.setString('token', '');
+      }
+
       if (response.statusCode == STATUS.SUCCESS_CODE) {
         print('result $result');
         MGuestLogin convertedItem = MGuestLogin.fromMap(result['data'] ?? {});
-
-        // print('convertedGuest $convertedItem');
-        // print('convertedGuest ${convertedItem.token}');
         $token.sink$(convertedItem.token);
-        localStorage.setItem('token', convertedItem.token);
-        // hiveMGuestLogin.put(guestID, convertedItem);
-      } else {
-        localStorage.setItem('token', '');
-        // hiveMGuestLogin.put(guestID, MGuestLogin(token: ''));
+
+        // TODO : 헷갈릴 수 있는데, 여기서 guestId가 아니라 받아온 토큰을 set해야함
+        GSharedPreferences.setString('token', convertedItem.token);
       }
 
       return completer.complete(RestfulResult.fromMap(
