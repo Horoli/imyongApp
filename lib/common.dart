@@ -3,19 +3,24 @@ library common;
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 // import 'dart:js_interop';
 import 'dart:math';
 
 // packageImport
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:tnd_core/tnd_core.dart';
 import 'package:tnd_pkg_widget/tnd_pkg_widget.dart';
-//
 import 'package:shared_preferences/shared_preferences.dart';
+
+//
+import 'package:android_id/android_id.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 // preset
 import 'package:imyong_app/preset/color.dart' as COLOR;

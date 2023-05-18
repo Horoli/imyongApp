@@ -18,4 +18,26 @@ class Utility {
 
     return headers;
   }
+
+  Future<BaseDeviceInfo> getPlatformInfo() async {
+    if (kIsWeb) {
+      WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
+      // print(webBrowserInfo.data);
+      return webBrowserInfo;
+    } else {
+      late BaseDeviceInfo info;
+      if (Platform.isAndroid) {
+        AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+        // print(androidDeviceInfo);
+        info = androidDeviceInfo;
+      }
+      if (Platform.isIOS) {
+        IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+        // print(iosDeviceInfo);
+        info = iosDeviceInfo;
+      }
+      // print('asd $info');
+      return info;
+    }
+  }
 }

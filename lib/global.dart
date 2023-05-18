@@ -19,9 +19,9 @@ late ServiceMainCategory GServiceMainCategory;
 late ServiceSubCategory GServiceSubCategory;
 late ServiceQuestion GServiceQuestion;
 
-// late final LocalStorage localStorage;
 late final SharedPreferences GSharedPreferences;
 
-// late final Box<MGuestLogin> hiveMGuestLogin;
+final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+AndroidId androidId = AndroidId();
 
 TStream<bool> $loading = TStream<bool>()..sink$(false);

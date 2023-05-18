@@ -25,11 +25,12 @@ dependencies:
       ref: v1.5
 
   shared_preferences: ^2.1.1
-
   persistent_bottom_nav_bar: any
   path_provider: 2.0.3
   cupertino_icons: ^1.0.2
   http: ^0.13.6
+
+  android_id: ^0.3.3
 
 dev_dependencies:
   flutter_test:

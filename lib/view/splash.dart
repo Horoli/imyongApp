@@ -45,16 +45,39 @@ class ViewSplashState extends State<ViewSplash>
   Future<void> loadData() async {
     GServiceTheme.fetch();
 
+    BaseDeviceInfo getInfo = await GUtility.getPlatformInfo();
+
+    String getAndroidId = '';
+    if (getInfo.runtimeType == AndroidDeviceInfo) {
+      getAndroidId = await androidId.getId() ?? '';
+      print('androidId.getId() ${getAndroidId}');
+      print('androidId.getId() ${getAndroidId.length}');
+    }
+
     String guestID = '';
 
     if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) == null) {
-      guestID = newUUID();
+      if (getInfo.runtimeType == WebBrowserInfo) {
+        guestID = newUUID();
+        return;
+      }
+      if (getInfo.runtimeType == AndroidDeviceInfo) {
+        guestID = getAndroidId;
+        return;
+      }
+      if (getInfo.runtimeType == IosDeviceInfo) {
+        guestID = newUUID();
+        return;
+      }
+      print('setString');
+
       GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestID);
     }
 
     if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) != null) {
       guestID = GSharedPreferences.getString(HEADER.LOCAL_GUEST)!;
     }
+    print('guestID $guestID');
 
     final RestfulResult loginResult;
     final RestfulResult result;
