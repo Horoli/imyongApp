@@ -23,7 +23,6 @@ class ServiceQuestion {
 
     final Map<String, String> headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
-
       tokenValue: localStorage.getItem('token'),
       // tokenValue: hiveMGuestLogin.values.first.token,
     );

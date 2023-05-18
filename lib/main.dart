@@ -11,23 +11,13 @@ import 'preset/router.dart' as ROUTER;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await _initHive();
   await _initService();
   await _initLocalStorage();
-  // GServiceTheme.fetch();
   runApp(AppRoot());
 }
 
-// Future<void> _initHive() async {
-//   await Hive.initFlutter();
-//   Hive.registerAdapter<MGuestLogin>(MGuestLoginAdapter());
-//   hiveMGuestLogin = await Hive.openBox('MGuestLogin');
-// GServiceTheme.fetch();
-// }
-
 Future<void> _initLocalStorage() async {
-  localStorage = LocalStorage('local');
-  // themeStorage = LocalStorage('theme');
+  localStorage = LocalStorage('local.json');
 }
 
 Future<void> _initService() async {

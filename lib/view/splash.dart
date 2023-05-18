@@ -54,12 +54,15 @@ class ViewSplashState extends State<ViewSplash>
     // if (hiveMGuestLogin.isEmpty) {
 
     String getGuestToken = localStorage.getItem('token') ?? '';
-    print('getGuestToken $getGuestToken');
+    print('aaaaaaaaa getGuestToken $getGuestToken');
 
     if (getGuestToken == '') {
+      print('id null');
       guestID = newUUID();
+      localStorage.setItem('guestId', guestID);
     } else {
-      guestID = getGuestToken;
+      print('id not null');
+      guestID = localStorage.getItem('guestId');
     }
 
     // if (guestStorage.isNull) {

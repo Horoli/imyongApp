@@ -55,11 +55,6 @@ class ServiceMGuestLogin {
         // hiveMGuestLogin.put(guestID, MGuestLogin(token: ''));
       }
 
-      print('guestStorage ${localStorage.getItem(guestID)}');
-
-      // print(hiveMGuestLogin.keys);
-      // print(hiveMGuestLogin.values.first.token);
-
       return completer.complete(RestfulResult.fromMap(
         result,
         response.statusCode,
