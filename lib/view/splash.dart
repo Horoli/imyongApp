@@ -59,15 +59,12 @@ class ViewSplashState extends State<ViewSplash>
     if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) == null) {
       if (getInfo.runtimeType == WebBrowserInfo) {
         guestID = newUUID();
-        return;
       }
       if (getInfo.runtimeType == AndroidDeviceInfo) {
         guestID = getAndroidId;
-        return;
       }
       if (getInfo.runtimeType == IosDeviceInfo) {
         guestID = newUUID();
-        return;
       }
       print('setString');
 
