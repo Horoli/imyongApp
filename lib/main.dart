@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imyong_app/common.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:imyong_app/service/lib.dart';
-import 'package:imyong_app/model/lib.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tnd_pkg_widget/tnd_pkg_widget.dart';
-import 'preset/router.dart' as ROUTER;
+// import 'preset/router.dart' as ROUTER;
 // import 'preset/color.dart' as COLOR;
 
 Future<void> main() async {
@@ -17,7 +13,6 @@ Future<void> main() async {
 }
 
 Future<void> _initLocalStorage() async {
-  // localStorage = LocalStorage('local.json');
   GSharedPreferences = await SharedPreferences.getInstance();
 }
 

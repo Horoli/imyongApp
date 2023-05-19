@@ -20,11 +20,22 @@ class HelperNavigator {
   }) async {
     $loading.sink$(true);
     if (prePushHandler != null) await prePushHandler();
-    await GUtility.wait(300);
+    await GUtility.wait(400);
     _push(view, key, isPush);
     if (afterPushHandler != null) await afterPushHandler();
-    await GUtility.wait(300);
+    await GUtility.wait(400);
     $loading.sink$(false);
+  }
+
+  void push(CommonView view, GlobalKey<NavigatorState> key) {
+    _routeCheck(view, key, () {
+      Navigator.of(key.currentContext!).push(
+        MaterialPageRoute(
+          settings: RouteSettings(name: view.routeName),
+          builder: (_) => view,
+        ),
+      );
+    });
   }
 
   // TODO : 최근에 push한 페이지를 제거하고 push

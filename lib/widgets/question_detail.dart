@@ -35,8 +35,8 @@ class QuestionDetailState extends State<QuestionDetail> {
               child: AlertDialog(
                 contentPadding: EdgeInsets.zero,
                 content: SizedBox(
-                  width: width * 0.9,
-                  height: height * 0.6,
+                  width: width * 0.95,
+                  height: height * 0.8,
                   child: Column(
                     children: [
                       Text('${question.question} 문제 답안'),
@@ -70,14 +70,17 @@ class QuestionDetailState extends State<QuestionDetail> {
       itemBuilder: (context, index) {
         Future<RestfulResult> getImage =
             GServiceQuestion.getImage(imageIDs[index]);
-        return FutureBuilder(
-          future: getImage,
-          builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
-            if (snapshot.hasData) {
-              return Image.memory(base64Decode(snapshot.data!.data));
-            }
-            return CircularProgress();
-          },
+        return SizedBox(
+          height: 200,
+          child: FutureBuilder(
+            future: getImage,
+            builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+              if (snapshot.hasData) {
+                return Image.memory(base64Decode(snapshot.data!.data));
+              }
+              return const CircularProgressIndicator().center;
+            },
+          ),
         );
       },
     );

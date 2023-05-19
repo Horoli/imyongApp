@@ -24,26 +24,26 @@ class PageQuestionState extends State<PageQuestion>
   double get height => MediaQuery.of(context).size.height * 0.8;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: GServiceQuestion.getFiltered(categoryID: sub.id),
-      builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
-        if (snapshot.hasData) {
-          // TODO : questions를 랜덤하게 섞어서 저장
-          questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(sub.name),
+      ),
+      body: FutureBuilder(
+        future: GServiceQuestion.getFiltered(categoryID: sub.id),
+        builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+          if (snapshot.hasData) {
+            // TODO : questions를 랜덤하게 섞어서 저장
+            questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
 
-          // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
-          checkQuestion = questions.asMap().map((index, question) => MapEntry(
-                question,
-                index == 0 ? true : false,
-              ));
+            // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
+            checkQuestion = questions.asMap().map((index, question) => MapEntry(
+                  question,
+                  index == 0 ? true : false,
+                ));
 
-          ctrTab = TabController(length: questions.length, vsync: this);
+            ctrTab = TabController(length: questions.length, vsync: this);
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(sub.name),
-            ),
-            body: Center(
+            return Center(
               child: SizedBox(
                 width: width,
                 height: height,
@@ -67,13 +67,13 @@ class PageQuestionState extends State<PageQuestion>
                   ),
                 ),
               ),
-            ),
-          );
-        }
-        return Scaffold(
-          body: CircularProgress(),
-        );
-      },
+            );
+          }
+          return const Center(
+              // child: CircularProgressIndicator(),
+              );
+        },
+      ),
     );
   }
 
