@@ -1,4 +1,4 @@
-package com.example.imyong_app
+package com.horoli.imyong_app
 
 import io.flutter.embedding.android.FlutterActivity
 

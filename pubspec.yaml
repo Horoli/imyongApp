@@ -37,6 +37,13 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  ios: true,
+  android: true,
+  image_path: "assets/images/splash.png"
+  remove_alpha_ios: true
 
 flutter:
   uses-material-design: true
@@ -44,3 +51,6 @@ flutter:
     - assets/images/
     # - assets/icons/
     # - assets/fonts/
+
+
+
