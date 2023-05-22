@@ -1,0 +1,11 @@
+const String KO = 'ko';
+const String MATH = 'math';
+const String SOCIAL = 'social';
+const String SCIENCE = 'science';
+const String EN = 'en';
+const String MUSIC = 'music';
+const String ART = 'art';
+const String ETHICS = 'ethics';
+const String PHYSICALEDU = 'physicalEdu';
+const String PRACTICAL = 'practical';
+const String GENERAL = 'general';

@@ -27,15 +27,29 @@ class ViewSubjectListState extends State<ViewSubjectList>
           child: Column(
             children: [
               buildElevatedButton(
-                child: const Text('총/창/안'),
+                child: Text(GUtility.convertSubject(SUBJECT.GENERAL)),
                 width: double.infinity,
-                onPressed: () {},
+                onPressed: () async {
+                  await GServiceSubCategory.get(parent: SUBJECT.GENERAL);
+
+                  GHelperNavigator._push(
+                    ViewSelectedSubjectList(
+                      selectedSubjectLabel: SUBJECT.GENERAL,
+                      selectedSubject: GServiceSubCategory.subCategory,
+                    ),
+                    GNavigatorKey,
+                    true,
+                  );
+                },
               ).expand(),
               const Padding(padding: EdgeInsets.all(2)),
               TStreamBuilder(
                 stream: GServiceMainCategory.$mainCategory.browse$,
                 builder: (context, MMainCategory mainCategory) {
                   List<String> subjects = mainCategory.map.keys.toList();
+
+                  // TODO : 총창안은 맨위에 출력해야해서 출력 리스트에서 삭제함
+                  subjects.remove(SUBJECT.GENERAL);
 
                   return GridView.builder(
                     itemCount: subjects.length,
@@ -48,7 +62,8 @@ class ViewSubjectListState extends State<ViewSubjectList>
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       return buildElevatedButton(
-                        child: Text('${subjects[index]}'),
+                        // child: Text('${subjects[index]}'),
+                        child: Text(GUtility.convertSubject(subjects[index])),
                         onPressed: () async {
                           await GServiceSubCategory.get(
                               parent: subjects[index]);
