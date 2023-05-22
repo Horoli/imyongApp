@@ -2,7 +2,7 @@ name: imyong_app
 description: this is imyoung_app.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+3
 
 environment:
   sdk: ">=2.17.2 <3.0.0"
@@ -45,6 +45,3 @@ flutter:
     - assets/images/
     # - assets/icons/
     # - assets/fonts/
-
-
-
