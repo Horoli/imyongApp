@@ -45,6 +45,25 @@ class ViewHomeState extends State<ViewHome> {
                   child: ViewSubjectList(),
                 ),
               ).expand(),
+              TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.abc).expand(),
+                    Text('찜한문제로 이동').expand(),
+                  ],
+                ),
+                onPressed: () => GHelperNavigator.pushWithActions(
+                  const ViewWish(),
+                  GNavigatorKey,
+                  prePushHandler: () {
+                    GServiceQuestion.getAll();
+                    GServiceSubCategory.getAll();
+                  },
+                  isPush: false,
+                ),
+              ).expand(),
               // Text('임고 뽀개기'),
               // buildElevatedButton(
               //   width: double.infinity,

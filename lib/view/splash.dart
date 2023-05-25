@@ -66,9 +66,6 @@ class ViewSplashState extends State<ViewSplash>
       if (getInfo.runtimeType == IosDeviceInfo) {
         guestID = newUUID();
       }
-      if (getInfo.runtimeType == WindowsDeviceInfo) {
-        guestID = newUUID();
-      }
       print('setString');
 
       GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestID);
@@ -86,27 +83,26 @@ class ViewSplashState extends State<ViewSplash>
     loginResult = await GServiceGuestLogin.login(guestID);
     // TODO : splash image가 2초 출력되고 넘어가야함
 
+    GServiceMainCategory.get();
+
     $splash.sink$(true);
     await GUtility.wait(spalshDuration);
     if (loginResult.isSuccess) {
       $splash.sink$(false);
       await GUtility.wait(spalshDuration);
 
-      // await Navigator.pushNamedAndRemoveUntil(
-      //   context,
-      //   ROUTER.MAIN,
-      //   (route) => false,
+      // GHelperNavigator.pushWithActions(
+      //   ViewHome(),
+      // GNavigatorKey,
+      //   prePushHandler: () async {
+      //     GServiceMainCategory.get();
+      //   },
+      //   isPush: false,
       // );
-
-      GHelperNavigator.pushWithActions(
-        ViewHome(),
-        GNavigatorKey,
-        // prePushHandler: () async {
-        // },
-        afterPushHandler: () async {
-          GServiceMainCategory.get();
-        },
-        isPush: false,
+      await Navigator.pushNamedAndRemoveUntil(
+        context,
+        ROUTER.MAIN,
+        (route) => false,
       );
     }
   }

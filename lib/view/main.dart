@@ -14,6 +14,7 @@ class ViewMainState extends State<ViewMain> {
   final Map<String, Widget Function(BuildContext)> routes = {
     ROUTER.HOME: (BuildContext context) => ViewHome(),
     ROUTER.WISH: (BuildContext context) => ViewWish(),
+    ROUTER.HOME: (BuildContext context) => ViewHome(),
     ROUTER.PROGRESS_RATE: (BuildContext context) => ViewProgressRate(),
     ROUTER.QNA: (BuildContext context) => ViewQnA(),
   };
@@ -31,6 +32,10 @@ class ViewMainState extends State<ViewMain> {
             GServiceSubCategory.getAll();
           },
           isPush: false,
+        ),
+    () => GHelperNavigator.pushAndRemoveUntil(
+          const ViewHome(),
+          GNavigatorKey,
         ),
     () => GHelperNavigator.pushAndRemoveUntil(
           const ViewProgressRate(),
@@ -74,6 +79,9 @@ class ViewMainState extends State<ViewMain> {
               BottomNavigationBarItem(label: '홈', icon: Icon(Icons.home)),
               BottomNavigationBarItem(
                   label: '저장문제', icon: Icon(Icons.favorite)),
+
+              BottomNavigationBarItem(label: '홈', icon: Icon(Icons.home)),
+
               BottomNavigationBarItem(label: '진도율', icon: Icon(Icons.percent)),
               BottomNavigationBarItem(label: '설정', icon: Icon(Icons.settings)),
               // BottomNavigationBarItem(

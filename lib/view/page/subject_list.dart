@@ -26,23 +26,23 @@ class ViewSubjectListState extends State<ViewSubjectList>
           // width: width * 0.8,
           child: Column(
             children: [
-              buildElevatedButton(
-                child: Text(GUtility.convertSubject(SUBJECT.GENERAL)),
-                width: double.infinity,
-                onPressed: () async {
-                  await GServiceSubCategory.get(parent: SUBJECT.GENERAL);
+              // buildElevatedButton(
+              //   child: Text(GUtility.convertSubject(SUBJECT.GENERAL)),
+              //   width: double.infinity,
+              //   onPressed: () async {
+              //     await GServiceSubCategory.get(parent: SUBJECT.GENERAL);
 
-                  GHelperNavigator._push(
-                    ViewSelectedSubjectList(
-                      selectedSubjectLabel: SUBJECT.GENERAL,
-                      selectedSubject: GServiceSubCategory.subCategory,
-                    ),
-                    GNavigatorKey,
-                    true,
-                  );
-                },
-              ).expand(),
-              const Padding(padding: EdgeInsets.all(2)),
+              //     GHelperNavigator._push(
+              //       ViewSelectedSubjectList(
+              //         selectedSubjectLabel: SUBJECT.GENERAL,
+              //         selectedSubject: GServiceSubCategory.subCategory,
+              //       ),
+              //       GNavigatorKey,
+              //       true,
+              //     );
+              //   },
+              // ).expand(),
+              // const Padding(padding: EdgeInsets.all(2)),
               TStreamBuilder(
                 stream: GServiceMainCategory.$mainCategory.browse$,
                 builder: (context, MMainCategory mainCategory) {
@@ -56,7 +56,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 5,
-                      childAspectRatio: 1,
+                      childAspectRatio: 1.2,
                       // mainAxisSpacing: 10,
                       // crossAxisSpacing: 10,
                     ),
