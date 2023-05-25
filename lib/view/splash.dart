@@ -88,10 +88,22 @@ class ViewSplashState extends State<ViewSplash>
     if (loginResult.isSuccess) {
       $splash.sink$(false);
       await GUtility.wait(spalshDuration);
-      await Navigator.pushNamedAndRemoveUntil(
-        context,
-        ROUTER.MAIN,
-        (route) => false,
+
+      // await Navigator.pushNamedAndRemoveUntil(
+      //   context,
+      //   ROUTER.MAIN,
+      //   (route) => false,
+      // );
+
+      GHelperNavigator.pushWithActions(
+        ViewHome(),
+        GNavigatorKey,
+        // prePushHandler: () async {
+        // },
+        afterPushHandler: () async {
+          GServiceMainCategory.get();
+        },
+        isPush: false,
       );
     }
   }

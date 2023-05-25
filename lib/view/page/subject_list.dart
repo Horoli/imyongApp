@@ -17,13 +17,13 @@ class ViewSubjectListState extends State<ViewSubjectList>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Subject List'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Subject List'),
+      // ),
       body: Center(
         child: SizedBox(
-          height: height * 0.7,
-          width: width * 0.8,
+          // height: height * 0.7,
+          // width: width * 0.8,
           child: Column(
             children: [
               buildElevatedButton(
@@ -55,15 +55,21 @@ class ViewSubjectListState extends State<ViewSubjectList>
                     itemCount: subjects.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 2,
+                      crossAxisCount: 5,
+                      childAspectRatio: 1,
                       // mainAxisSpacing: 10,
                       // crossAxisSpacing: 10,
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       return buildElevatedButton(
                         // child: Text('${subjects[index]}'),
-                        child: Text(GUtility.convertSubject(subjects[index])),
+                        child: Column(
+                          children: [
+                            const Icon(Icons.abc).expand(),
+                            Text(GUtility.convertSubject(subjects[index]))
+                                .expand(),
+                          ],
+                        ),
                         onPressed: () async {
                           await GServiceSubCategory.get(
                               parent: subjects[index]);

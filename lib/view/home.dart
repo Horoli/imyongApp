@@ -11,45 +11,67 @@ class ViewHome extends CommonView {
 }
 
 class ViewHomeState extends State<ViewHome> {
-  late final double width = MediaQuery.of(context).size.width * 0.6;
+  late final double width = MediaQuery.of(context).size.width * 0.9;
   late final double height = MediaQuery.of(context).size.height * 0.6;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: buildBorderContainer(
+      body: Center(
         child: SizedBox(
           width: width,
           height: height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('임고 뽀개기'),
-              buildElevatedButton(
-                width: double.infinity,
-                child: Text('subject'),
-                onPressed: () {
-                  GHelperNavigator.pushWithActions(
-                    ViewSubjectList(),
-                    GNavigatorKey,
-                    prePushHandler: () async {
-                      GServiceMainCategory.get();
-                    },
-                    isPush: false,
-                  );
-                },
+              Card(
+                color: Colors.green,
+                child: Container(
+                  width: double.infinity,
+                ),
               ).expand(),
-              const Divider(),
-              buildElevatedButton(
-                width: double.infinity,
-                child: Text('wish'),
-                onPressed: () {},
+              Padding(padding: EdgeInsets.all(5)),
+              Card(
+                color: Colors.blue,
+                child: Container(
+                  width: double.infinity,
+                ),
               ).expand(),
-              const Divider(),
-              buildElevatedButton(
-                width: double.infinity,
-                child: Text(''),
-                onPressed: () {},
+              Padding(padding: EdgeInsets.all(5)),
+              Card(
+                color: Colors.amber,
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: ViewSubjectList(),
+                ),
               ).expand(),
+              // Text('임고 뽀개기'),
+              // buildElevatedButton(
+              //   width: double.infinity,
+              //   child: Text('subject'),
+              //   onPressed: () {
+              //     GHelperNavigator.pushWithActions(
+              //       ViewSubjectList(),
+              //       GNavigatorKey,
+              //       prePushHandler: () async {
+              //         GServiceMainCategory.get();
+              //       },
+              //       isPush: false,
+              //     );
+              //   },
+              // ).expand(),
+              // const Divider(),
+              // buildElevatedButton(
+              //   width: double.infinity,
+              //   child: Text('wish'),
+              //   onPressed: () {},
+              // ).expand(),
+              // const Divider(),
+              // buildElevatedButton(
+              //   width: double.infinity,
+              //   child: Text(''),
+              //   onPressed: () {},
+              // ).expand(),
             ],
           ),
         ),
