@@ -4,7 +4,7 @@ class PageQuestion extends CommonView {
   final MSubCategory selectedSubCategory;
   const PageQuestion({
     required this.selectedSubCategory,
-    super.routeName = ROUTER.SUBJECT_LIST,
+    super.routeName = ROUTER.QUESTION,
     super.key,
   });
 
@@ -12,7 +12,6 @@ class PageQuestion extends CommonView {
   PageQuestionState createState() => PageQuestionState();
 }
 
-// TODO : getAll로 선택할 수 있는거 추가
 class PageQuestionState extends State<PageQuestion>
     with TickerProviderStateMixin {
   MSubCategory get sub => widget.selectedSubCategory;

@@ -66,7 +66,15 @@ class ViewSubjectListState extends State<ViewSubjectList>
                         return buildElevatedButton(
                           color: Colors.blue,
                           child: Text('all'),
-                          onPressed: () {},
+                          onPressed: () {
+                            GHelperNavigator.pushWithActions(
+                              PageAllQuestion(),
+                              prePushHandler: () {
+                                GServiceQuestion.getAll();
+                              },
+                              GNavigatorKey,
+                            );
+                          },
                         );
                       }
                       return buildElevatedButton(
