@@ -45,36 +45,7 @@ class ViewSplashState extends State<ViewSplash>
   Future<void> loadData() async {
     GServiceTheme.fetch();
 
-    BaseDeviceInfo getInfo = await GUtility.getPlatformInfo();
-
-    String getAndroidId = '';
-    if (getInfo.runtimeType == AndroidDeviceInfo) {
-      getAndroidId = await androidId.getId() ?? '';
-      print('androidId.getId() ${getAndroidId}');
-      print('androidId.getId() ${getAndroidId.length}');
-    }
-
-    String guestID = '';
-
-    if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) == null) {
-      if (getInfo.runtimeType == WebBrowserInfo) {
-        guestID = newUUID();
-      }
-      if (getInfo.runtimeType == AndroidDeviceInfo) {
-        guestID = getAndroidId;
-      }
-      if (getInfo.runtimeType == IosDeviceInfo) {
-        guestID = newUUID();
-      }
-      print('setString');
-
-      GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestID);
-    }
-
-    if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) != null) {
-      guestID = GSharedPreferences.getString(HEADER.LOCAL_GUEST)!;
-    }
-    print('guestID $guestID');
+    String guestID = await setGuestId();
 
     final RestfulResult loginResult;
     final RestfulResult result;
@@ -97,5 +68,36 @@ class ViewSplashState extends State<ViewSplash>
         (route) => false,
       );
     }
+  }
+
+  Future<String> setGuestId() async {
+    BaseDeviceInfo getInfo = await GUtility.getPlatformInfo();
+
+    String guestID = '';
+
+    if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) == null) {
+      if (getInfo.runtimeType == WebBrowserInfo) {
+        guestID = newUUID();
+      }
+      if (getInfo.runtimeType == AndroidDeviceInfo) {
+        print('getAndroidId');
+        guestID = await androidId.getId() ?? '';
+      }
+      if (getInfo.runtimeType == IosDeviceInfo) {
+        guestID = newUUID();
+      }
+      if (getInfo.runtimeType == WindowsDeviceInfo) {
+        WindowsDeviceInfo windowsInfo = getInfo as WindowsDeviceInfo;
+        guestID = windowsInfo.deviceId;
+      }
+      print('setString');
+
+      GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestID);
+    }
+
+    if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) != null) {
+      guestID = GSharedPreferences.getString(HEADER.LOCAL_GUEST)!;
+    }
+    return guestID;
   }
 }
