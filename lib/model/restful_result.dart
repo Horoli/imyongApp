@@ -3,7 +3,7 @@ part of 'lib.dart';
 class RestfulResult extends CommonModel {
   final int statusCode;
   final String message;
-  final dynamic data;
+  late final dynamic data;
   bool get isSuccess => statusCode == 200;
   bool hasData;
 

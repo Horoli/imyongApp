@@ -68,7 +68,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                           child: Text('all'),
                           onPressed: () {
                             GHelperNavigator.pushWithActions(
-                              PageAllQuestion(),
+                              PageQuestion(isAllQuestion: true),
                               prePushHandler: () {
                                 GServiceQuestion.getAll();
                               },
