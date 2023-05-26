@@ -11,6 +11,9 @@ class HelperNavigator {
 
   // TODO : prePushHandler에서 다음 페이지에서 사용될 data를 get하거나 post하는 함수를 실행
   // TODO : flag를 활용해서 push인지, replacement인지 구분하여 사용 할 수 있도록 수정
+  // TODO : key는 splash에서 사용 불가
+  // main - splash - mainView - home 으로 navigation되는데
+  // materialApp이 mainView에서 선언되어 splash에음는 globalKey를 사용할 수 없음
   Future<void> pushWithActions(
     CommonView view,
     GlobalKey<NavigatorState> key, {

@@ -68,7 +68,7 @@ class Utility {
       case SUBJECT.PRACTICAL:
         return '실과';
       case SUBJECT.GENERAL:
-        return '총/창/안';
+        return '총창안';
     }
     return '';
   }

@@ -49,18 +49,26 @@ class ViewSubjectListState extends State<ViewSubjectList>
                   List<String> subjects = mainCategory.map.keys.toList();
 
                   // TODO : 총창안은 맨위에 출력해야해서 출력 리스트에서 삭제함
-                  subjects.remove(SUBJECT.GENERAL);
+                  // subjects.remove(SUBJECT.GENERAL);
+                  subjects.insert(0, 'all');
 
                   return GridView.builder(
                     itemCount: subjects.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5,
-                      childAspectRatio: 1.2,
+                      crossAxisCount: 4,
+                      childAspectRatio: 1,
                       // mainAxisSpacing: 10,
                       // crossAxisSpacing: 10,
                     ),
                     itemBuilder: (BuildContext context, int index) {
+                      if (subjects[index] == 'all') {
+                        return buildElevatedButton(
+                          color: Colors.blue,
+                          child: Text('all'),
+                          onPressed: () {},
+                        );
+                      }
                       return buildElevatedButton(
                         // child: Text('${subjects[index]}'),
                         child: Column(
