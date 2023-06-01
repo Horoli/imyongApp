@@ -12,7 +12,7 @@ class AppRoot extends StatelessWidget {
       initialData: ThemeData.light(),
       stream: GServiceTheme.$theme.browse$,
       builder: (context, ThemeData theme) {
-        print('theme');
+        GUtility.log('theme: $theme');
         return MaterialApp(
           theme: theme,
           onGenerateInitialRoutes: onGenerateInitialRoutes,

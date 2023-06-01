@@ -25,12 +25,15 @@ class ViewHomeState extends State<ViewHome> {
           ),
           Center(
             child: SizedBox(
-              width: fullWidth * 0.85,
+              width: fullWidth * 0.95,
               height: fullHeight * 0.8,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     elevation: 10,
                     child: Container(
                       width: double.infinity,
@@ -73,33 +76,6 @@ class ViewHomeState extends State<ViewHome> {
                       isPush: false,
                     ),
                   ).expand(),
-                  // Text('임고 뽀개기'),
-                  // buildElevatedButton(
-                  //   width: double.infinity,
-                  //   child: Text('subject'),
-                  //   onPressed: () {
-                  //     GHelperNavigator.pushWithActions(
-                  //       ViewSubjectList(),
-                  //       GNavigatorKey,
-                  //       prePushHandler: () async {
-                  //         GServiceMainCategory.get();
-                  //       },
-                  //       isPush: false,
-                  //     );
-                  //   },
-                  // ).expand(),
-                  // const Divider(),
-                  // buildElevatedButton(
-                  //   width: double.infinity,
-                  //   child: Text('wish'),
-                  //   onPressed: () {},
-                  // ).expand(),
-                  // const Divider(),
-                  // buildElevatedButton(
-                  //   width: double.infinity,
-                  //   child: Text(''),
-                  //   onPressed: () {},
-                  // ).expand(),
                 ],
               ),
             ),

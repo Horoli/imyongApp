@@ -51,7 +51,7 @@ class QuestionTile extends StatelessWidget {
 
     hasCheck ? wish.remove(question.id) : wish.add(question.id);
 
-    print('wish $wish');
+    GUtility.log('wish $wish');
     tmpGuest = tmpGuest.copyWith(wishQuestion: wish);
 
     GServiceGuest.patch(tmpGuest);

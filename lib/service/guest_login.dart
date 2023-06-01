@@ -14,7 +14,7 @@ class ServiceMGuestLogin {
   Future<RestfulResult> login(String guestID) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    print('guestIDdddd $guestID');
+    GUtility.log('guestIDdddd $guestID');
 
     String encodeData = jsonEncode({"id": guestID});
 
@@ -36,7 +36,7 @@ class ServiceMGuestLogin {
       }
 
       if (response.statusCode == STATUS.SUCCESS_CODE) {
-        print('result $result');
+        GUtility.log('result $result');
         MGuestLogin convertedItem = MGuestLogin.fromMap(result['data'] ?? {});
         $token.sink$(convertedItem.token);
 
@@ -49,7 +49,7 @@ class ServiceMGuestLogin {
         response.statusCode,
       ));
     }).catchError((error) {
-      print('Error: $error');
+      GUtility.log('Error: $error');
       // TODO : create error page(pop)
       return completer.complete(
         RestfulResult(

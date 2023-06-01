@@ -69,6 +69,8 @@ class PageQuestionState extends State<PageQuestion>
                     questions.length,
                     (index) => Column(
                       children: [
+                        Text('학자 ${questions[index].info}'),
+                        Text('비고 ${questions[index].description}'),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(

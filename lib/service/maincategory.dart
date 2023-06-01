@@ -40,7 +40,7 @@ class ServiceMainCategory {
     ).catchError((error) {
       // TODO : server가 실행 중이지 않으면 login페이지로 이동
       // GHelperNavigator.pushLogin();
-      print('error $error');
+      GUtility.log('error $error');
       return error;
     });
 
@@ -100,7 +100,7 @@ class ServiceMainCategory {
   //     ));
   //   }).catchError(
   //     (error) {
-  //       print('Error: $error');
+  //       ('Error: $error');
   //       return completer.complete(
   //         RestfulResult(
   //           statusCode: STATUS.CONNECTION_FAILED_CODE,
@@ -142,7 +142,7 @@ class ServiceMainCategory {
   //     }
   //   }).catchError(
   //     (error) {
-  //       print('Error: $error');
+  //       ('Error: $error');
   //       return completer.complete(
   //         RestfulResult(
   //           statusCode: STATUS.CONNECTION_FAILED_CODE,
@@ -176,14 +176,14 @@ class ServiceMainCategory {
   //     body: encodeData,
   //   );
 
-  //   print('response ${response.body}');
+  //   ('response ${response.body}');
 
   //   if (response.statusCode != STATUS.SUCCESS_CODE) {
   //     throw Exception(STATUS.LOAD_FAILED_MSG);
   //   }
 
-  //   print('response $response');
-  //   print('responseBody ${response.body}');
+  //   ('response $response');
+  //   ('responseBody ${response.body}');
 
   //   Map<String, dynamic> item =
   //       Map.from(jsonDecode(response.body)['data'] ?? {});

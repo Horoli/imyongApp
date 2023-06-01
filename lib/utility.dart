@@ -1,6 +1,16 @@
 part of 'common.dart';
 
 class Utility {
+  void log(Object object, {bool usePrint = false}) {
+    if (usePrint) {
+      return print(object);
+    }
+
+    if (kDebugMode) {
+      return debugPrint(object.toString());
+    }
+  }
+
   Uri getRequestUri(String path) => Uri.parse(p.join(PATH.URL, path));
 
   Future<void> wait(int? milliseconds) {
@@ -22,23 +32,23 @@ class Utility {
   Future<BaseDeviceInfo> getPlatformInfo() async {
     if (kIsWeb) {
       WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
-      // print(webBrowserInfo.data);
+      log(webBrowserInfo.data);
       return webBrowserInfo;
     } else {
       late BaseDeviceInfo info;
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
-        // print(androidDeviceInfo);
+        log(androidDeviceInfo);
         info = androidDeviceInfo;
       }
       if (Platform.isIOS) {
         IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
-        // print(iosDeviceInfo);
+        log(iosDeviceInfo);
         info = iosDeviceInfo;
       }
       if (Platform.isWindows) {
         WindowsDeviceInfo windowsDeviceInfo = await deviceInfo.windowsInfo;
-        // print(windowsDeviceInfo);
+        log(windowsDeviceInfo);
         info = windowsDeviceInfo;
       }
       return info;

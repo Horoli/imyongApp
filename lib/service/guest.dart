@@ -21,8 +21,8 @@ class ServiceGuest {
           Map.from(jsonDecode(response.body)['data'] ?? {});
 
       MGuest tmpGuest = MGuest.fromMap(result);
-      print('tmpGuest ${tmpGuest}');
-      print('tmpGuest.wishQuestion ${tmpGuest.wishQuestion}');
+      GUtility.log('tmpGuest ${tmpGuest}');
+      GUtility.log('tmpGuest.wishQuestion ${tmpGuest.wishQuestion}');
 
       $guest.sink$(tmpGuest);
       return completer.complete(RestfulResult.fromMap(
@@ -31,7 +31,7 @@ class ServiceGuest {
       ));
     }).catchError((error) {
       // TODO : create error page(pop)
-      print('error $error');
+      GUtility.log('error $error');
       return completer.complete(
         RestfulResult(
           statusCode: STATUS.CONNECTION_FAILED_CODE,
@@ -45,7 +45,7 @@ class ServiceGuest {
   Future<RestfulResult> get(String guestID) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    print('guestID $guestID');
+    GUtility.log('guestID $guestID');
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: GSharedPreferences.getString('token'),
@@ -54,7 +54,7 @@ class ServiceGuest {
     String query = 'guest?id=${guestID}';
 
     http.get(GUtility.getRequestUri(query), headers: _headers).then((response) {
-      print('get ${response.body}');
+      GUtility.log('get ${response.body}');
     });
 
     // if (response.statusCode != STATUS.SUCCESS_CODE) {
@@ -92,8 +92,8 @@ class ServiceGuest {
           Map.from(jsonDecode(response.body)['data'] ?? {});
 
       MGuest tmpGuest = MGuest.fromMap(result);
-      print('tmpGuest ${tmpGuest}');
-      print('tmpGuest.wishQuestion ${tmpGuest.wishQuestion}');
+      GUtility.log('tmpGuest ${tmpGuest}');
+      GUtility.log('tmpGuest.wishQuestion ${tmpGuest.wishQuestion}');
 
       $guest.sink$(tmpGuest);
       return completer.complete(RestfulResult.fromMap(

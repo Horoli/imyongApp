@@ -44,7 +44,7 @@ class ServiceSubCategory {
       completer.complete(
           RestfulResult(statusCode: STATUS.SUCCESS_CODE, message: 'ok'));
     }).catchError((error) {
-      print('getAll error ${error}');
+      GUtility.log('getAll error ${error}');
     });
     return completer.future;
   }
@@ -74,7 +74,7 @@ class ServiceSubCategory {
           subList.add(MSubCategory.fromMap(item));
         }
 
-        print('subList $subList');
+        GUtility.log('subList $subList');
 
         $subCategory.sink$(subList);
 
@@ -82,7 +82,7 @@ class ServiceSubCategory {
             RestfulResult(statusCode: STATUS.SUCCESS_CODE, message: 'ok'));
       },
     ).catchError((error) {
-      print('error $error');
+      GUtility.log('error $error');
       // GHelperNavigator.pushLogin();
     });
 
@@ -115,7 +115,7 @@ class ServiceSubCategory {
 
       // name이 입력되지 않았으면 error return
       if (name == '') {
-        print('statusCode : ${response.statusCode}');
+        GUtility.log('statusCode : ${response.statusCode}');
         return completer.complete(RestfulResult.fromMap(
           result,
           response.statusCode,

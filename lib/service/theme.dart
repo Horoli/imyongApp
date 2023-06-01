@@ -16,15 +16,15 @@ class ServiceTheme {
   }
 
   void _initStorage() {
-    print('open');
+    GUtility.log('open');
     // int index = localStorage.getItem('theme');
     int index = GSharedPreferences.getInt('theme')!;
-    print('open index $index');
+    GUtility.log('open index $index');
     $theme.sink$(THEME.THEMEDATA_LIST[index]);
   }
 
   void _firstInitStorage() {
-    print('최초 실행시에만 도ㅓㅣ야함');
+    GUtility.log('최초 실행시에만 도ㅓㅣ야함');
     GSharedPreferences.setInt('theme', 0);
     $theme.sink$(THEME.THEMEDATA_LIST[0]);
   }
@@ -33,7 +33,7 @@ class ServiceTheme {
     int index = THEME.TYPE_LIST.indexOf(type);
     // localStorage.setItem('theme', index);
     GSharedPreferences.setInt('theme', index);
-    // print('update ${localStorage.getItem('theme')}');
+    // ('update ${localStorage.getItem('theme')}');
     $theme.sink$(THEME.THEMEDATA_LIST[index]);
   }
 }

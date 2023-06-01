@@ -61,9 +61,9 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
         width: double.infinity,
         child: Text('${selectedSubjects[index].name}'),
         onPressed: () {
-          print(selectedSubjects[index].id);
-          print(selectedSubjects[index].name);
-          print(selectedSubjects[index].parent);
+          GUtility.log(selectedSubjects[index].id);
+          GUtility.log(selectedSubjects[index].name);
+          (selectedSubjects[index].parent);
 
           // GHelperNavigator.push(
           //   PageQuestion(selectedSubCategory: selectedSubjects[index]),

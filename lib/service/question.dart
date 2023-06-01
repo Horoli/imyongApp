@@ -31,7 +31,7 @@ class ServiceQuestion {
         .then((response) {
       Map result = json.decode(response.body);
       assert(result['data'].length != 0, 'result[data] is empty.');
-      // print('result $result');
+      // ('result $result');
       Map<String, MQuestion> mapOfQuestion = {};
 
       for (dynamic item in result['data']) {
@@ -80,7 +80,7 @@ class ServiceQuestion {
         .then((response) {
       Map result = json.decode(response.body);
       // assert(result['data'].length != 0);
-      // print('result $result');
+      // ('result $result');
       List<MQuestion> questionList = [];
 
       for (dynamic item in result['data']) {
@@ -134,7 +134,7 @@ class ServiceQuestion {
         ),
       );
     }).catchError((error) {
-      print('question get Error $error');
+      GUtility.log('question get Error $error');
     });
 
     return completer.future;

@@ -80,7 +80,7 @@ class ViewSplashState extends State<ViewSplash>
         guestID = newUUID();
       }
       if (getInfo.runtimeType == AndroidDeviceInfo) {
-        print('getAndroidId');
+        GUtility.log('getAndroidId');
         guestID = await androidId.getId() ?? '';
       }
       if (getInfo.runtimeType == IosDeviceInfo) {
@@ -90,7 +90,7 @@ class ViewSplashState extends State<ViewSplash>
         WindowsDeviceInfo windowsInfo = getInfo as WindowsDeviceInfo;
         guestID = windowsInfo.deviceId;
       }
-      print('setString');
+      GUtility.log('setString');
 
       GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestID);
     }

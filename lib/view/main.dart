@@ -95,7 +95,7 @@ class ViewMainState extends State<ViewMain> {
         TStreamBuilder(
           stream: $loading.browse$,
           builder: (context, bool loading) {
-            print('loading: $loading');
+            GUtility.log('loading: $loading');
             return IgnorePointer(
               ignoring: !loading,
               child: AnimatedOpacity(
