@@ -14,7 +14,8 @@ const String CATEGORY_QUERY = 'category?id=';
 const String QUESTION = 'question';
 const String FILTERED_QUESTION = 'filteredquestion';
 // const String QUESTION_QUERY = 'question?id=';
-const String QUESTION_QUERY = 'question/random/20';
+// const String QUESTION_QUERY = 'question/random/20';
+const String QUESTION_WISH = 'question/wish';
 const String QUESTION_IMAGE = 'image/';
 
 const String DIFFICULTY = 'difficulty';

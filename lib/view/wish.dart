@@ -21,10 +21,12 @@ class ViewWishState extends State<ViewWish>
         automaticallyImplyLeading: false,
       ),
       body: FutureBuilder(
-        future: GServiceQuestion.getAll(),
+        future: GServiceQuestion.getWishQuestion(),
         builder: (context, AsyncSnapshot<RestfulResult> result) {
           if (result.hasData) {
+            print('result.data!.data ${result.data!.data}');
             Map<String, MQuestion> mapOfQuestion = result.data!.data;
+
             return buildBorderContainer(
               // TODO : wishQuestion이 없을 때의 예외처리
               child: guest.wishQuestion.isEmpty

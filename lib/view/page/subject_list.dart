@@ -49,7 +49,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                             GHelperNavigator.pushWithActions(
                               const PageQuestion(isAllQuestion: true),
                               prePushHandler: () {
-                                GServiceQuestion.getAll();
+                                GServiceQuestion.getWishQuestion();
                               },
                               GNavigatorKey,
                             );

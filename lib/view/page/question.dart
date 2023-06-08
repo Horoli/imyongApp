@@ -36,7 +36,7 @@ class PageQuestionState extends State<PageQuestion>
         // TODO : isAllQuestion == true이면 모든 문제를 가져오고
         // 아니면 filter된 문제를 가져옴
         future: isAllQuestion
-            ? GServiceQuestion.getAll()
+            ? GServiceQuestion.getWishQuestion()
             : GServiceQuestion.getFiltered(categoryID: sub!.id),
         builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
           if (snapshot.hasData) {

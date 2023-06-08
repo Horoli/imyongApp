@@ -56,7 +56,6 @@ class ViewSplashState extends State<ViewSplash>
 
     GServiceSubCategory.get();
     GServiceMainCategory.get();
-    GServiceQuestion.getAll();
 
     $splash.sink$(true);
     await GUtility.wait(spalshDuration);

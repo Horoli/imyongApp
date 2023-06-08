@@ -18,7 +18,7 @@ class ServiceQuestion {
 
   Map<String, MQuestion> get mapOfQuestion => $mapOfQuestion.lastValue;
 
-  Future<RestfulResult> getAll() {
+  Future<RestfulResult> getWishQuestion() {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
     final Map<String, String> headers = GUtility.createHeaders(
@@ -27,7 +27,7 @@ class ServiceQuestion {
     );
 
     http
-        .get(GUtility.getRequestUri(PATH.QUESTION_QUERY), headers: headers)
+        .get(GUtility.getRequestUri(PATH.QUESTION_WISH), headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
       assert(result['data'].length != 0, 'result[data] is empty.');

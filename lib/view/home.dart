@@ -67,7 +67,7 @@ class ViewHomeState extends State<ViewHome> {
                       const ViewWish(),
                       GNavigatorKey,
                       prePushHandler: () {
-                        GServiceQuestion.getAll();
+                        GServiceQuestion.getWishQuestion();
                         GServiceSubCategory.getAll();
                         $bottomNavigationIndex.sink$(wishTabIndex);
                       },
