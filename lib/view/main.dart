@@ -12,16 +12,16 @@ class ViewMain extends CommonView {
 
 class ViewMainState extends State<ViewMain> {
   final Map<String, Widget Function(BuildContext)> routes = {
-    ROUTER.HOME: (BuildContext context) => ViewHome(),
+    ROUTER.READY: (BuildContext context) => ViewReady(),
     ROUTER.WISH: (BuildContext context) => ViewWish(),
     ROUTER.HOME: (BuildContext context) => ViewHome(),
     ROUTER.PROGRESS_RATE: (BuildContext context) => ViewProgressRate(),
-    ROUTER.QNA: (BuildContext context) => ViewQnA(),
+    ROUTER.SETTING: (BuildContext context) => ViewSetting(),
   };
 
   final List<VoidCallback> viewNavigator = [
     () => GHelperNavigator.pushAndRemoveUntil(
-          const ViewHome(),
+          const ViewReady(),
           GNavigatorKey,
         ),
     () => GHelperNavigator.pushWithActions(
@@ -42,12 +42,10 @@ class ViewMainState extends State<ViewMain> {
           GNavigatorKey,
         ),
     () => GHelperNavigator.pushAndRemoveUntil(
-          const ViewQnA(),
+          const ViewSetting(),
           GNavigatorKey,
         ),
   ];
-
-  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -66,29 +64,40 @@ class ViewMainState extends State<ViewMain> {
                   // home: const ViewHome(),
                 );
               }),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: currentIndex,
-            onTap: (index) {
-              setState(() {
-                currentIndex = index;
-              });
-              viewNavigator[index]();
-            },
-            items: const [
-              BottomNavigationBarItem(label: '홈', icon: Icon(Icons.home)),
-              BottomNavigationBarItem(
-                  label: '저장문제', icon: Icon(Icons.favorite)),
-
-              BottomNavigationBarItem(label: '홈', icon: Icon(Icons.home)),
-
-              BottomNavigationBarItem(label: '진도율', icon: Icon(Icons.percent)),
-              BottomNavigationBarItem(label: '설정', icon: Icon(Icons.settings)),
-              // BottomNavigationBarItem(
-
-              //     label: 'QnA', icon: Icon(Icons.question_mark)),
-            ],
-          ),
+          bottomNavigationBar: TStreamBuilder(
+              stream: $bottomNavigationIndex.browse$,
+              builder: (context, int currentIndex) {
+                return BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: currentIndex,
+                  onTap: (index) {
+                    $bottomNavigationIndex.sink$(index);
+                    viewNavigator[index]();
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      label: '준비중',
+                      icon: Icon(Icons.receipt),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '저장문제',
+                      icon: Icon(Icons.favorite),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '홈',
+                      icon: Icon(Icons.home),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '진도율',
+                      icon: Icon(Icons.percent),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '설정',
+                      icon: Icon(Icons.settings),
+                    ),
+                  ],
+                );
+              }),
         ),
 
         // TODO : loading Widget // tween
@@ -105,8 +114,10 @@ class ViewMainState extends State<ViewMain> {
                   color: GServiceTheme.theme.scaffoldBackgroundColor,
                   width: double.infinity,
                   height: double.infinity,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: GServiceTheme.theme.primaryColor,
+                    ),
                   ),
                 ),
               ),

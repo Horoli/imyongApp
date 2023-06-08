@@ -1,16 +1,17 @@
 part of '/common.dart';
 
-class ViewQnA extends CommonView {
-  const ViewQnA({
-    super.routeName = ROUTER.QNA,
+class ViewSetting extends CommonView {
+  const ViewSetting({
+    super.routeName = ROUTER.SETTING,
     super.key,
   });
 
   @override
-  ViewQNAState createState() => ViewQNAState();
+  ViewSettingState createState() => ViewSettingState();
 }
 
-class ViewQNAState extends State<ViewQnA> with SingleTickerProviderStateMixin {
+class ViewSettingState extends State<ViewSetting>
+    with SingleTickerProviderStateMixin {
   double get width => MediaQuery.of(context).size.width;
   double get height => MediaQuery.of(context).size.height;
   @override

@@ -58,7 +58,8 @@ part 'view/home.dart';
 // part 'view/tabbar.dart';
 part 'view/wish.dart';
 part 'view/progress_rate.dart';
-part 'view/qna.dart';
+part 'view/setting.dart';
+part 'view/ready.dart';
 
 // part 'view/login.dart';
 // part 'view/home.dart';

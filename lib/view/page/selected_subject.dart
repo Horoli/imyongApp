@@ -18,8 +18,8 @@ class ViewSelectedSubjectList extends CommonView {
 class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
   List<MSubCategory> get selectedSubjects => widget.selectedSubject;
 
-  late final double width = MediaQuery.of(context).size.width;
-  late final double height = MediaQuery.of(context).size.height;
+  double get width => MediaQuery.of(context).size.width;
+  double get height => MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

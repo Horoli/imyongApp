@@ -54,7 +54,9 @@ class ViewSplashState extends State<ViewSplash>
     loginResult = await GServiceGuestLogin.login(guestID);
     // TODO : splash image가 2초 출력되고 넘어가야함
 
+    GServiceSubCategory.get();
     GServiceMainCategory.get();
+    GServiceQuestion.getAll();
 
     $splash.sink$(true);
     await GUtility.wait(spalshDuration);

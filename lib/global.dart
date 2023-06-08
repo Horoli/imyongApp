@@ -25,3 +25,7 @@ final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 AndroidId androidId = AndroidId();
 
 TStream<bool> $loading = TStream<bool>()..sink$(false);
+
+const int wishTabIndex = 1;
+const int homeTabIndex = 2;
+final TStream<int> $bottomNavigationIndex = TStream<int>()..sink$(homeTabIndex);
