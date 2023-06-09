@@ -28,7 +28,7 @@ class ViewMainState extends State<ViewMain> {
           const ViewWish(),
           GNavigatorKey,
           prePushHandler: () {
-            GServiceQuestion.getWishQuestion();
+            // GServiceQuestion.getWishQuestion();
             GServiceSubCategory.getAll();
           },
           isPush: false,

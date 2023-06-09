@@ -24,7 +24,9 @@ class ViewWishState extends State<ViewWish>
         future: GServiceQuestion.getWishQuestion(),
         builder: (context, AsyncSnapshot<RestfulResult> result) {
           if (result.hasData) {
-            print('result.data!.data ${result.data!.data}');
+            if (result.data!.data == null) {
+              return const Center(child: Text(MSG.NO_WISH));
+            }
             Map<String, MQuestion> mapOfQuestion = result.data!.data;
 
             return buildBorderContainer(

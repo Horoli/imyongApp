@@ -69,6 +69,7 @@ part 'view/ready.dart';
 part 'view/page/subject_list.dart';
 part 'view/page/selected_subject.dart';
 part 'view/page/question.dart';
+part 'view/page/question_count.dart';
 
 
 // part 'view/page/question.dart';

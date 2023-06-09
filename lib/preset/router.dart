@@ -8,5 +8,6 @@ const String PROGRESS_RATE = '/progress_rate';
 const String SUBJECT_LIST = '/subject_list';
 const String SELECTED_SUBJECT = '/selected_subject';
 const String QUESTION = '/question';
+const String QUESTION_COUNT = '/question_count';
 const String ALL_QUESTION = '/all_question';
 const String READY = '/ready';

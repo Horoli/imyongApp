@@ -18,6 +18,56 @@ class ServiceQuestion {
 
   Map<String, MQuestion> get mapOfQuestion => $mapOfQuestion.lastValue;
 
+  ///
+  // TODO : get selected count Question
+  Future<RestfulResult> getSelectedCountRandomQuestion(int count) {
+    Completer<RestfulResult> completer = Completer<RestfulResult>();
+
+    final Map<String, String> headers = GUtility.createHeaders(
+      tokenKey: HEADER.TOKEN,
+      tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
+    );
+
+    http
+        .get(
+            GUtility.getRequestUri(
+                PATH.QUESTION_RANDOM_COUNT + count.toString()),
+            headers: headers)
+        .then((response) {
+      Map result = json.decode(response.body);
+      assert(List.from(result['data']).isNotEmpty, 'result[data] is empty.');
+      Map<String, MQuestion> mapOfQuestion = {};
+
+      for (dynamic item in result['data']) {
+        MQuestion convertQuestion = MQuestion.fromMap(item);
+        mapOfQuestion[convertQuestion.id] = convertQuestion;
+      }
+
+      print('mapOfQuestion ${mapOfQuestion}');
+
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.SUCCESS_CODE,
+          message: 'ok',
+          data: mapOfQuestion,
+        ),
+      );
+    }).catchError((error) {
+      GUtility.log(error);
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.ERROR_CODE,
+          message: 'getSelectedCountRandomQuestion $error',
+        ),
+      );
+    });
+
+    return completer.future;
+  }
+
+  ///
+  ///
+
   Future<RestfulResult> getWishQuestion() {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
@@ -30,8 +80,7 @@ class ServiceQuestion {
         .get(GUtility.getRequestUri(PATH.QUESTION_WISH), headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
-      assert(result['data'].length != 0, 'result[data] is empty.');
-      // ('result $result');
+      assert(List.from(result['data']).isNotEmpty, 'result[data] is empty.');
       Map<String, MQuestion> mapOfQuestion = {};
 
       for (dynamic item in result['data']) {
@@ -49,6 +98,7 @@ class ServiceQuestion {
         ),
       );
     }).catchError((error) {
+      GUtility.log(error);
       completer.complete(
         RestfulResult(
           statusCode: STATUS.ERROR_CODE,

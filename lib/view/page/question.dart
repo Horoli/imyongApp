@@ -1,11 +1,9 @@
 part of '/common.dart';
 
 class PageQuestion extends CommonView {
-  final bool isAllQuestion;
   final MSubCategory? selectedSubCategory;
   const PageQuestion({
     this.selectedSubCategory,
-    this.isAllQuestion = false,
     super.routeName = ROUTER.QUESTION,
     super.key,
   });
@@ -16,8 +14,6 @@ class PageQuestion extends CommonView {
 
 class PageQuestionState extends State<PageQuestion>
     with TickerProviderStateMixin {
-  bool get isAllQuestion => widget.isAllQuestion;
-
   MSubCategory? get sub => widget.selectedSubCategory;
   List<MQuestion> questions = [];
   late Map<MQuestion, bool> checkQuestion;
@@ -30,25 +26,18 @@ class PageQuestionState extends State<PageQuestion>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: isAllQuestion ? Text('all') : Text(sub!.name),
+        title: Text(sub!.name),
       ),
       body: FutureBuilder(
         // TODO : isAllQuestion == true이면 모든 문제를 가져오고
         // 아니면 filter된 문제를 가져옴
-        future: isAllQuestion
-            ? GServiceQuestion.getWishQuestion()
-            : GServiceQuestion.getFiltered(categoryID: sub!.id),
+        future: GServiceQuestion.getFiltered(categoryID: sub!.id),
         builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
           if (snapshot.hasData) {
             // TODO : isAllQuestions == true면 snapshot에 저장되는 데이터가
             // Map<String, MQuestion>이기 때문에 values를 활용해 list로 변환
-            questions = isAllQuestion
-                ? (snapshot.data!.data as Map<String, MQuestion>)
-                    .values
-                    .toList()
-                : (snapshot.data!.data as List<MQuestion>)
-              // TODO : questions를 랜덤하게 섞어서 저장
-              ..shuffle();
+            // TODO : questions를 랜덤하게 섞어서 저장
+            questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
 
             // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
             checkQuestion = questions.asMap().map((index, question) => MapEntry(

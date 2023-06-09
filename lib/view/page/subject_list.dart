@@ -26,8 +26,6 @@ class ViewSubjectListState extends State<ViewSubjectList>
                 builder: (context, MMainCategory mainCategory) {
                   List<String> subjects = mainCategory.map.keys.toList();
 
-                  // TODO : 총창안은 맨위에 출력해야해서 출력 리스트에서 삭제함
-                  // subjects.remove(SUBJECT.GENERAL);
                   subjects.insert(0, 'all');
 
                   return GridView.builder(
@@ -47,9 +45,9 @@ class ViewSubjectListState extends State<ViewSubjectList>
                           child: const Text('all'),
                           onPressed: () {
                             GHelperNavigator.pushWithActions(
-                              const PageQuestion(isAllQuestion: true),
+                              const PageQuestionCount(),
                               prePushHandler: () {
-                                GServiceQuestion.getWishQuestion();
+                                // GServiceQuestion.getWishQuestion();
                               },
                               GNavigatorKey,
                             );
