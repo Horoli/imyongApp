@@ -30,13 +30,7 @@ class ViewHomeState extends State<ViewHome> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 10,
-                    child: buildCardContents(),
-                  ).expand(flex: 7),
+                  buildCardContents().expand(flex: 7),
                   Padding(padding: EdgeInsets.all(5)),
                   Card(
                     color: Colors.blue,
@@ -84,32 +78,40 @@ class ViewHomeState extends State<ViewHome> {
   }
 
   Widget buildCardContents() {
-    print(GServiceMainCategory.mainCategory.map.keys.toList());
-
-    GServiceQuestion.mapOfQuestion.values.toList().forEach((e) {
-      print(e.categoryID);
-    });
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text('내가 저장한 문제').expand(),
-              Text('${GServiceQuestion.mapOfQuestion.values.length}').expand(),
-              Text('${GServiceGuest.guest.wishQuestion.length}').expand(),
-            ],
-          ).expand(),
-          Container(color: Colors.blue).expand(),
-          Container(color: Colors.orange).expand(),
-        ],
-      ),
-    );
+    return TStreamBuilder(
+        stream: GServiceQuestion.$totalQuestionCount.browse$,
+        builder: (context, int totalQuestionLength) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 10,
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text('저장한 문제').expand(),
+                      Text('${GServiceGuest.guest.wishQuestion.length}')
+                          .expand(),
+                      Text('전체 문제').expand(),
+                      Text('$totalQuestionLength').expand(),
+                    ],
+                  ).expand(),
+                  Container(color: Colors.blue).expand(),
+                  Container(color: Colors.orange).expand(),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
   void initState() {
     super.initState();
+    GServiceQuestion.getTotalQuestionLength();
   }
 
   @override

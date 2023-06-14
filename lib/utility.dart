@@ -6,9 +6,7 @@ class Utility {
       return print(object);
     }
 
-    if (kDebugMode) {
-      return debugPrint(object.toString());
-    }
+    return debugPrint(object.toString());
   }
 
   Uri getRequestUri(String path) => Uri.parse(p.join(PATH.URL, path));

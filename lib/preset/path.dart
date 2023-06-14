@@ -15,6 +15,7 @@ const String QUESTION = 'question';
 const String FILTERED_QUESTION = 'filteredquestion';
 // const String QUESTION_QUERY = 'question?id=';
 const String QUESTION_RANDOM_COUNT = 'question/random/';
+const String QUESTION_COUNTER = 'question/counter';
 const String QUESTION_WISH = 'question/wish';
 const String QUESTION_IMAGE = 'image/';
 

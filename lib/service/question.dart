@@ -18,6 +18,49 @@ class ServiceQuestion {
 
   Map<String, MQuestion> get mapOfQuestion => $mapOfQuestion.lastValue;
 
+  final TStream<int> $totalQuestionCount = TStream<int>()..sink$(0);
+
+  Future<RestfulResult> getTotalQuestionLength() {
+    Completer<RestfulResult> completer = Completer<RestfulResult>();
+
+    final Map<String, String> headers = GUtility.createHeaders(
+      tokenKey: HEADER.TOKEN,
+      tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
+    );
+
+    http
+        .get(GUtility.getRequestUri(PATH.QUESTION_COUNTER), headers: headers)
+        .then((response) {
+      Map result = json.decode(response.body);
+      assert(result['totalQuestionCount'] != null, 'result is empty.');
+      assert(result['data'] != null, 'result is empty.');
+
+      print('result ${result['data']}');
+
+      int getTotalQuestionCount =
+          int.parse(result['totalQuestionCount'].toString());
+      $totalQuestionCount.sink$(getTotalQuestionCount);
+
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.SUCCESS_CODE,
+          message: 'ok',
+          data: getTotalQuestionCount,
+        ),
+      );
+    }).catchError((error) {
+      GUtility.log('getTotalQuestionLength $error');
+
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.ERROR_CODE,
+          message: 'getSelectedCountRandomQuestion $error',
+        ),
+      );
+    });
+    return completer.future;
+  }
+
   ///
   // TODO : get selected count Question
   Future<RestfulResult> getSelectedCountRandomQuestion(int count) {
