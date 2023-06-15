@@ -92,11 +92,11 @@ class ViewHomeState extends State<ViewHome> {
                 children: [
                   Row(
                     children: [
+                      Text('전체 문제').expand(),
+                      Text('$totalQuestionLength').expand(),
                       Text('저장한 문제').expand(),
                       Text('${GServiceGuest.guest.wishQuestion.length}')
                           .expand(),
-                      Text('전체 문제').expand(),
-                      Text('$totalQuestionLength').expand(),
                     ],
                   ).expand(),
                   Container(color: Colors.blue).expand(),

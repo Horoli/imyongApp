@@ -20,9 +20,14 @@ class ViewMainState extends State<ViewMain> {
   };
 
   final List<VoidCallback> viewNavigator = [
-    () => GHelperNavigator.pushAndRemoveUntil(
+    () => GHelperNavigator.pushWithActions(
           const ViewReady(),
           GNavigatorKey,
+          prePushHandler: () {
+            GServiceQuestion.getWishQuestionBySubject();
+            GServiceQuestion.getTotalQuestionLength();
+          },
+          isPush: false,
         ),
     () => GHelperNavigator.pushWithActions(
           const ViewWish(),
@@ -76,7 +81,7 @@ class ViewMainState extends State<ViewMain> {
                   },
                   items: const [
                     BottomNavigationBarItem(
-                      label: '준비중',
+                      label: '저장문제 현황',
                       icon: Icon(Icons.receipt),
                     ),
                     BottomNavigationBarItem(

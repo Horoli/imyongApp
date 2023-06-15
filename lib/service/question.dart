@@ -15,8 +15,10 @@ class ServiceQuestion {
 
   final TStream<Map<String, MQuestion>> $mapOfQuestion =
       TStream<Map<String, MQuestion>>()..sink$({});
-
   Map<String, MQuestion> get mapOfQuestion => $mapOfQuestion.lastValue;
+
+  final TStream<Map<String, List<MQuestion>>> $mapOfWishQuestion =
+      TStream<Map<String, List<MQuestion>>>()..sink$({});
 
   final TStream<int> $totalQuestionCount = TStream<int>()..sink$(0);
 
@@ -35,7 +37,7 @@ class ServiceQuestion {
       assert(result['totalQuestionCount'] != null, 'result is empty.');
       assert(result['data'] != null, 'result is empty.');
 
-      print('result ${result['data']}');
+      print('result ${result}');
 
       int getTotalQuestionCount =
           int.parse(result['totalQuestionCount'].toString());
@@ -142,6 +144,49 @@ class ServiceQuestion {
       );
     }).catchError((error) {
       GUtility.log(error);
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.ERROR_CODE,
+          message: 'getAllQuestionError $error',
+        ),
+      );
+    });
+
+    return completer.future;
+  }
+
+  Future<RestfulResult> getWishQuestionBySubject() {
+    Completer<RestfulResult> completer = Completer<RestfulResult>();
+
+    final Map<String, String> headers = GUtility.createHeaders(
+      tokenKey: HEADER.TOKEN,
+      tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
+    );
+
+    http
+        .get(GUtility.getRequestUri(PATH.QUESTION_WISH_BY_SUBJECT),
+            headers: headers)
+        .then((response) {
+      Map result = json.decode(response.body);
+
+      Map<String, List<MQuestion>> mapOfWishQuestion =
+          Map<String, List>.from(result['data']).map((key, value) {
+        List<MQuestion> convertValue =
+            value.map((e) => MQuestion.fromMap(e)).toList();
+        return MapEntry(key, convertValue);
+      });
+
+      $mapOfWishQuestion.sink$(mapOfWishQuestion);
+
+      completer.complete(
+        RestfulResult(
+          statusCode: STATUS.SUCCESS_CODE,
+          message: 'ok',
+          data: mapOfQuestion,
+        ),
+      );
+    }).catchError((error) {
+      GUtility.log('error $error');
       completer.complete(
         RestfulResult(
           statusCode: STATUS.ERROR_CODE,

@@ -29,7 +29,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                   subjects.insert(0, 'all');
 
                   return GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
+                    // physics: const NeverScrollableScrollPhysics(),
                     itemCount: subjects.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
