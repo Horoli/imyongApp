@@ -18,7 +18,8 @@ class PageQuestionState extends State<PageQuestion>
   List<MQuestion> questions = [];
   late Map<MQuestion, bool> checkQuestion;
 
-  late final TabController ctrTab;
+  int currentPageIndex = 0;
+  final PageController ctrPage = PageController(initialPage: 0);
 
   double get width => MediaQuery.of(context).size.width * 0.8;
   double get height => MediaQuery.of(context).size.height * 0.8;
@@ -45,18 +46,16 @@ class PageQuestionState extends State<PageQuestion>
                   index == 0 ? true : false,
                 ));
 
-            ctrTab = TabController(length: questions.length, vsync: this);
-
             return Center(
               child: SizedBox(
                 width: width,
                 height: height,
-                child: TabBarView(
+                child: PageView.builder(
                   physics: const NeverScrollableScrollPhysics(),
-                  controller: ctrTab,
-                  children: List.generate(
-                    questions.length,
-                    (index) => Column(
+                  controller: ctrPage,
+                  itemCount: questions.length,
+                  itemBuilder: (context, index) {
+                    return Column(
                       children: [
                         Text('학자 ${questions[index].info}'),
                         Text('비고 ${questions[index].description}'),
@@ -69,8 +68,8 @@ class PageQuestionState extends State<PageQuestion>
                             .expand(flex: 5),
                         buildActionButtons(questions[index]).expand(),
                       ],
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
             );
@@ -86,6 +85,8 @@ class PageQuestionState extends State<PageQuestion>
   Widget buildActionButtons(MQuestion question) {
     return Row(
       children: [
+        buildPageMoveButton(context: context, isNextButton: false).expand(),
+        const Padding(padding: EdgeInsets.all(5)),
         buildElevatedButton(
           child: const Text(LABEL.EXPLANATION),
           onPressed: () {
@@ -93,21 +94,20 @@ class PageQuestionState extends State<PageQuestion>
           },
         ).expand(),
         const Padding(padding: EdgeInsets.all(5)),
-        buildNextButton(context: context).expand(),
+        buildPageMoveButton(context: context).expand(),
       ],
     );
   }
 
-  Widget buildNextButton({
+  Widget buildPageMoveButton({
     required BuildContext context,
+    bool isNextButton = true,
     bool isExplanation = false,
   }) {
     return buildElevatedButton(
       child: const Text(LABEL.NEXT_QUESTION),
       onPressed: () {
-        bool hasNextQuestion = checkQuestion.values.any((q) => q == false);
-        // TODO : alertDialog 출력
-        if (!hasNextQuestion) {
+        if (!isNextButton && ctrPage.page == 0) {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -123,22 +123,34 @@ class PageQuestionState extends State<PageQuestion>
           return;
         }
 
-        // TODO : questions에서 checkQuestion이 false인 첫번째 문제를 가져옴
-        MQuestion nextQuestion = questions
-            .firstWhere((question) => checkQuestion[question] == false);
+        if (isNextButton && ctrPage.page == questions.length - 1) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              content: const Text(MSG.LAST_QUESTION),
+              actions: [
+                TextButton(
+                  child: const Text(LABEL.EXIT),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
+            ),
+          );
+          return;
+        }
 
-        // TODO : 해당 문제의 value를 true로 변경
-        checkQuestion[nextQuestion] = true;
+        isNextButton ? currentPageIndex++ : currentPageIndex--;
 
-        // TODO : 해당 문제의 index를 가져옴
-        int nextIndex = questions.indexOf(nextQuestion);
+        ctrPage.animateToPage(
+          currentPageIndex,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+        );
 
         // TODO : 문제 해설 dialog에서 실행했으면 pop 실행
         if (isExplanation == true) {
           Navigator.of(context).pop();
         }
-
-        ctrTab.animateTo(nextIndex);
       },
     );
   }
@@ -156,7 +168,11 @@ class PageQuestionState extends State<PageQuestion>
           QuestionDetail(
             context: context,
             question: question,
-            actionButton: buildNextButton(
+            leftActionButton: buildPageMoveButton(
+              context: context,
+              isExplanation: true,
+            ),
+            rightActionButton: buildPageMoveButton(
               context: context,
               isExplanation: true,
             ),
@@ -166,9 +182,37 @@ class PageQuestionState extends State<PageQuestion>
     );
   }
 
+  // Future<void> showQuestionDetail(MQuestion question) {
+  //   return showGeneralDialog(
+  //     context: context,
+  //     barrierLabel: 'barrierLabel',
+  //     barrierDismissible: true,
+  //     transitionDuration: const Duration(milliseconds: 200),
+  //     transitionBuilder: (context, animation, secondaryAnimation, child) {
+  //       return ScaleTransition(
+  //         scale: animation,
+  //         child: child,
+  //       );
+  //     },
+  //     pageBuilder: (context, animation, secondaryAnimation) {
+  //       return QuestionDetail(
+  //         context: context,
+  //         question: question,
+  //         leftActionButton: buildPageMoveButton(
+  //           context: context,
+  //           isExplanation: true,
+  //         ),
+  //         rightActionButton: buildPageMoveButton(
+  //           context: context,
+  //           isExplanation: true,
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
   @override
   void dispose() {
-    ctrTab.dispose();
     GServiceQuestion.$questions.sink$([]);
     super.dispose();
   }

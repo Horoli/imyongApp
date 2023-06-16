@@ -3,11 +3,13 @@ part of '/common.dart';
 class QuestionDetail extends StatefulWidget {
   final BuildContext context;
   final MQuestion question;
-  final Widget? actionButton;
+  final Widget? leftActionButton;
+  final Widget? rightActionButton;
   const QuestionDetail({
     required this.context,
     required this.question,
-    this.actionButton,
+    this.leftActionButton,
+    this.rightActionButton,
     super.key,
   });
 
@@ -52,7 +54,8 @@ class QuestionDetailState extends State<QuestionDetail> {
                       buildBorderContainer(
                         child: buildImageList(question.imageIDs),
                       ).expand(),
-                      if (widget.actionButton != null) widget.actionButton!
+                      if (widget.leftActionButton != null)
+                        widget.leftActionButton!
                     ],
                   ),
                 ),
