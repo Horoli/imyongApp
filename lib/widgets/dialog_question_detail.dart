@@ -1,11 +1,11 @@
 part of '/common.dart';
 
-class QuestionDetail extends StatefulWidget {
+class DialogQuestionDetail extends StatefulWidget {
   final BuildContext context;
   final MQuestion question;
   final Widget? leftActionButton;
   final Widget? rightActionButton;
-  const QuestionDetail({
+  const DialogQuestionDetail({
     required this.context,
     required this.question,
     this.leftActionButton,
@@ -14,10 +14,10 @@ class QuestionDetail extends StatefulWidget {
   });
 
   @override
-  QuestionDetailState createState() => QuestionDetailState();
+  DialogQuestionDetailState createState() => DialogQuestionDetailState();
 }
 
-class QuestionDetailState extends State<QuestionDetail> {
+class DialogQuestionDetailState extends State<DialogQuestionDetail> {
   MQuestion get question => widget.question;
 
   double get width => MediaQuery.of(context).size.width;
@@ -37,8 +37,8 @@ class QuestionDetailState extends State<QuestionDetail> {
               child: AlertDialog(
                 contentPadding: EdgeInsets.zero,
                 content: SizedBox(
-                  width: width * 0.95,
-                  height: height * 0.8,
+                  width: width * 0.7,
+                  height: height * 0.7,
                   child: Column(
                     children: [
                       Text('${question.question} 문제 답안'),
@@ -54,8 +54,14 @@ class QuestionDetailState extends State<QuestionDetail> {
                       buildBorderContainer(
                         child: buildImageList(question.imageIDs),
                       ).expand(),
-                      if (widget.leftActionButton != null)
-                        widget.leftActionButton!
+                      if (widget.leftActionButton != null &&
+                          widget.rightActionButton != null)
+                        Row(
+                          children: [
+                            widget.leftActionButton!.sizedBoxExpand.expand(),
+                            widget.rightActionButton!.sizedBoxExpand.expand(),
+                          ],
+                        ).sizedBox(height: kToolbarHeight)
                     ],
                   ),
                 ),

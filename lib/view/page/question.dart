@@ -57,8 +57,8 @@ class PageQuestionState extends State<PageQuestion>
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        Text('학자 ${questions[index].info}'),
-                        Text('비고 ${questions[index].description}'),
+                        Text('학자 ${questions[index].info}').expand(),
+                        Text('비고 ${questions[index].description}').expand(),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -105,7 +105,7 @@ class PageQuestionState extends State<PageQuestion>
     bool isExplanation = false,
   }) {
     return buildElevatedButton(
-      child: const Text(LABEL.NEXT_QUESTION),
+      child: Text(isNextButton ? LABEL.NEXT_QUESTION : LABEL.PREV_QUESTION),
       onPressed: () {
         if (!isNextButton && ctrPage.page == 0) {
           showDialog(
@@ -163,53 +163,31 @@ class PageQuestionState extends State<PageQuestion>
   Future<void> showQuestionDetail(MQuestion question) {
     return showDialog(
       context: context,
-      builder: (context) => Column(
-        children: [
-          QuestionDetail(
-            context: context,
-            question: question,
-            leftActionButton: buildPageMoveButton(
-              context: context,
-              isExplanation: true,
-            ),
-            rightActionButton: buildPageMoveButton(
-              context: context,
-              isExplanation: true,
-            ),
-          ).expand(),
-        ],
+      // builder: (context) => TweenAnimationBuilder(
+      //   duration: const Duration(milliseconds: 100),
+      //   tween: Tween<double>(begin: 0, end: 1),
+      //   builder: (context, double value, child) {
+      //     return Transform.scale(
+      //       scale: value,
+      //       child: child,
+      //     );
+      //   },
+      builder: (context) => DialogQuestionDetail(
+        context: context,
+        question: question,
+        leftActionButton: buildPageMoveButton(
+          context: context,
+          isNextButton: false,
+          isExplanation: true,
+        ),
+        rightActionButton: buildPageMoveButton(
+          context: context,
+          isExplanation: true,
+        ),
       ),
+      // ),
     );
   }
-
-  // Future<void> showQuestionDetail(MQuestion question) {
-  //   return showGeneralDialog(
-  //     context: context,
-  //     barrierLabel: 'barrierLabel',
-  //     barrierDismissible: true,
-  //     transitionDuration: const Duration(milliseconds: 200),
-  //     transitionBuilder: (context, animation, secondaryAnimation, child) {
-  //       return ScaleTransition(
-  //         scale: animation,
-  //         child: child,
-  //       );
-  //     },
-  //     pageBuilder: (context, animation, secondaryAnimation) {
-  //       return QuestionDetail(
-  //         context: context,
-  //         question: question,
-  //         leftActionButton: buildPageMoveButton(
-  //           context: context,
-  //           isExplanation: true,
-  //         ),
-  //         rightActionButton: buildPageMoveButton(
-  //           context: context,
-  //           isExplanation: true,
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   @override
   void dispose() {

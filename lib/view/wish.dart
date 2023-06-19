@@ -116,7 +116,7 @@ class ViewWishState extends State<ViewWish>
   Future<void> showQuestionDetail(MQuestion question) {
     return showDialog(
       context: context,
-      builder: (context) => QuestionDetail(
+      builder: (context) => DialogQuestionDetail(
         context: context,
         question: question,
       ),
