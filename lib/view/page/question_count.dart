@@ -22,7 +22,14 @@ class PageQuestionCountState extends State<PageQuestionCount> {
           buildElevatedButton(
             child: Text('10'),
             onPressed: () {
-              GServiceQuestion.getSelectedCountRandomQuestion(10);
+              GHelperNavigator.pushWithActions(
+                PageQuestion(selectedRandomCount: 10),
+                GNavigatorKey,
+                prePushHandler: () {
+                  GServiceQuestion.getSelectedCountRandomQuestion(10);
+                },
+                isPush: true,
+              );
             },
           ).expand(),
           buildElevatedButton(

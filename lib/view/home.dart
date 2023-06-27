@@ -31,14 +31,14 @@ class ViewHomeState extends State<ViewHome> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   buildCardContents().expand(flex: 7),
-                  Padding(padding: EdgeInsets.all(5)),
+                  const Padding(padding: EdgeInsets.all(5)),
                   Card(
                     color: Colors.blue,
                     child: Container(
                       width: double.infinity,
                     ),
                   ).expand(flex: 3),
-                  Padding(padding: EdgeInsets.all(5)),
+                  const Padding(padding: EdgeInsets.all(5)),
                   const Card(
                     elevation: 10,
                     color: Colors.amber,

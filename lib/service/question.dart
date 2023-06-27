@@ -198,7 +198,7 @@ class ServiceQuestion {
     return completer.future;
   }
 
-  Future<RestfulResult> getFiltered({
+  Future<RestfulResult> getFilteredBySubject({
     required String categoryID,
   }) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();

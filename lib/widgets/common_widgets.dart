@@ -76,7 +76,13 @@ Widget buildElevatedButton({
     height: height,
     width: width,
     child: ElevatedButton(
-      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(color)),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(color),
+        // side: MaterialStateProperty.all(BorderSide(
+        // width: 1,
+        // color: Color(0xFF000000),
+        // )),
+      ),
       child: child,
       onPressed: onPressed,
     ),

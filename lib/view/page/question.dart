@@ -2,8 +2,10 @@ part of '/common.dart';
 
 class PageQuestion extends CommonView {
   final MSubCategory? selectedSubCategory;
+  final int? selectedRandomCount;
   const PageQuestion({
     this.selectedSubCategory,
+    this.selectedRandomCount,
     super.routeName = ROUTER.QUESTION,
     super.key,
   });
@@ -15,6 +17,7 @@ class PageQuestion extends CommonView {
 class PageQuestionState extends State<PageQuestion>
     with TickerProviderStateMixin {
   MSubCategory? get sub => widget.selectedSubCategory;
+  int? get selectedRandomCount => widget.selectedRandomCount;
   List<MQuestion> questions = [];
   late Map<MQuestion, bool> checkQuestion;
 
@@ -27,58 +30,120 @@ class PageQuestionState extends State<PageQuestion>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(sub!.name),
+        title: Text(sub == null ? '' : sub!.name),
       ),
-      body: FutureBuilder(
-        // TODO : isAllQuestion == true이면 모든 문제를 가져오고
-        // 아니면 filter된 문제를 가져옴
-        future: GServiceQuestion.getFiltered(categoryID: sub!.id),
-        builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
-          if (snapshot.hasData) {
-            // TODO : isAllQuestions == true면 snapshot에 저장되는 데이터가
-            // Map<String, MQuestion>이기 때문에 values를 활용해 list로 변환
-            // TODO : questions를 랜덤하게 섞어서 저장
-            questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
+      body: selectedRandomCount != null && sub == null
+          ? buildSelectedCountRandomQuestion()
+          : buildFilteredQuestionBySubject(),
+    );
+  }
 
-            // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
-            checkQuestion = questions.asMap().map((index, question) => MapEntry(
-                  question,
-                  index == 0 ? true : false,
-                ));
+  Widget buildSelectedCountRandomQuestion() {
+    return FutureBuilder(
+      // TODO : isAllQuestion == true이면 모든 문제를 가져오고
+      // 아니면 filter된 문제를 가져옴
+      future:
+          GServiceQuestion.getSelectedCountRandomQuestion(selectedRandomCount!),
+      builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+        if (snapshot.hasData) {
+          // TODO : isAllQuestions == true면 snapshot에 저장되는 데이터가
+          // Map<String, MQuestion>이기 때문에 values를 활용해 list로 변환
+          // TODO : questions를 랜덤하게 섞어서 저장
 
-            return Center(
-              child: SizedBox(
-                width: width,
-                height: height,
-                child: PageView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: ctrPage,
-                  itemCount: questions.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Text('학자 ${questions[index].info}').expand(),
-                        Text('비고 ${questions[index].description}').expand(),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                              '${index + 1} / ${questions.length}'), // 문제 번호 출력
-                        ),
-                        QuestionTile(question: questions[index])
-                            .expand(flex: 5),
-                        buildActionButtons(questions[index]).expand(),
-                      ],
-                    );
-                  },
-                ),
+          Map<String, MQuestion> getData = snapshot.data!.data;
+          print('getData $getData');
+
+          questions = List.from(getData.values)..shuffle();
+
+          // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
+          checkQuestion = questions.asMap().map((index, question) => MapEntry(
+                question,
+                index == 0 ? true : false,
+              ));
+
+          return Center(
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: PageView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: ctrPage,
+                itemCount: questions.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Text('학자 ${questions[index].info}').expand(),
+                      Text('비고 ${questions[index].description}').expand(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                            '${index + 1} / ${questions.length}'), // 문제 번호 출력
+                      ),
+                      QuestionTile(question: questions[index]).expand(flex: 5),
+                      buildActionButtons(questions[index]).expand(),
+                    ],
+                  );
+                },
               ),
+            ),
+          );
+        }
+        return const Center(
+            // child: CircularProgressIndicator(),
             );
-          }
-          return const Center(
-              // child: CircularProgressIndicator(),
-              );
-        },
-      ),
+      },
+    );
+  }
+
+  Widget buildFilteredQuestionBySubject() {
+    return FutureBuilder(
+      // TODO : isAllQuestion == true이면 모든 문제를 가져오고
+      // 아니면 filter된 문제를 가져옴
+      future: GServiceQuestion.getFilteredBySubject(categoryID: sub!.id),
+      builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+        if (snapshot.hasData) {
+          // TODO : isAllQuestions == true면 snapshot에 저장되는 데이터가
+          // Map<String, MQuestion>이기 때문에 values를 활용해 list로 변환
+          // TODO : questions를 랜덤하게 섞어서 저장
+          questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
+
+          // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
+          checkQuestion = questions.asMap().map((index, question) => MapEntry(
+                question,
+                index == 0 ? true : false,
+              ));
+
+          return Center(
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: PageView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: ctrPage,
+                itemCount: questions.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Text('학자 ${questions[index].info}').expand(),
+                      Text('비고 ${questions[index].description}').expand(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                            '${index + 1} / ${questions.length}'), // 문제 번호 출력
+                      ),
+                      QuestionTile(question: questions[index]).expand(flex: 5),
+                      buildActionButtons(questions[index]).expand(),
+                    ],
+                  );
+                },
+              ),
+            ),
+          );
+        }
+        return const Center(
+            // child: CircularProgressIndicator(),
+            );
+      },
     );
   }
 
@@ -107,11 +172,12 @@ class PageQuestionState extends State<PageQuestion>
     return buildElevatedButton(
       child: Text(isNextButton ? LABEL.NEXT_QUESTION : LABEL.PREV_QUESTION),
       onPressed: () {
+        // TODO : 첫 번째 문제인 경우 pop
         if (!isNextButton && ctrPage.page == 0) {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              content: const Text(MSG.LAST_QUESTION),
+              content: const Text(MSG.FIRST_QUESTION),
               actions: [
                 TextButton(
                   child: const Text(LABEL.EXIT),
@@ -123,6 +189,7 @@ class PageQuestionState extends State<PageQuestion>
           return;
         }
 
+        // TODO : 마지막 문제일 경우 pop
         if (isNextButton && ctrPage.page == questions.length - 1) {
           showDialog(
             context: context,
