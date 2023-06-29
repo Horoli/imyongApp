@@ -15,7 +15,7 @@ List<ThemeData> get THEMEDATA_LIST => MAP.values.toList();
 final ThemeData LIGHT = ThemeData.light().copyWith();
 
 final ThemeData DARK = ThemeData.dark().copyWith(
-  primaryColor: Colors.grey[500],
+  primaryColor: Colors.grey,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(Colors.grey[700]),
@@ -25,6 +25,7 @@ final ThemeData DARK = ThemeData.dark().copyWith(
 
 final ThemeData GREEN = ThemeData.light().copyWith(
   primaryColor: COLOR.BASE_GREEN,
+  primaryColorDark: COLOR.BASE_GREEN_DARK,
   appBarTheme: const AppBarTheme(color: COLOR.BASE_GREEN),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     // backgroundColor: COLOR.BASE_GREEN,

@@ -19,11 +19,9 @@ class ViewSubjectListState extends State<ViewSubjectList>
     return Scaffold(
       body: Center(
         child: SizedBox(
-          // child: Container(color: Colors.red),
           child: LayoutBuilder(builder: (context, BoxConstraints constraints) {
-            final double width = constraints.maxWidth;
-            final double height = constraints.maxHeight;
-            log(width / height);
+            // final double width = constraints.maxWidth;
+            // final double height = constraints.maxHeight;
             return TStreamBuilder(
               stream: GServiceMainCategory.$mainCategory.browse$,
               builder: (context, MMainCategory mainCategory) {
@@ -40,9 +38,6 @@ class ViewSubjectListState extends State<ViewSubjectList>
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                     childAspectRatio: 1.2,
-                    // childAspectRatio: width / height,
-                    // mainAxisSpacing: 10,
-                    // crossAxisSpacing: 10,
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     if (subjects[index] == 'all') {
@@ -55,10 +50,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                         ),
                         onPressed: () {
                           GHelperNavigator.pushWithActions(
-                            const PageQuestionCount(),
-                            // prePushHandler: () {
-                            //   // GServiceQuestion.getWishQuestion();
-                            // },
+                            const PageQuestionCountSelect(),
                             GNavigatorKey,
                           );
                         },

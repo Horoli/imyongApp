@@ -97,17 +97,6 @@ class ViewWishState extends State<ViewWish>
     );
   }
 
-  Widget buildText(
-    String text, {
-    FontWeight fontWeight = FontWeight.normal,
-  }) {
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(fontWeight: fontWeight),
-    );
-  }
-
   @override
   void initState() {
     super.initState();

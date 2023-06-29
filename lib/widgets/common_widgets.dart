@@ -77,6 +77,13 @@ Widget buildElevatedButton({
     width: width,
     child: ElevatedButton(
       style: ButtonStyle(
+        elevation:
+            MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return 16;
+          }
+          return 8;
+        }),
         backgroundColor: MaterialStateProperty.all(color),
         // side: MaterialStateProperty.all(BorderSide(
         // width: 1,
@@ -114,5 +121,16 @@ Widget buildTextField({
         hintText: hint,
       ),
     ),
+  );
+}
+
+Widget buildText(
+  String text, {
+  FontWeight fontWeight = FontWeight.normal,
+}) {
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(fontWeight: fontWeight),
   );
 }
