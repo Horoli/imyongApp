@@ -20,9 +20,10 @@ class ServiceQuestion {
   final TStream<Map<String, List<MQuestion>>> $mapOfWishQuestion =
       TStream<Map<String, List<MQuestion>>>()..sink$({});
 
-  final TStream<int> $totalQuestionCount = TStream<int>()..sink$(0);
+  final TStream<Map<String, int>> $mapOfTotalQuestionsCount =
+      TStream<Map<String, int>>()..sink$({});
 
-  Future<RestfulResult> getTotalQuestionLength() {
+  Future<RestfulResult> getTotalQuestionsCount() {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
     final Map<String, String> headers = GUtility.createHeaders(
@@ -34,20 +35,22 @@ class ServiceQuestion {
         .get(GUtility.getRequestUri(PATH.QUESTION_COUNTER), headers: headers)
         .then((response) {
       Map result = json.decode(response.body);
-      assert(result['totalQuestionCount'] != null, 'result is empty.');
+      // assert(result['totalQuestionCount'] != null, 'result is empty.');
       assert(result['data'] != null, 'result is empty.');
 
       print('result ${result}');
 
-      int getTotalQuestionCount =
-          int.parse(result['totalQuestionCount'].toString());
-      $totalQuestionCount.sink$(getTotalQuestionCount);
+      Map<String, int> convertMapQuestionsCount =
+          Map<String, int>.from(result['data']);
+
+      $mapOfTotalQuestionsCount.sink$(convertMapQuestionsCount);
 
       completer.complete(
         RestfulResult(
           statusCode: STATUS.SUCCESS_CODE,
           message: 'ok',
-          data: getTotalQuestionCount,
+          // data: getTotalQuestionCount,
+          data: convertMapQuestionsCount,
         ),
       );
     }).catchError((error) {

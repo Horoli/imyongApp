@@ -25,7 +25,7 @@ class ViewMainState extends State<ViewMain> {
           GNavigatorKey,
           prePushHandler: () {
             GServiceQuestion.getWishQuestionBySubject();
-            GServiceQuestion.getTotalQuestionLength();
+            GServiceQuestion.getTotalQuestionsCount();
           },
           isPush: false,
         ),

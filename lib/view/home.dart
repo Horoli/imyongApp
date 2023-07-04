@@ -34,41 +34,13 @@ class ViewHomeState extends State<ViewHome> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  buildCardContents().expand(flex: 7),
+                  // buildCardContents().expand(flex: 7),
+                  buildCard().expand(flex: 7),
                   const Padding(padding: EdgeInsets.all(5)),
                   const Card().sizedBox(width: double.infinity).expand(flex: 3),
+                  buildGridBySubject().expand(flex: 8),
                   const Padding(padding: EdgeInsets.all(5)),
-                  const SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: ViewSubjectList(),
-                  ).expand(flex: 8),
-                  TextButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.menu_book_rounded,
-                          color: getThemeColor,
-                        ),
-                        Text(
-                          '찜한문제로 이동',
-                          style: TextStyle(color: getThemeColor),
-                        ),
-                      ],
-                    ),
-                    onPressed: () => GHelperNavigator.pushWithActions(
-                      const ViewWish(),
-                      GNavigatorKey,
-                      prePushHandler: () {
-                        GServiceQuestion.getWishQuestion();
-                        GServiceSubCategory.getAll();
-                        $bottomNavigationIndex.sink$(wishTabIndex);
-                      },
-                      isPush: false,
-                    ),
-                  ),
+                  buildNavigateToWishButton(getThemeColor),
                 ],
               ),
             ),
@@ -78,41 +50,112 @@ class ViewHomeState extends State<ViewHome> {
     );
   }
 
-  Widget buildCardContents() {
-    return TStreamBuilder(
-      stream: GServiceQuestion.$totalQuestionCount.browse$,
-      builder: (context, int totalQuestionLength) {
-        return Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          elevation: 10,
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text('전체 문제').expand(),
-                    Text('$totalQuestionLength').expand(),
-                    Text('저장한 문제').expand(),
-                    Text('${GServiceGuest.guest.wishQuestion.length}').expand(),
-                  ],
-                ).expand(),
-                Container().expand(),
-                Container().expand(),
-              ],
+  Widget buildCard() {
+    return FutureBuilder(
+      future: GServiceQuestion.getTotalQuestionsCount(),
+      builder: (context, AsyncSnapshot<RestfulResult> result) {
+        if (result.hasData) {
+          if (result.data!.data == null) {
+            return Container();
+          }
+
+          Map<String, int> mapOfTotalQuestionsCount = result.data!.data;
+          print('mapOfTotalQuestionsCount $mapOfTotalQuestionsCount');
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
+            elevation: 10,
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      buildDivisionCount(
+                        '전체 문제',
+                        mapOfTotalQuestionsCount['totalQuestionCount']!,
+                      ).expand(),
+                      buildDivisionCount(
+                        '저장한 문제',
+                        GServiceGuest.guest.wishQuestion.length,
+                      ).expand(),
+                    ],
+                  ).expand(),
+                  const Divider(),
+                  Row(
+                    children: [
+                      buildDivisionCount(
+                        GUtility.convertSubject(SUBJECT.KO),
+                        mapOfTotalQuestionsCount[SUBJECT.KO]!,
+                      ).expand(),
+                    ],
+                  ).expand(),
+                  const Divider(),
+                  Row().expand(),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return Scaffold(
+          body: CircularProgress(),
         );
       },
+    );
+  }
+
+  Widget buildDivisionCount(String label, int count) {
+    return Row(
+      children: [
+        Center(child: Text(label)).expand(),
+        Center(child: Text('$count')).expand(),
+      ],
+    );
+  }
+
+  Widget buildGridBySubject() {
+    return const SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: ViewSubjectList(),
+    );
+  }
+
+  Widget buildNavigateToWishButton(Color color) {
+    return TextButton(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.menu_book_rounded,
+            color: color,
+          ),
+          Text(
+            '찜한문제로 이동',
+            style: TextStyle(color: color),
+          ),
+        ],
+      ),
+      onPressed: () => GHelperNavigator.pushWithActions(
+        const ViewWish(),
+        GNavigatorKey,
+        prePushHandler: () {
+          GServiceQuestion.getWishQuestion();
+          GServiceSubCategory.getAll();
+          $bottomNavigationIndex.sink$(wishTabIndex);
+        },
+        isPush: false,
+      ),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    GServiceQuestion.getTotalQuestionLength();
+    GServiceQuestion.getTotalQuestionsCount();
   }
 
   @override
