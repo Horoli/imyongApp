@@ -11,8 +11,8 @@ class ViewHome extends CommonView {
 }
 
 class ViewHomeState extends State<ViewHome> {
-  late final double fullWidth = MediaQuery.of(context).size.width;
-  late final double fullHeight = MediaQuery.of(context).size.height;
+  double get fullWidth => MediaQuery.of(context).size.width;
+  double get fullHeight => MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     final Color getThemeColor = GServiceTheme.theme.primaryColor;
@@ -38,7 +38,8 @@ class ViewHomeState extends State<ViewHome> {
                   buildCard().expand(flex: 7),
                   const Padding(padding: EdgeInsets.all(5)),
                   const Card().sizedBox(width: double.infinity).expand(flex: 3),
-                  buildGridBySubject().expand(flex: 8),
+                  const ViewSubjectList().expand(flex: 8),
+                  // builSubjectGrid().expand(flex: 8),
                   const Padding(padding: EdgeInsets.all(5)),
                   buildNavigateToWishButton(getThemeColor),
                 ],
@@ -115,28 +116,14 @@ class ViewHomeState extends State<ViewHome> {
     );
   }
 
-  Widget buildGridBySubject() {
-    return const SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      child: ViewSubjectList(),
-    );
-  }
-
   Widget buildNavigateToWishButton(Color color) {
     return TextButton(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            Icons.menu_book_rounded,
-            color: color,
-          ),
-          Text(
-            '찜한문제로 이동',
-            style: TextStyle(color: color),
-          ),
+          Icon(Icons.menu_book_rounded, color: color),
+          Text('찜한문제로 이동', style: TextStyle(color: color)),
         ],
       ),
       onPressed: () => GHelperNavigator.pushWithActions(

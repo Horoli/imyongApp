@@ -13,6 +13,8 @@ class PageQuestionCountSelect extends CommonView {
 class PageQuestionCountState extends State<PageQuestionCountSelect> {
   double get width => MediaQuery.of(context).size.width;
   double get height => MediaQuery.of(context).size.height;
+
+  final List<int> counts = [10, 25, 50];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +22,18 @@ class PageQuestionCountState extends State<PageQuestionCountSelect> {
         title: const Text(LABEL.QUESTION_COUNT),
       ),
       body: Center(
-        child: Column(
-          children: [
-            buildSelectCountButton(count: 10).expand(),
-            buildSelectCountButton(count: 25).expand(),
-            buildSelectCountButton(count: 50).expand(),
-          ],
+        child: SizedBox(
+          height: height * 0.6,
+          width: width * 0.6,
+          child: Center(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: counts.length,
+              itemBuilder: (context, index) {
+                return buildSelectCountButton(count: counts[index]);
+              },
+            ),
+          ),
         ),
       ),
     );
@@ -33,7 +41,8 @@ class PageQuestionCountState extends State<PageQuestionCountSelect> {
 
   Widget buildSelectCountButton({required int count}) {
     return buildElevatedButton(
-      child: Text('$count'),
+      height: kToolbarHeight,
+      child: Text('$count EA'),
       onPressed: () {
         GHelperNavigator.pushWithActions(
           PageQuestion(selectedRandomCount: count),

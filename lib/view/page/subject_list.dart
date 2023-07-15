@@ -12,16 +12,15 @@ class ViewSubjectList extends CommonView {
 
 class ViewSubjectListState extends State<ViewSubjectList>
     with SingleTickerProviderStateMixin {
-  // double get width => MediaQuery.of(context).size.width;
-  // double get height => MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: SizedBox(
-          child: LayoutBuilder(builder: (context, BoxConstraints constraints) {
-            // final double width = constraints.maxWidth;
-            // final double height = constraints.maxHeight;
+          child: LayoutBuilder(builder: (
+            context,
+            BoxConstraints constraints,
+          ) {
             return TStreamBuilder(
               stream: GServiceMainCategory.$mainCategory.browse$,
               builder: (context, MMainCategory mainCategory) {
