@@ -52,12 +52,13 @@ class ViewSplashState extends State<ViewSplash>
 
     result = await GServiceGuest.post(guestID: guestID);
     loginResult = await GServiceGuestLogin.login(guestID);
-    // TODO : splash image가 2초 출력되고 넘어가야함
 
     GServiceSubCategory.get();
     GServiceMainCategory.get();
+    GServiceSubCategory.$mapOfSubjectProgress.sink$(setSubjectProgress());
 
     $splash.sink$(true);
+    // TODO : splash image가 2초 출력되고 넘어가야함
     await GUtility.wait(spalshDuration);
     if (loginResult.isSuccess) {
       $splash.sink$(false);
@@ -69,6 +70,39 @@ class ViewSplashState extends State<ViewSplash>
         (route) => false,
       );
     }
+  }
+
+  // TODO :  subjectProgress 상태를 localDB에 저장
+  Map<String, List<String>> setSubjectProgress() {
+    Map<String, List<String>> tmpMap = {
+      'ko': [],
+      'math': [],
+      'social': [],
+      'science': [],
+      'en': [],
+      'music': [],
+      'art': [],
+      'ethics': [],
+      'physicalEdu': [],
+      'practical': [],
+    };
+    if (GSharedPreferences.getString('subject_progress') == null) {
+      return tmpMap;
+    }
+    String getData = GSharedPreferences.getString('subject_progress')!;
+
+    Map decodeData = jsonDecode(getData);
+
+    Map<String, List<String>> convertData = decodeData.map((key, value) {
+      String convertKey = key.toString();
+      print('value $value');
+
+      List<String> convertValue =
+          List.from(value).map((e) => e.toString()).toList();
+      return MapEntry(convertKey, convertValue);
+    });
+
+    return convertData;
   }
 
   Future<String> setGuestId() async {

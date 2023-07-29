@@ -9,9 +9,9 @@ class ServiceQuestion {
   final TStream<int> $selectedIndex = TStream<int>();
   int get selectedIndex => $selectedIndex.lastValue;
 
-  final TStream<List<MQuestion>> $questions = TStream<List<MQuestion>>()
+  final TStream<List<MQuestion>> $questionList = TStream<List<MQuestion>>()
     ..sink$([]);
-  List<MQuestion> get questions => $questions.lastValue;
+  List<MQuestion> get questions => $questionList.lastValue;
 
   final TStream<Map<String, MQuestion>> $mapOfQuestion =
       TStream<Map<String, MQuestion>>()..sink$({});
@@ -30,10 +30,11 @@ class ServiceQuestion {
       tokenKey: HEADER.TOKEN,
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.QUESTION_COUNTER)
+        : Uri.https(PATH.FORIEGN_URL, PATH.QUESTION_COUNTER);
 
-    http
-        .get(GUtility.getRequestUri(PATH.QUESTION_COUNTER), headers: headers)
-        .then((response) {
+    http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
       // assert(result['totalQuestionCount'] != null, 'result is empty.');
       assert(result['data'] != null, 'result is empty.');
@@ -76,12 +77,11 @@ class ServiceQuestion {
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
-    http
-        .get(
-            GUtility.getRequestUri(
-                PATH.QUESTION_RANDOM_COUNT + count.toString()),
-            headers: headers)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count')
+        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST_LOGIN);
+
+    http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
       assert(List.from(result['data']).isNotEmpty, 'result[data] is empty.');
       Map<String, MQuestion> mapOfQuestion = {};
@@ -124,9 +124,11 @@ class ServiceQuestion {
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
-    http
-        .get(GUtility.getRequestUri(PATH.QUESTION_WISH), headers: headers)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.QUESTION_WISH)
+        : Uri.https(PATH.FORIEGN_URL, PATH.QUESTION_WISH);
+
+    http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
       assert(List.from(result['data']).isNotEmpty, 'result[data] is empty.');
       Map<String, MQuestion> mapOfQuestion = {};
@@ -166,10 +168,11 @@ class ServiceQuestion {
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
-    http
-        .get(GUtility.getRequestUri(PATH.QUESTION_WISH_BY_SUBJECT),
-            headers: headers)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.QUESTION_WISH_BY_SUBJECT)
+        : Uri.https(PATH.FORIEGN_URL, PATH.QUESTION_WISH_BY_SUBJECT);
+
+    http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
 
       Map<String, List<MQuestion>> mapOfWishQuestion =
@@ -202,7 +205,7 @@ class ServiceQuestion {
   }
 
   Future<RestfulResult> getFilteredBySubject({
-    required String categoryID,
+    required List<String> subCategoryIds,
   }) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
@@ -212,25 +215,24 @@ class ServiceQuestion {
     );
 
     String encodeData = jsonEncode({
-      "subCategoryID": categoryID,
+      "subCategoryIds": subCategoryIds,
     });
 
-    http
-        .post(GUtility.getRequestUri(PATH.FILTERED_QUESTION),
-            body: encodeData, headers: headers)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.FILTERED_QUESTION)
+        : Uri.https(PATH.FORIEGN_URL, PATH.FILTERED_QUESTION);
+
+    http.post(query, body: encodeData, headers: headers).then((response) {
       Map result = json.decode(response.body);
-      // assert(result['data'].length != 0);
-      // ('result $result');
       List<MQuestion> questionList = [];
 
       for (dynamic item in result['data']) {
         MQuestion convertQuestion = MQuestion.fromMap(item);
-
         questionList.add(convertQuestion);
       }
 
-      $questions.sink$(questionList);
+      $questionList.sink$(questionList);
+      print(questionList);
 
       completer.complete(
         RestfulResult(
@@ -261,10 +263,11 @@ class ServiceQuestion {
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
-    http
-        .get(GUtility.getRequestUri(PATH.QUESTION_IMAGE + imageID),
-            headers: _headers)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, '${PATH.GUEST_LOGIN}/$imageID')
+        : Uri.https(PATH.FORIEGN_URL, '${PATH.GUEST_LOGIN}/$imageID');
+
+    http.get(query, headers: _headers).then((response) {
       String imageResult = base64Encode(response.bodyBytes);
 
       completer.complete(

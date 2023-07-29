@@ -18,9 +18,12 @@ class ServiceMGuestLogin {
 
     String encodeData = jsonEncode({"id": guestID});
 
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.GUEST_LOGIN)
+        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST_LOGIN);
+
     http
-        .post(GUtility.getRequestUri(PATH.GUEST_LOGIN),
-            headers: GUtility.createHeaders(), body: encodeData)
+        .post(query, headers: GUtility.createHeaders(), body: encodeData)
         .then((response) {
       if (response == null) {
         return completer.complete(RestfulResult(

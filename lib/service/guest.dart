@@ -13,9 +13,11 @@ class ServiceGuest {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
     String encodeData = jsonEncode({"id": guestID});
 
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.GUEST)
+        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST);
     http
-        .post(GUtility.getRequestUri(PATH.GUEST),
-            headers: GUtility.createHeaders(), body: encodeData)
+        .post(query, headers: GUtility.createHeaders(), body: encodeData)
         .then((response) {
       Map<String, dynamic> result =
           Map.from(jsonDecode(response.body)['data'] ?? {});
@@ -51,23 +53,16 @@ class ServiceGuest {
       tokenValue: GSharedPreferences.getString('token'),
     );
 
-    String query = 'guest?id=${guestID}';
+    Map<String, String> queryParameters = {"id": guestID};
 
-    http.get(GUtility.getRequestUri(query), headers: _headers).then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.GUEST, queryParameters)
+        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST, queryParameters);
+
+    http.get(query, headers: _headers).then((response) {
       GUtility.log('get ${response.body}');
     });
 
-    // if (response.statusCode != STATUS.SUCCESS_CODE) {
-    //   throw Exception(STATUS.LOAD_FAILED_MSG);
-    // }
-
-    // Map<String, dynamic> item =
-    //     Map.from(jsonDecode(response.body)['data']['guest'] ?? {});
-
-    // Map<String, MGuest> convertedItem = item.map<String, MGuest>(
-    //     (key, value) => MapEntry(key, MGuest.fromMap(value)));
-
-    // $guest.sink$(convertedItem);
     return completer.future;
   }
 
@@ -84,10 +79,11 @@ class ServiceGuest {
       "wishQuestion": guest.wishQuestion,
     });
 
-    http
-        .patch(GUtility.getRequestUri(PATH.GUEST),
-            headers: _headers, body: encodeData)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.GUEST)
+        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST);
+
+    http.patch(query, headers: _headers, body: encodeData).then((response) {
       Map<String, dynamic> result =
           Map.from(jsonDecode(response.body)['data'] ?? {});
 

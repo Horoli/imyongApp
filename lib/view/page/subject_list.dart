@@ -69,7 +69,7 @@ class ViewSubjectListState extends State<ViewSubjectList>
                         GHelperNavigator._push(
                           ViewSelectedSubjectList(
                             selectedSubjectLabel: subjects[index],
-                            selectedSubject: GServiceSubCategory.subCategory,
+                            // selectedSubject: GServiceSubCategory.subCategory,
                           ),
                           GNavigatorKey,
                           true,

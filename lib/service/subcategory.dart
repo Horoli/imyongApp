@@ -15,7 +15,8 @@ class ServiceSubCategory {
       TStream<Map<String, MSubCategory>>();
   Map<String, MSubCategory> get allSubCategory => $allSubCategory.lastValue;
 
-  List<String> selectedCategoriesId = [];
+  TStream<Map<String, List<String>>> $mapOfSubjectProgress =
+      TStream<Map<String, List<String>>>();
 
   // TODO : DEV CODE // subCategories의 전체 데이터를
   // 한번 가져와야 데이터를 활용할 수 있음. 가져 온뒤 별도의 stream에 저장
@@ -27,9 +28,13 @@ class ServiceSubCategory {
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
-    http
-        .get(GUtility.getRequestUri('subcategory?map=map'), headers: _headers)
-        .then((value) {
+    Map<String, String> queryParameters = {"map": "map"};
+
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.SUBCATEGORY, queryParameters)
+        : Uri.https(PATH.FORIEGN_URL, PATH.SUBCATEGORY, queryParameters);
+
+    http.get(query, headers: _headers).then((value) {
       Map result = json.decode(value.body);
       Map<String, MSubCategory> convertResult = {};
       for (dynamic item in result['data'].keys) {
@@ -51,24 +56,39 @@ class ServiceSubCategory {
 
   Future<RestfulResult> get({String parent = '', bool isNoChildren = false}) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
-    selectedCategoriesId = [];
+    // selectedCategoriesId = [];
 
     // parent가 빈값이면 /subcategory(url),
     // parent에 입력 값이 있으면 /category?id=$parent(query)
-    String query =
-        parent == '' ? PATH.SUBCATEGORY : '${PATH.CATEGORY_QUERY}$parent';
-    if (isNoChildren) {
-      query = 'nochildrencategory';
-    }
+    // String query =
+    //     parent == '' ? PATH.SUBCATEGORY : '${PATH.CATEGORY_QUERY}$parent';
+    // if (isNoChildren) {
+    //   query = 'nochildrencategory';
+    // }
+
+    // print(HEADER.TOKEN);
+    // print(GSharedPreferences.getString(HEADER.LOCAL_TOKEN));
 
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
-    http.get(GUtility.getRequestUri(query), headers: _headers).then(
+    // print('_headers $_headers');
+
+    Map<String, String> queryParameters = {'parent': parent};
+
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.CATEGORY, queryParameters)
+        : Uri.https(PATH.FORIEGN_URL, PATH.CATEGORY, queryParameters);
+
+    // http.get(GUtility.getRequestUri(query), headers: _headers).then(
+    http.get(query, headers: _headers).then(
       (response) {
         Map result = json.decode(response.body);
+
+        print('result $result');
+
         List<MSubCategory> subList = [];
         for (dynamic item in List.from(result['data'])) {
           subList.add(MSubCategory.fromMap(item));
@@ -78,8 +98,11 @@ class ServiceSubCategory {
 
         $subCategory.sink$(subList);
 
-        completer.complete(
-            RestfulResult(statusCode: STATUS.SUCCESS_CODE, message: 'ok'));
+        completer.complete(RestfulResult(
+          statusCode: STATUS.SUCCESS_CODE,
+          message: 'ok',
+          data: subList,
+        ));
       },
     ).catchError((error) {
       GUtility.log('error $error');
@@ -107,10 +130,11 @@ class ServiceSubCategory {
       "parent": parent,
     });
 
-    http
-        .post(GUtility.getRequestUri(PATH.CATEGORY),
-            body: encodeData, headers: headers)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.CATEGORY)
+        : Uri.https(PATH.FORIEGN_URL, PATH.CATEGORY);
+
+    http.post(query, body: encodeData, headers: headers).then((response) {
       Map result = json.decode(response.body);
 
       // name이 입력되지 않았으면 error return
@@ -145,10 +169,11 @@ class ServiceSubCategory {
       "id": id,
     });
 
-    http
-        .delete(GUtility.getRequestUri(PATH.CATEGORY),
-            body: encodeData, headers: headers)
-        .then((response) {
+    Uri query = PATH.IS_LOCAL
+        ? Uri.http(PATH.LOCAL_URL, PATH.CATEGORY)
+        : Uri.https(PATH.FORIEGN_URL, PATH.CATEGORY);
+
+    http.delete(query, body: encodeData, headers: headers).then((response) {
       Map result = json.decode(response.body);
       return completer.complete(
         RestfulResult.fromMap(
