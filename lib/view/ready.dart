@@ -27,6 +27,12 @@ class ViewReadyState extends State<ViewReady>
             buildHeaders().sizedBox(height: kToolbarHeight),
             const Divider(),
             buildRows().expand(),
+            buildElevatedButton(
+              child: Text('test'),
+              onPressed: () {
+                GServiceQuestion.getWishQuestionBySubject();
+              },
+            )
           ],
         ),
       ),
@@ -44,41 +50,46 @@ class ViewReadyState extends State<ViewReady>
   }
 
   Widget buildRows() {
-    return TStreamBuilder(
-      stream: GServiceQuestion.$mapOfWishQuestion.browse$,
-      builder: (context, Map<String, List<MQuestion>> mapOfWishQuestion) {
-        return ListView.separated(
-          separatorBuilder: (context, int index) => const Divider(),
-          itemCount: mapOfWishQuestion.values.length,
-          itemBuilder: (context, int index) {
-            return Row(
-              children: [
-                //
-                Center(
-                    child: Text(
-                  GUtility.convertSubject(
-                      mapOfWishQuestion.keys.toList()[index]),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                )).expand(),
-                //
-                Center(
-                  child: Text(
-                      '${mapOfWishQuestion.values.toList()[index].length}'),
-                ).expand(),
-                //
-                Column(
-                  children: mapOfWishQuestion.values
-                      .toList()[index]
-                      .map((e) => Center(child: Text('${e.question}'))
-                          .sizedBox(height: kToolbarHeight))
-                      .toList(),
-                ).expand(flex: 5),
-              ],
+    return FutureBuilder(
+        future: GServiceQuestion.getWishQuestionBySubject(),
+        builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+          if (snapshot.hasData) {
+            RestfulResult asd = snapshot.data!;
+            Map<String, List<MQuestion>> mapOfWishQuestion = asd.data;
+
+            return ListView.separated(
+              separatorBuilder: (context, int index) => const Divider(),
+              itemCount: mapOfWishQuestion.values.length,
+              itemBuilder: (context, int index) {
+                return Row(
+                  children: [
+                    //
+                    Center(
+                        child: Text(
+                      GUtility.convertSubject(
+                          mapOfWishQuestion.keys.toList()[index]),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    )).expand(),
+                    //
+                    Center(
+                      child: Text(
+                          '${mapOfWishQuestion.values.toList()[index].length}'),
+                    ).expand(),
+                    //
+                    Column(
+                      children: mapOfWishQuestion.values
+                          .toList()[index]
+                          .map((e) => Center(child: Text('${e.question}'))
+                              .sizedBox(height: kToolbarHeight))
+                          .toList(),
+                    ).expand(flex: 5),
+                  ],
+                );
+              },
             );
-          },
-        );
-      },
-    );
+          }
+          return const Center(child: CircularProgressIndicator());
+        });
   }
 
   @override

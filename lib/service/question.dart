@@ -174,7 +174,6 @@ class ServiceQuestion {
 
     http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
-
       Map<String, List<MQuestion>> mapOfWishQuestion =
           Map<String, List>.from(result['data']).map((key, value) {
         List<MQuestion> convertValue =
@@ -188,7 +187,7 @@ class ServiceQuestion {
         RestfulResult(
           statusCode: STATUS.SUCCESS_CODE,
           message: 'ok',
-          data: mapOfQuestion,
+          data: mapOfWishQuestion,
         ),
       );
     }).catchError((error) {

@@ -23,10 +23,7 @@ class ViewMainState extends State<ViewMain> {
     () => GHelperNavigator.pushWithActions(
           const ViewReady(),
           GNavigatorKey,
-          prePushHandler: () {
-            GServiceQuestion.getWishQuestionBySubject();
-            GServiceQuestion.getTotalQuestionsCount();
-          },
+          prePushHandler: () {},
           isPush: false,
         ),
     () => GHelperNavigator.pushWithActions(

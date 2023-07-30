@@ -73,6 +73,15 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
                   onPressed: () {
                     GServiceQuestion.getFilteredBySubject(
                         subCategoryIds: selectedCategories);
+
+                    GHelperNavigator.pushWithActions(
+                      PageQuestion(
+                        selectedCategories: selectedCategories,
+                      ),
+                      GNavigatorKey,
+                      prePushHandler: () {},
+                      isPush: true,
+                    );
                   },
                 ),
               ],

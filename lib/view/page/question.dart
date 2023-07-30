@@ -1,14 +1,21 @@
 part of '/common.dart';
 
 class PageQuestion extends CommonView {
-  final MSubCategory? selectedSubCategory;
+  final String? selectedSubjectLabel;
+  final List<String>? selectedCategories;
+  // final MSubCategory? selectedSubCategory;
   final int? selectedRandomCount;
   const PageQuestion({
-    this.selectedSubCategory,
+    // this.selectedSubCategory,
+    this.selectedSubjectLabel,
+    this.selectedCategories,
     this.selectedRandomCount,
     super.routeName = ROUTER.QUESTION,
     super.key,
   });
+
+  //  : assert(selectedSubjectLabel != null && selectedCategories == null,
+  //           'selectedSubjectLabel & selectedCategories empty');
 
   @override
   PageQuestionState createState() => PageQuestionState();
@@ -16,7 +23,6 @@ class PageQuestion extends CommonView {
 
 class PageQuestionState extends State<PageQuestion>
     with TickerProviderStateMixin {
-  MSubCategory? get sub => widget.selectedSubCategory;
   int? get selectedRandomCount => widget.selectedRandomCount;
   List<MQuestion> questions = [];
   late Map<MQuestion, bool> checkQuestion;
@@ -30,12 +36,12 @@ class PageQuestionState extends State<PageQuestion>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(sub == null ? '' : sub!.name),
+        title: Text(widget.selectedSubjectLabel ?? ''),
       ),
-      body: buildSelectedCountRandomQuestion(),
-      // body: selectedRandomCount != null && sub == null
-      //     ? buildSelectedCountRandomQuestion()
-      //     : buildFilteredQuestionBySubject(),
+      // body: buildSelectedCountRandomQuestion(),
+      body: selectedRandomCount != null
+          ? buildSelectedCountRandomQuestion()
+          : buildFilteredQuestionBySubject(),
     );
   }
 
@@ -96,57 +102,54 @@ class PageQuestionState extends State<PageQuestion>
     );
   }
 
-  // Widget buildFilteredQuestionBySubject() {
-  //   return FutureBuilder(
-  //     // TODO : isAllQuestion == true이면 모든 문제를 가져오고
-  //     // 아니면 filter된 문제를 가져옴
-  //     future: GServiceQuestion.getFilteredBySubject(categoryID: sub!.id),
-  //     builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
-  //       if (snapshot.hasData) {
-  //         // TODO : isAllQuestions == true면 snapshot에 저장되는 데이터가
-  //         // Map<String, MQuestion>이기 때문에 values를 활용해 list로 변환
-  //         // TODO : questions를 랜덤하게 섞어서 저장
-  //         questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
+  Widget buildFilteredQuestionBySubject() {
+    return FutureBuilder(
+      future: GServiceQuestion.getFilteredBySubject(
+          subCategoryIds: widget.selectedCategories!),
+      builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
+        if (snapshot.hasData) {
+          // TODO : questions를 랜덤하게 섞어서 저장
+          questions = (snapshot.data!.data as List<MQuestion>)..shuffle();
 
-  //         // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
-  //         checkQuestion = questions.asMap().map((index, question) => MapEntry(
-  //               question,
-  //               index == 0 ? true : false,
-  //             ));
+          // TODO : questions가 출력됐는지 확인하는 flag를 가진 map 생성
+          checkQuestion = questions.asMap().map((index, question) => MapEntry(
+                question,
+                index == 0 ? true : false,
+              ));
 
-  //         return Center(
-  //           child: SizedBox(
-  //             width: width,
-  //             height: height,
-  //             child: PageView.builder(
-  //               physics: const NeverScrollableScrollPhysics(),
-  //               controller: ctrPage,
-  //               itemCount: questions.length,
-  //               itemBuilder: (context, index) {
-  //                 return Column(
-  //                   children: [
-  //                     Text('학자 ${questions[index].info}').expand(),
-  //                     Text('비고 ${questions[index].description}').expand(),
-  //                     Align(
-  //                       alignment: Alignment.centerLeft,
-  //                       child: Text(
-  //                           '${index + 1} / ${questions.length}'), // 문제 번호 출력
-  //                     ),
-  //                     QuestionTile(question: questions[index]).expand(flex: 5),
-  //                     buildActionButtons(questions[index]).expand(),
-  //                   ],
-  //                 );
-  //               },
-  //             ),
-  //           ),
-  //         );
-  //       }
-  //       return const Center(
-  //           // child: CircularProgressIndicator(),
-  //           );
-  //     },
-  //   );
-  // }
+          return Center(
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: PageView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: ctrPage,
+                itemCount: questions.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Text('학자 ${questions[index].info}').expand(),
+                      Text('비고 ${questions[index].description}').expand(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                            '${index + 1} / ${questions.length}'), // 문제 번호 출력
+                      ),
+                      QuestionTile(question: questions[index]).expand(flex: 5),
+                      buildActionButtons(questions[index]).expand(),
+                    ],
+                  );
+                },
+              ),
+            ),
+          );
+        }
+        return const Center(
+            // child: CircularProgressIndicator(),
+            );
+      },
+    );
+  }
 
   Widget buildActionButtons(MQuestion question) {
     return Row(
