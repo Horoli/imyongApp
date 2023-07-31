@@ -74,7 +74,8 @@ class DialogQuestionDetailState extends State<DialogQuestionDetail> {
   }
 
   Widget buildImageList(List<String> imageIDs) {
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (context, index) => const Divider(),
       itemCount: imageIDs.length,
       itemBuilder: (context, index) {
         Future<RestfulResult> getImage =
@@ -85,13 +86,31 @@ class DialogQuestionDetailState extends State<DialogQuestionDetail> {
             future: getImage,
             builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
               if (snapshot.hasData) {
-                return Image.memory(base64Decode(snapshot.data!.data));
+                Image image = Image.memory(base64Decode(snapshot.data!.data));
+                return InkWell(
+                    child: image, onTap: () => detailImageDialog(image));
               }
               return const CircularProgressIndicator().center;
             },
           ),
         );
       },
+    );
+  }
+
+  Future detailImageDialog(Image image) async {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: SizedBox(
+            width: width * 0.7,
+            height: height * 0.7,
+            child: InteractiveViewer(
+              // constrained: true,
+              child: image,
+            )),
+      ),
     );
   }
 }

@@ -79,7 +79,7 @@ class ServiceQuestion {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count')
-        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST_LOGIN);
+        : Uri.https(PATH.FORIEGN_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count');
 
     http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
@@ -263,8 +263,8 @@ class ServiceQuestion {
     );
 
     Uri query = PATH.IS_LOCAL
-        ? Uri.http(PATH.LOCAL_URL, '${PATH.GUEST_LOGIN}/$imageID')
-        : Uri.https(PATH.FORIEGN_URL, '${PATH.GUEST_LOGIN}/$imageID');
+        ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_IMAGE}/$imageID')
+        : Uri.https(PATH.FORIEGN_URL, '${PATH.QUESTION_IMAGE}/$imageID');
 
     http.get(query, headers: _headers).then((response) {
       String imageResult = base64Encode(response.bodyBytes);

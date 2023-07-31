@@ -39,7 +39,6 @@ class ViewHomeState extends State<ViewHome> {
                   const Padding(padding: EdgeInsets.all(5)),
                   const Card().sizedBox(width: double.infinity).expand(flex: 3),
                   const ViewSubjectList().expand(flex: 8),
-                  // builSubjectGrid().expand(flex: 8),
                   const Padding(padding: EdgeInsets.all(5)),
                   buildNavigateToWishButton(getThemeColor),
                 ],

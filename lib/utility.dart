@@ -9,7 +9,7 @@ class Utility {
     return debugPrint(object.toString());
   }
 
-  Uri getRequestUri(String path) => Uri.parse(p.join(PATH.URL, path));
+  // Uri getRequestUri(String path) => Uri.parse(p.join(PATH.URL, path));
 
   Future<void> wait(int? milliseconds) {
     milliseconds ??= 0;

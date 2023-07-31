@@ -64,16 +64,24 @@ class ViewSubjectListState extends State<ViewSubjectList>
                         ],
                       ),
                       onPressed: () async {
-                        await GServiceSubCategory.get(parent: subjects[index]);
+                        GHelperNavigator.pushWithActions(
+                            ViewSelectedSubjectList(
+                              selectedSubjectLabel: subjects[index],
+                              // selectedSubject: GServiceSubCategory.subCategory,
+                            ),
+                            GNavigatorKey, prePushHandler: () async {
+                          await GServiceSubCategory.get(
+                              parent: subjects[index]);
+                        });
 
-                        GHelperNavigator._push(
-                          ViewSelectedSubjectList(
-                            selectedSubjectLabel: subjects[index],
-                            // selectedSubject: GServiceSubCategory.subCategory,
-                          ),
-                          GNavigatorKey,
-                          true,
-                        );
+                        // GHelperNavigator._push(
+                        //   ViewSelectedSubjectList(
+                        //     selectedSubjectLabel: subjects[index],
+                        //     // selectedSubject: GServiceSubCategory.subCategory,
+                        //   ),
+                        //   GNavigatorKey,
+                        //   true,
+                        // );
                       },
                     );
                   },
