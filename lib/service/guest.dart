@@ -98,17 +98,52 @@ class ServiceGuest {
       ));
     });
 
-    // if (response.statusCode != STATUS.SUCCESS_CODE) {
-    //   throw Exception(STATUS.LOAD_FAILED_MSG);
-    // }
-
-    // Map<String, dynamic> item =
-    //     Map.from(jsonDecode(response.body)['data']['guest'] ?? {});
-
-    // Map<String, MGuest> convertedItem = item.map<String, MGuest>(
-    //     (key, value) => MapEntry(key, MGuest.fromMap(value)));
-
-    // $guest.sink$(convertedItem);
     return completer.future;
+  }
+
+  // TODO : 해당 question을 삭제하는 함수(단일)
+  void patchWishQuestion(MGuest guest, String questionId) {
+    MGuest tmpGuest = guest.copyWith();
+    List<String> wishQuestions = tmpGuest.wishQuestion;
+
+    bool hasCheck = wishQuestions.contains(questionId);
+
+    hasCheck ? wishQuestions.remove(questionId) : wishQuestions.add(questionId);
+
+    GUtility.log('wish $wishQuestions');
+    tmpGuest = tmpGuest.copyWith(wishQuestion: wishQuestions);
+    patch(tmpGuest);
+  }
+
+  // TODO : 선택한 questions을 삭제하는 함수(복수)
+  void removeWishQuestions(
+    MGuest guest,
+    List<String> questionIds,
+  ) {
+    MGuest tmpGuest = guest.copyWith();
+    List<String> tmpWishQuestions = List.from(tmpGuest.wishQuestion);
+    print('wish $tmpWishQuestions');
+    print('questionIds $questionIds');
+
+    questionIds.forEach((id) {
+      if (!tmpWishQuestions.contains(id)) {
+        GUtility.log('is not exist, ids $id');
+      }
+      print('id $id');
+      tmpWishQuestions.remove(id);
+    });
+
+    tmpGuest = tmpGuest.copyWith(wishQuestion: tmpWishQuestions);
+    patch(tmpGuest);
+    print('questionIds $tmpWishQuestions');
+  }
+
+  void clearWishQuestions(MGuest guest) {
+    MGuest tmpGuest = guest.copyWith();
+    List<String> tmpWishQuestions = List.from(tmpGuest.wishQuestion);
+
+    tmpWishQuestions.clear();
+    tmpGuest = tmpGuest.copyWith(wishQuestion: tmpWishQuestions);
+    patch(tmpGuest);
   }
 }

@@ -38,7 +38,8 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
               children: [
                 FutureBuilder(
                   future: GServiceSubCategory.get(
-                      parent: widget.selectedSubjectLabel),
+                    parent: widget.selectedSubjectLabel,
+                  ),
                   builder: (context, AsyncSnapshot outerSnapshot) {
                     if (outerSnapshot.hasData) {
                       // 기본이론, 모형
@@ -46,10 +47,9 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
                           outerSnapshot.data!.data;
                       return Row(
                         children: [
-                          buildInnerFutureList(outerSubCategories.first)
+                          buildInnerSubjectList(outerSubCategories.first)
                               .expand(),
-                          const Padding(padding: EdgeInsets.all(4)),
-                          buildInnerFutureList(outerSubCategories.last)
+                          buildInnerSubjectList(outerSubCategories.last)
                               .expand(),
                         ],
                       );
@@ -58,28 +58,28 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
                   },
                 ).expand(),
                 buildElevatedButton(
-                  child: Text('save test'),
-                  onPressed: () {
-                    String convertData = jsonEncode(
+                  child: const Text(
+                    LABEL.SELECTED_SUBJECT_GET_QUESTION,
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () async {
+                    String convertData = await jsonEncode(
                         GServiceSubCategory.$mapOfSubjectProgress.lastValue);
                     print('convertData $convertData');
 
-                    GSharedPreferences.setString(
+                    await GSharedPreferences.setString(
                         'subject_progress', convertData);
-                  },
-                ),
-                buildElevatedButton(
-                  child: Text('get test'),
-                  onPressed: () {
-                    GServiceQuestion.getFilteredBySubject(
-                        subCategoryIds: selectedCategories);
 
                     GHelperNavigator.pushWithActions(
                       PageQuestion(
                         selectedCategories: selectedCategories,
                       ),
                       GNavigatorKey,
-                      prePushHandler: () {},
+                      prePushHandler: () {
+                        GServiceQuestion.getFilteredBySubject(
+                          subCategoryIds: selectedCategories,
+                        );
+                      },
                       isPush: true,
                     );
                   },
@@ -92,15 +92,19 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
     );
   }
 
-  Widget buildInnerFutureList(MSubCategory parent) {
+  Widget buildInnerSubjectList(MSubCategory parent) {
     return buildBorderContainer(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Center(
-              child: Text(parent.name),
+              child: Text(
+                parent.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ).sizedBox(height: kToolbarHeight),
+            const Divider(),
             FutureBuilder(
               future: GServiceSubCategory.get(parent: parent.id),
               builder: (context, AsyncSnapshot innerSnapshot) {

@@ -41,19 +41,18 @@ class DialogQuestionDetailState extends State<DialogQuestionDetail> {
                   height: height * 0.7,
                   child: Column(
                     children: [
-                      Text('${question.question} 문제 답안'),
+                      Text('${question.question} 답안'),
                       buildBorderContainer(
-                        width: double.infinity,
-                        height: double.infinity,
                         child: Center(
                           child: Text(question.answer),
                         ),
                       ).expand(),
-                      const Padding(padding: EdgeInsets.all(5)),
-                      const Text(LABEL.EXPLANATION_IMAGE),
+                      const Divider(),
+                      Text(
+                          '${LABEL.EXPLANATION_IMAGE}(${question.imageIDs.length})'),
                       buildBorderContainer(
                         child: buildImageList(question.imageIDs),
-                      ).expand(),
+                      ).expand(flex: 3),
                       if (widget.leftActionButton != null &&
                           widget.rightActionButton != null)
                         Row(
@@ -87,8 +86,31 @@ class DialogQuestionDetailState extends State<DialogQuestionDetail> {
             builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
               if (snapshot.hasData) {
                 Image image = Image.memory(base64Decode(snapshot.data!.data));
-                return InkWell(
-                    child: image, onTap: () => detailImageDialog(image));
+                return Stack(
+                  children: [
+                    // const VerticalDivider(),
+                    SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: InkWell(
+                        child: image,
+                        onTap: () => detailImageDialog(image),
+                      ),
+                    ),
+
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Container(
+                        height: 25,
+                        width: 25,
+                        color: Colors.white.withOpacity(0.2),
+                        alignment: Alignment.center,
+                        child: Text('${index + 1}'),
+                      ),
+                    ),
+                  ],
+                );
               }
               return const CircularProgressIndicator().center;
             },
@@ -103,13 +125,9 @@ class DialogQuestionDetailState extends State<DialogQuestionDetail> {
       context: context,
       builder: (context) => AlertDialog(
         contentPadding: EdgeInsets.zero,
-        content: SizedBox(
-            width: width * 0.7,
-            height: height * 0.7,
-            child: InteractiveViewer(
-              // constrained: true,
-              child: image,
-            )),
+        content: InteractiveViewer(
+          child: image,
+        ),
       ),
     );
   }

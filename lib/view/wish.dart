@@ -13,79 +13,200 @@ class ViewWish extends CommonView {
 class ViewWishState extends State<ViewWish>
     with SingleTickerProviderStateMixin {
   MGuest get guest => GServiceGuest.guest;
+  TStream<List<String>> $selectedWishQuestionIds = TStream<List<String>>()
+    ..sink$([]);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(LABEL.APPBAR_WISH),
-        automaticallyImplyLeading: false,
-      ),
-      body: FutureBuilder(
-        future: GServiceQuestion.getWishQuestion(),
-        builder: (context, AsyncSnapshot<RestfulResult> result) {
-          if (result.hasData) {
-            if (result.data!.data == null) {
-              return const Center(child: Text(MSG.NO_WISH));
+        appBar: AppBar(
+          title: const Text(LABEL.APPBAR_WISH),
+          automaticallyImplyLeading: false,
+        ),
+        body: TStreamBuilder(
+          stream: GServiceGuest.$guest.browse$,
+          builder: (context, MGuest guest) {
+            if (guest.wishQuestion.isEmpty) {
+              return buildBorderContainer(
+                child: const Center(
+                  child: Text(MSG.NO_WISH_QUESTION),
+                ),
+              );
             }
-            Map<String, MQuestion> mapOfQuestion = result.data!.data;
+            return buildWishQuestions();
+          },
+        ));
+  }
 
+  Widget buildWishQuestions() {
+    return TStreamBuilder(
+      stream: GServiceQuestion.$mapOfQuestion.browse$,
+      builder: (context, Map<String, MQuestion> mapOfQuestion) {
+        if (mapOfQuestion.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return TStreamBuilder(
+          stream: $selectedWishQuestionIds.browse$,
+          builder: (context, List<String> selectedWishQuestionIds) {
             return buildBorderContainer(
-              // TODO : wishQuestion이 없을 때의 예외처리
-              child: guest.wishQuestion.isEmpty
-                  ? const Center(child: Text(MSG.NO_WISH))
-                  : Column(
-                      children: [
-                        buildHeaderOfWishList()
-                            .sizedBox(height: kToolbarHeight),
-                        const Divider(),
-                        ListView.separated(
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemCount: guest.wishQuestion.length,
-                          itemBuilder: (context, index) {
-                            String getQuestionId = guest.wishQuestion[index];
-                            MQuestion getQuestion =
-                                mapOfQuestion[getQuestionId]!;
+              child: Column(
+                children: [
+                  buildHeaderOfWishList(selectedWishQuestionIds)
+                      .sizedBox(height: kToolbarHeight),
+                  const Divider(),
+                  ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: guest.wishQuestion.length,
+                    itemBuilder: (context, index) {
+                      String getQuestionId = guest.wishQuestion[index];
 
-                            MSubCategory getSubInSubCategory =
-                                GServiceSubCategory
-                                    .allSubCategory[getQuestion.categoryID]!;
+                      print('getQuestionId $getQuestionId');
+                      print('mapOfQuestion $mapOfQuestion');
 
-                            MSubCategory getSubCategory = GServiceSubCategory
-                                .allSubCategory[getSubInSubCategory.parent]!;
+                      MQuestion? getQuestion = mapOfQuestion[getQuestionId];
+                      MSubCategory getSubInSubCategory = GServiceSubCategory
+                          .allSubCategory[getQuestion!.categoryID]!;
 
-                            return Row(
-                              children: [
-                                buildText(getSubCategory.parent).expand(),
-                                buildText(getSubCategory.name).expand(),
-                                buildText(getQuestion.question).expand(flex: 2),
-                                buildElevatedButton(
-                                  child: const Text(LABEL.EXPLANATION),
-                                  onPressed: () =>
-                                      showQuestionDetail(getQuestion),
-                                ).expand(),
-                              ],
-                            );
-                          },
-                        ).expand(),
-                      ],
-                    ),
+                      MSubCategory getSubCategory = GServiceSubCategory
+                          .allSubCategory[getSubInSubCategory.parent]!;
+
+                      return Row(
+                        children: [
+                          Checkbox(
+                              value: selectedWishQuestionIds
+                                  .contains(getQuestionId),
+                              onChanged: (value) {
+                                List<String> tmpQuestions =
+                                    List.from(selectedWishQuestionIds);
+                                if (tmpQuestions.contains(getQuestionId)) {
+                                  tmpQuestions.remove(getQuestionId);
+                                  $selectedWishQuestionIds.sink$(tmpQuestions);
+                                  return;
+                                }
+
+                                if (!tmpQuestions.contains(getQuestionId)) {
+                                  tmpQuestions.add(getQuestionId);
+                                  $selectedWishQuestionIds.sink$(tmpQuestions);
+                                  return;
+                                }
+                              }),
+                          buildText(getSubCategory.parent).expand(),
+                          buildText(getSubCategory.name).expand(),
+                          buildText(getQuestion.question).expand(),
+                          buildElevatedButton(
+                            child: const Text(LABEL.EXPLANATION),
+                            onPressed: () => showQuestionDetail(getQuestion),
+                          ).expand(),
+                        ],
+                      );
+                    },
+                  ).expand(),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildElevatedButton(
+                        child: const Text(LABEL.REMOVE),
+                        onPressed: () {
+                          if (selectedWishQuestionIds.isEmpty) {
+                            showRemoveErrorDialog();
+                            return;
+                          }
+                          showRemoveDialog();
+                        },
+                      ),
+                      buildElevatedButton(
+                        child: const Text(LABEL.REMOVE_ALL),
+                        onPressed: () {
+                          showRemoveDialog(isClear: true);
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              ),
             );
-          }
-          return Scaffold(
-            body: CircularProgress(),
-          );
-        },
+          },
+        );
+      },
+    );
+  }
+
+  Future showRemoveErrorDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: const Text(MSG.PLEASE_SELECT_QUESTION),
+        actions: [
+          TextButton(
+            child: const Text(LABEL.CONFIRM),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
       ),
     );
   }
 
-  Widget buildHeaderOfWishList() {
+  Future showRemoveDialog({bool isClear = false}) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: isClear
+            ? const Text(LABEL.CLEAR_ALL_WISH_QUESTION)
+            : const Text(LABEL.REMOVE_SELECTED_QUESTION),
+        actions: [
+          TextButton(
+            child: const Text(LABEL.CANCEL),
+            onPressed: () => Navigator.pop(context),
+          ),
+          TextButton(
+            child: const Text(LABEL.CONFIRM),
+            onPressed: () {
+              if (isClear) {
+                GServiceGuest.clearWishQuestions(guest);
+                $selectedWishQuestionIds.sink$([]);
+                Navigator.pop(context);
+                return;
+              }
+
+              GServiceGuest.removeWishQuestions(
+                guest,
+                $selectedWishQuestionIds.lastValue,
+              );
+              $selectedWishQuestionIds.sink$([]);
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildHeaderOfWishList(List<String> selectedWishQuestionIds) {
     return Row(
       children: [
-        buildText('과목', fontWeight: FontWeight.bold).expand(),
-        buildText('카테고리', fontWeight: FontWeight.bold).expand(),
-        buildText('문제', fontWeight: FontWeight.bold).expand(flex: 2),
-        buildText('해설보기', fontWeight: FontWeight.bold).expand(),
+        Checkbox(
+          value: selectedWishQuestionIds.isNotEmpty,
+          onChanged: (value) {
+            if (selectedWishQuestionIds.isNotEmpty) {
+              $selectedWishQuestionIds.sink$([]);
+              return;
+            }
+
+            if (selectedWishQuestionIds.isEmpty) {
+              $selectedWishQuestionIds.sink$(guest.wishQuestion);
+              return;
+            }
+          },
+        ),
+        buildText(LABEL.WISH_HEADER_SUBJECT, fontWeight: FontWeight.bold)
+            .expand(),
+        buildText(LABEL.WISH_HEADER_CATEGORY, fontWeight: FontWeight.bold)
+            .expand(),
+        buildText(LABEL.WISH_HEADER_QUESTION, fontWeight: FontWeight.bold)
+            .expand(),
+        buildText(LABEL.WISH_HEADER_EXPLANATION, fontWeight: FontWeight.bold)
+            .expand(),
       ],
     );
   }
@@ -93,6 +214,11 @@ class ViewWishState extends State<ViewWish>
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    await GServiceQuestion.getWishQuestion();
   }
 
   Future<void> showQuestionDetail(MQuestion question) {

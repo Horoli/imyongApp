@@ -116,7 +116,7 @@ class ServiceQuestion {
   ///
   ///
 
-  Future<RestfulResult> getWishQuestion() {
+  Future<void> getWishQuestion() {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
     final Map<String, String> headers = GUtility.createHeaders(
@@ -129,8 +129,18 @@ class ServiceQuestion {
         : Uri.https(PATH.FORIEGN_URL, PATH.QUESTION_WISH);
 
     http.get(query, headers: headers).then((response) {
+      if (response.statusCode != 200) {
+        return completer.complete(
+          RestfulResult(
+            statusCode: response.statusCode,
+            message: 'getWishQuestionError',
+          ),
+        );
+      }
       Map result = json.decode(response.body);
+
       assert(List.from(result['data']).isNotEmpty, 'result[data] is empty.');
+
       Map<String, MQuestion> mapOfQuestion = {};
 
       for (dynamic item in result['data']) {

@@ -37,23 +37,9 @@ class QuestionTile extends StatelessWidget {
             color: hasCheck ? Colors.red : GServiceTheme.theme.primaryColor,
             hasCheck ? Icons.favorite_outlined : Icons.favorite_outline_rounded,
           ),
-          onPressed: () => patchWishGuest(guest),
+          onPressed: () => GServiceGuest.patchWishQuestion(guest, question.id),
         );
       },
     );
-  }
-
-  void patchWishGuest(MGuest guest) {
-    MGuest tmpGuest = guest.copyWith();
-    List<String> wish = tmpGuest.wishQuestion;
-
-    bool hasCheck = wish.contains(question.id);
-
-    hasCheck ? wish.remove(question.id) : wish.add(question.id);
-
-    GUtility.log('wish $wish');
-    tmpGuest = tmpGuest.copyWith(wishQuestion: wish);
-
-    GServiceGuest.patch(tmpGuest);
   }
 }
