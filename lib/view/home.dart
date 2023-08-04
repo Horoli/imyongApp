@@ -35,7 +35,7 @@ class ViewHomeState extends State<ViewHome> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // buildCardContents().expand(flex: 7),
-                  buildCard().expand(flex: 7),
+                  buildQuestionInfo().expand(flex: 7),
                   const Padding(padding: EdgeInsets.all(5)),
                   const Card().sizedBox(width: double.infinity).expand(flex: 3),
                   const ViewSubjectList().expand(flex: 8),
@@ -50,17 +50,13 @@ class ViewHomeState extends State<ViewHome> {
     );
   }
 
-  Widget buildCard() {
-    return FutureBuilder(
-      future: GServiceQuestion.getTotalQuestionsCount(),
-      builder: (context, AsyncSnapshot<RestfulResult> result) {
-        if (result.hasData) {
-          if (result.data!.data == null) {
-            return Container();
+  Widget buildQuestionInfo() {
+    return TStreamBuilder(
+        stream: GServiceQuestion.$mapOfTotalQuestionsCount.browse$,
+        builder: (context, Map<String, int> mapOfTotalQuestionsCount) {
+          if (mapOfTotalQuestionsCount.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
           }
-
-          Map<String, int> mapOfTotalQuestionsCount = result.data!.data;
-          print('mapOfTotalQuestionsCount $mapOfTotalQuestionsCount');
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -97,13 +93,7 @@ class ViewHomeState extends State<ViewHome> {
               ),
             ),
           );
-        }
-
-        return Scaffold(
-          body: CircularProgress(),
-        );
-      },
-    );
+        });
   }
 
   Widget buildDivisionCount(String label, int count) {

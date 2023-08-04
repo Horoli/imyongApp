@@ -1,21 +1,16 @@
 part of '/common.dart';
 
 class PageQuestion extends CommonView {
-  final String? selectedSubjectLabel;
+  final String selectedSubjectLabel;
   final List<String>? selectedCategories;
-  // final MSubCategory? selectedSubCategory;
   final int? selectedRandomCount;
   const PageQuestion({
-    // this.selectedSubCategory,
-    this.selectedSubjectLabel,
+    required this.selectedSubjectLabel,
     this.selectedCategories,
     this.selectedRandomCount,
     super.routeName = ROUTER.QUESTION,
     super.key,
   });
-
-  //  : assert(selectedSubjectLabel != null && selectedCategories == null,
-  //           'selectedSubjectLabel & selectedCategories empty');
 
   @override
   PageQuestionState createState() => PageQuestionState();
@@ -32,13 +27,18 @@ class PageQuestionState extends State<PageQuestion>
 
   double get width => MediaQuery.of(context).size.width * 0.8;
   double get height => MediaQuery.of(context).size.height * 0.8;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.selectedSubjectLabel ?? ''),
+        // 전체 문제 버튼을 통해서 들어온 경우, selectedRandomCount가 null이 아님
+        title: Text(
+          selectedRandomCount == null
+              ? '선택 과목 : ${widget.selectedSubjectLabel}'
+              : widget.selectedSubjectLabel,
+        ),
       ),
-      // body: buildSelectedCountRandomQuestion(),
       body: selectedRandomCount != null
           ? buildSelectedCountRandomQuestion()
           : buildFilteredQuestionBySubject(),
@@ -77,8 +77,16 @@ class PageQuestionState extends State<PageQuestion>
                 controller: ctrPage,
                 itemCount: questions.length,
                 itemBuilder: (context, index) {
+                  MSubCategory getSubInSubCategory = GServiceSubCategory
+                      .allSubCategory[questions[index].categoryID]!;
+
+                  MSubCategory getSubCategory = GServiceSubCategory
+                      .allSubCategory[getSubInSubCategory.parent]!;
+
                   return Column(
                     children: [
+                      Text('과목 ${GUtility.convertSubject(getSubCategory.parent)}')
+                          .expand(),
                       Text('학자 ${questions[index].info}').expand(),
                       Text('비고 ${questions[index].description}').expand(),
                       Align(

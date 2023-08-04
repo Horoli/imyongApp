@@ -1,3 +1,5 @@
+const String ALL_SUBJECT = '전체 과목';
+
 const String EXPLANATION = '해설';
 const String EXPLANATION_IMAGE = '해설 이미지';
 const String NEXT_QUESTION = 'NEXT';
@@ -31,5 +33,8 @@ const String CLEAR_ALL_WISH_QUESTION = '찜한 문제 모두 삭제';
 ////////////////////////////////////////
 ////////////////////////////////////////
 ////////////////////////////////////////
+
+const String SELECTED_SUBJECT_IS_EMPTY = '과정이 선택되지 않았습니다.';
+const String SELECTED_SUBJECT_PLEASE_SELECT = '과정을 선택해주세요.';
 
 const String SELECTED_SUBJECT_GET_QUESTION = '선택과정 문제 \n가져오기';

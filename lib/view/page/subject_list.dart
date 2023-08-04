@@ -44,14 +44,15 @@ class ViewSubjectListState extends State<ViewSubjectList>
                       return buildElevatedButton(
                         color: Colors.white,
                         child: Text(
-                          'all',
+                          LABEL.ALL_SUBJECT,
                           style: TextStyle(color: getThemeColor),
                         ),
                         onPressed: () {
                           GHelperNavigator.pushWithActions(
-                            const PageQuestionCountSelect(),
-                            GNavigatorKey,
-                          );
+                              const PageQuestionCountSelect(), GNavigatorKey,
+                              prePushHandler: () async {
+                            await GServiceSubCategory.getAll();
+                          });
                         },
                       );
                     }
@@ -67,21 +68,11 @@ class ViewSubjectListState extends State<ViewSubjectList>
                         GHelperNavigator.pushWithActions(
                             ViewSelectedSubjectList(
                               selectedSubjectLabel: subjects[index],
-                              // selectedSubject: GServiceSubCategory.subCategory,
                             ),
                             GNavigatorKey, prePushHandler: () async {
                           await GServiceSubCategory.get(
                               parent: subjects[index]);
                         });
-
-                        // GHelperNavigator._push(
-                        //   ViewSelectedSubjectList(
-                        //     selectedSubjectLabel: subjects[index],
-                        //     // selectedSubject: GServiceSubCategory.subCategory,
-                        //   ),
-                        //   GNavigatorKey,
-                        //   true,
-                        // );
                       },
                     );
                   },

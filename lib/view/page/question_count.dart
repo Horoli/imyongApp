@@ -42,10 +42,13 @@ class PageQuestionCountState extends State<PageQuestionCountSelect> {
   Widget buildSelectCountButton({required int count}) {
     return buildElevatedButton(
       height: kToolbarHeight,
-      child: Text('$count EA'),
+      child: Text('$count 문제 (무작위)'),
       onPressed: () {
         GHelperNavigator.pushWithActions(
-          PageQuestion(selectedRandomCount: count),
+          PageQuestion(
+            selectedRandomCount: count,
+            selectedSubjectLabel: '$count 문제 (무작위)',
+          ),
           GNavigatorKey,
           prePushHandler: () {
             GServiceQuestion.getSelectedCountRandomQuestion(10);

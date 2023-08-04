@@ -24,9 +24,11 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
   Widget build(BuildContext context) {
     print('selectedCategories $selectedCategories');
 
+    String subjectLabel = GUtility.convertSubject(widget.selectedSubjectLabel);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('selected Subject : ${widget.selectedSubjectLabel}'),
+        title: Text('선택 과목 : $subjectLabel'),
       ),
       body: Center(
         child: SizedBox(
@@ -63,7 +65,12 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () async {
-                    String convertData = await jsonEncode(
+                    if (selectedCategories.isEmpty) {
+                      showEmptyErrorDialog();
+                      return;
+                    }
+
+                    String convertData = jsonEncode(
                         GServiceSubCategory.$mapOfSubjectProgress.lastValue);
                     print('convertData $convertData');
 
@@ -72,6 +79,7 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
 
                     GHelperNavigator.pushWithActions(
                       PageQuestion(
+                        selectedSubjectLabel: subjectLabel,
                         selectedCategories: selectedCategories,
                       ),
                       GNavigatorKey,
@@ -165,6 +173,24 @@ class ViewSelectedSubjectListState extends State<ViewSelectedSubjectList> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Future showEmptyErrorDialog() async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(LABEL.SELECTED_SUBJECT_IS_EMPTY),
+        content: const Text(LABEL.SELECTED_SUBJECT_PLEASE_SELECT),
+        actions: [
+          buildElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(LABEL.CONFIRM),
+          )
+        ],
+      ),
+    );
   }
 
   @override

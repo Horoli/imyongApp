@@ -90,7 +90,9 @@ class ViewWishState extends State<ViewWish>
                                   return;
                                 }
                               }),
-                          buildText(getSubCategory.parent).expand(),
+                          buildText(GUtility.convertSubject(
+                                  getSubCategory.parent))
+                              .expand(),
                           buildText(getSubCategory.name).expand(),
                           buildText(getQuestion.question).expand(),
                           buildElevatedButton(

@@ -27,12 +27,12 @@ class ViewReadyState extends State<ViewReady>
             buildHeaders().sizedBox(height: kToolbarHeight),
             const Divider(),
             buildRows().expand(),
-            buildElevatedButton(
-              child: Text('test'),
-              onPressed: () {
-                GServiceQuestion.getWishQuestionBySubject();
-              },
-            )
+            // buildElevatedButton(
+            //   child: Text('test'),
+            //   onPressed: () {
+            //     GServiceQuestion.getWishQuestionBySubject();
+            //   },
+            // )
           ],
         ),
       ),
@@ -54,8 +54,8 @@ class ViewReadyState extends State<ViewReady>
         future: GServiceQuestion.getWishQuestionBySubject(),
         builder: (context, AsyncSnapshot<RestfulResult> snapshot) {
           if (snapshot.hasData) {
-            RestfulResult asd = snapshot.data!;
-            Map<String, List<MQuestion>> mapOfWishQuestion = asd.data;
+            RestfulResult getData = snapshot.data!;
+            Map<String, List<MQuestion>> mapOfWishQuestion = getData.data;
 
             return ListView.separated(
               separatorBuilder: (context, int index) => const Divider(),

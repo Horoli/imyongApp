@@ -75,8 +75,6 @@ class Utility {
         return '체육';
       case SUBJECT.PRACTICAL:
         return '실과';
-      case SUBJECT.GENERAL:
-        return '총창안';
     }
     return '';
   }
