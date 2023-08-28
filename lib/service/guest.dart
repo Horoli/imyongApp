@@ -9,9 +9,9 @@ class ServiceGuest {
   TStream<MGuest> $guest = TStream<MGuest>();
   MGuest get guest => $guest.lastValue;
 
-  Future<RestfulResult> post({required String guestID}) async {
+  Future<RestfulResult> post({required String guestId}) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
-    String encodeData = jsonEncode({"id": guestID});
+    String encodeData = jsonEncode({"id": guestId});
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.GUEST)
@@ -44,16 +44,16 @@ class ServiceGuest {
     return completer.future;
   }
 
-  Future<RestfulResult> get(String guestID) async {
+  Future<RestfulResult> get(String guestId) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    GUtility.log('guestID $guestID');
+    GUtility.log('guestId $guestId');
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: GSharedPreferences.getString('token'),
     );
 
-    Map<String, String> queryParameters = {"id": guestID};
+    Map<String, String> queryParameters = {"id": guestId};
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.GUEST, queryParameters)
@@ -127,7 +127,7 @@ class ServiceGuest {
 
     questionIds.forEach((id) {
       if (!tmpWishQuestions.contains(id)) {
-        GUtility.log('is not exist, ids $id');
+        GUtility.log('is not exist, Ids $id');
       }
       print('id $id');
       tmpWishQuestions.remove(id);

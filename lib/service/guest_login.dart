@@ -11,12 +11,12 @@ class ServiceMGuestLogin {
 
   ServiceMGuestLogin._internal();
 
-  Future<RestfulResult> login(String guestID) async {
+  Future<RestfulResult> login(String guestId) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    GUtility.log('guestIDdddd $guestID');
+    GUtility.log('guestIddddd $guestId');
 
-    String encodeData = jsonEncode({"id": guestID});
+    String encodeData = jsonEncode({"id": guestId});
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.GUEST_LOGIN)

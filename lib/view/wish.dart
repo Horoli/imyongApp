@@ -65,7 +65,7 @@ class ViewWishState extends State<ViewWish>
 
                       MQuestion? getQuestion = mapOfQuestion[getQuestionId];
                       MSubCategory getSubInSubCategory = GServiceSubCategory
-                          .allSubCategory[getQuestion!.categoryID]!;
+                          .allSubCategory[getQuestion!.categoryId]!;
 
                       MSubCategory getSubCategory = GServiceSubCategory
                           .allSubCategory[getSubInSubCategory.parent]!;

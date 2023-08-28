@@ -49,9 +49,9 @@ class DialogQuestionDetailState extends State<DialogQuestionDetail> {
                       ).expand(),
                       const Divider(),
                       Text(
-                          '${LABEL.EXPLANATION_IMAGE}(${question.imageIDs.length})'),
+                          '${LABEL.EXPLANATION_IMAGE}(${question.imageIds.length})'),
                       buildBorderContainer(
-                        child: buildImageList(question.imageIDs),
+                        child: buildImageList(question.imageIds),
                       ).expand(flex: 3),
                       if (widget.leftActionButton != null &&
                           widget.rightActionButton != null)
@@ -72,13 +72,13 @@ class DialogQuestionDetailState extends State<DialogQuestionDetail> {
     );
   }
 
-  Widget buildImageList(List<String> imageIDs) {
+  Widget buildImageList(List<String> imageIds) {
     return ListView.separated(
       separatorBuilder: (context, index) => const Divider(),
-      itemCount: imageIDs.length,
+      itemCount: imageIds.length,
       itemBuilder: (context, index) {
         Future<RestfulResult> getImage =
-            GServiceQuestion.getImage(imageIDs[index]);
+            GServiceQuestion.getImage(imageIds[index]);
         return SizedBox(
           height: 200,
           child: FutureBuilder(

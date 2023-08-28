@@ -20,5 +20,13 @@ const String QUESTION_RANDOM_COUNT = 'question/random';
 const String QUESTION_COUNTER = 'question/counter';
 const String QUESTION_WISH = 'question/wish';
 const String QUESTION_WISH_BY_SUBJECT = 'question/wish/by_subject';
-
 const String DIFFICULTY = 'difficulty';
+
+// const String QUESTION = 'mongo_question';
+// const String QUESTION_IMAGE = 'mongo_image';
+// const String FILTERED_QUESTION = 'mongo_filtered_question';
+// const String QUESTION_RANDOM_COUNT = 'mongo_question/random';
+// const String QUESTION_COUNTER = 'mongo_question/counter';
+// const String QUESTION_WISH = 'mongo_question/wish';
+// const String QUESTION_WISH_BY_SUBJECT = 'mongo_question/wish/by_subject';
+// const String DIFFICULTY = 'mongo_difficulty';

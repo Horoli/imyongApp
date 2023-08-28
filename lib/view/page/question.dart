@@ -78,7 +78,7 @@ class PageQuestionState extends State<PageQuestion>
                 itemCount: questions.length,
                 itemBuilder: (context, index) {
                   MSubCategory getSubInSubCategory = GServiceSubCategory
-                      .allSubCategory[questions[index].categoryID]!;
+                      .allSubCategory[questions[index].categoryId]!;
 
                   MSubCategory getSubCategory = GServiceSubCategory
                       .allSubCategory[getSubInSubCategory.parent]!;

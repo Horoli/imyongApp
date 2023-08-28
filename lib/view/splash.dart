@@ -45,13 +45,13 @@ class ViewSplashState extends State<ViewSplash>
   Future<void> loadData() async {
     GServiceTheme.fetch();
 
-    String guestID = await setGuestId();
+    String guestId = await setGuestId();
 
     final RestfulResult loginResult;
     final RestfulResult result;
 
-    result = await GServiceGuest.post(guestID: guestID);
-    loginResult = await GServiceGuestLogin.login(guestID);
+    result = await GServiceGuest.post(guestId: guestId);
+    loginResult = await GServiceGuestLogin.login(guestId);
 
     GServiceSubCategory.get();
     GServiceMainCategory.get();
@@ -108,31 +108,31 @@ class ViewSplashState extends State<ViewSplash>
   Future<String> setGuestId() async {
     BaseDeviceInfo getInfo = await GUtility.getPlatformInfo();
 
-    String guestID = '';
+    String guestId = '';
 
     if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) == null) {
       if (getInfo.runtimeType == WebBrowserInfo) {
-        guestID = newUUID();
+        guestId = newUUID();
       }
       if (getInfo.runtimeType == AndroidDeviceInfo) {
         GUtility.log('getAndroidId');
-        guestID = await androidId.getId() ?? '';
+        guestId = await androidId.getId() ?? '';
       }
       if (getInfo.runtimeType == IosDeviceInfo) {
-        guestID = newUUID();
+        guestId = newUUID();
       }
       if (getInfo.runtimeType == WindowsDeviceInfo) {
         WindowsDeviceInfo windowsInfo = getInfo as WindowsDeviceInfo;
-        guestID = windowsInfo.deviceId;
+        guestId = windowsInfo.deviceId;
       }
       GUtility.log('setString');
 
-      GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestID);
+      GSharedPreferences.setString(HEADER.LOCAL_GUEST, guestId);
     }
 
     if (GSharedPreferences.getString(HEADER.LOCAL_GUEST) != null) {
-      guestID = GSharedPreferences.getString(HEADER.LOCAL_GUEST)!;
+      guestId = GSharedPreferences.getString(HEADER.LOCAL_GUEST)!;
     }
-    return guestID;
+    return guestId;
   }
 }

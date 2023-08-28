@@ -264,7 +264,7 @@ class ServiceQuestion {
     return completer.future;
   }
 
-  Future<RestfulResult> getImage(String imageID) {
+  Future<RestfulResult> getImage(String imageId) {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
     final Map<String, String> _headers = GUtility.createHeaders(
@@ -273,8 +273,8 @@ class ServiceQuestion {
     );
 
     Uri query = PATH.IS_LOCAL
-        ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_IMAGE}/$imageID')
-        : Uri.https(PATH.FORIEGN_URL, '${PATH.QUESTION_IMAGE}/$imageID');
+        ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_IMAGE}/$imageId')
+        : Uri.https(PATH.FORIEGN_URL, '${PATH.QUESTION_IMAGE}/$imageId');
 
     http.get(query, headers: _headers).then((response) {
       String imageResult = base64Encode(response.bodyBytes);
