@@ -47,7 +47,6 @@ class ServiceGuest {
   Future<RestfulResult> get(String guestId) async {
     Completer<RestfulResult> completer = Completer<RestfulResult>();
 
-    GUtility.log('guestId $guestId');
     final Map<String, String> _headers = GUtility.createHeaders(
       tokenKey: HEADER.TOKEN,
       tokenValue: GSharedPreferences.getString('token'),
@@ -58,6 +57,7 @@ class ServiceGuest {
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.GUEST, queryParameters)
         : Uri.https(PATH.FORIEGN_URL, PATH.GUEST, queryParameters);
+    GUtility.log('guest get query $query');
 
     http.get(query, headers: _headers).then((response) {
       GUtility.log('get ${response.body}');

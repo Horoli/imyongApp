@@ -77,9 +77,20 @@ class ServiceQuestion {
       tokenValue: GSharedPreferences.getString(HEADER.LOCAL_TOKEN),
     );
 
+    print('count $count');
+
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count')
         : Uri.https(PATH.FORIEGN_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count');
+
+    // Map<String, String> queryParameters = {"amount": count.toString()};
+    // Uri query = PATH.IS_LOCAL
+    //     ? Uri.http(
+    //         PATH.LOCAL_URL, '${PATH.QUESTION_RANDOM_COUNT}/', queryParameters)
+    //     : Uri.https(PATH.FORIEGN_URL, '${PATH.QUESTION_RANDOM_COUNT}/',
+    //         queryParameters);
+
+    // print('query $query');
 
     http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
@@ -138,6 +149,7 @@ class ServiceQuestion {
         );
       }
       Map result = json.decode(response.body);
+      print('wish result ${result}');
 
       assert(List.from(result['data']).isNotEmpty, 'result[data] is empty.');
 
