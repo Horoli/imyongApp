@@ -86,9 +86,17 @@ class ServiceGuest {
     http.patch(query, headers: _headers, body: encodeData).then((response) {
       Map<String, dynamic> result =
           Map.from(jsonDecode(response.body)['data'] ?? {});
+      print('result $result');
+
+      if (result.isEmpty) {
+        return completer.complete(RestfulResult.fromMap(
+          jsonDecode(response.body),
+          response.statusCode,
+        ));
+      }
 
       MGuest tmpGuest = MGuest.fromMap(result);
-      GUtility.log('tmpGuest ${tmpGuest}');
+      GUtility.log('tmpGuest ${tmpGuest.id}');
       GUtility.log('tmpGuest.wishQuestion ${tmpGuest.wishQuestion}');
 
       $guest.sink$(tmpGuest);
@@ -96,6 +104,14 @@ class ServiceGuest {
         jsonDecode(response.body),
         response.statusCode,
       ));
+    }).catchError((e) {
+      GUtility.log('error $e');
+      return completer.complete(
+        RestfulResult(
+          statusCode: STATUS.CONNECTION_FAILED_CODE,
+          message: STATUS.CONNECTION_FAILED_MSG,
+        ),
+      );
     });
 
     return completer.future;
@@ -104,6 +120,7 @@ class ServiceGuest {
   // TODO : 해당 question을 삭제하는 함수(단일)
   void patchWishQuestion(MGuest guest, String questionId) {
     MGuest tmpGuest = guest.copyWith();
+    print('patchWishQuestion tmpGuest.id step1 ${tmpGuest.id}');
     List<String> wishQuestions = tmpGuest.wishQuestion;
 
     bool hasCheck = wishQuestions.contains(questionId);
@@ -112,6 +129,7 @@ class ServiceGuest {
 
     GUtility.log('wish $wishQuestions');
     tmpGuest = tmpGuest.copyWith(wishQuestion: wishQuestions);
+    print('patchWishQuestion tmpGuest.id step2 ${tmpGuest.id}');
     patch(tmpGuest);
   }
 

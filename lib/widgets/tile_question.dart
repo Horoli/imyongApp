@@ -31,12 +31,14 @@ class QuestionTile extends StatelessWidget {
     return TStreamBuilder(
       stream: GServiceGuest.$guest.browse$,
       builder: (BuildContext context, MGuest guest) {
+        print('guest.wishQuestion ${guest.wishQuestion}');
         bool hasCheck = guest.wishQuestion.contains(question.id);
         return IconButton(
           icon: Icon(
             color: hasCheck ? Colors.red : GServiceTheme.theme.primaryColor,
             hasCheck ? Icons.favorite_outlined : Icons.favorite_outline_rounded,
           ),
+          // onPressed: () => GServiceGuest.patch(guest),
           onPressed: () => GServiceGuest.patchWishQuestion(guest, question.id),
         );
       },
