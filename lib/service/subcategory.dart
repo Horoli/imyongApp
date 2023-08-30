@@ -32,7 +32,7 @@ class ServiceSubCategory {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.SUBCATEGORY, queryParameters)
-        : Uri.https(PATH.FORIEGN_URL, PATH.SUBCATEGORY, queryParameters);
+        : Uri.https(PATH.FOREIGN_URL, PATH.SUBCATEGORY, queryParameters);
 
     http.get(query, headers: _headers).then((value) {
       Map result = json.decode(value.body);
@@ -80,7 +80,7 @@ class ServiceSubCategory {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.CATEGORY, queryParameters)
-        : Uri.https(PATH.FORIEGN_URL, PATH.CATEGORY, queryParameters);
+        : Uri.https(PATH.FOREIGN_URL, PATH.CATEGORY, queryParameters);
 
     // http.get(GUtility.getRequestUri(query), headers: _headers).then(
     http.get(query, headers: _headers).then(
@@ -132,7 +132,7 @@ class ServiceSubCategory {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.CATEGORY)
-        : Uri.https(PATH.FORIEGN_URL, PATH.CATEGORY);
+        : Uri.https(PATH.FOREIGN_URL, PATH.CATEGORY);
 
     http.post(query, body: encodeData, headers: headers).then((response) {
       Map result = json.decode(response.body);
@@ -171,7 +171,7 @@ class ServiceSubCategory {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.CATEGORY)
-        : Uri.https(PATH.FORIEGN_URL, PATH.CATEGORY);
+        : Uri.https(PATH.FOREIGN_URL, PATH.CATEGORY);
 
     http.delete(query, body: encodeData, headers: headers).then((response) {
       Map result = json.decode(response.body);

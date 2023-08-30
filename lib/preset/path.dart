@@ -3,7 +3,7 @@
 
 const bool IS_LOCAL = false;
 const String LOCAL_URL = 'localhost:3000';
-const String FORIEGN_URL = 'imyong-api.horoli.kr';
+const String FOREIGN_URL = 'imyong-api.horoli.kr';
 
 // const String TYPE = 'type';
 // const String LOGIN = 'login';

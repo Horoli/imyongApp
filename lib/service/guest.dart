@@ -15,7 +15,7 @@ class ServiceGuest {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.GUEST)
-        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST);
+        : Uri.https(PATH.FOREIGN_URL, PATH.GUEST);
     http
         .post(query, headers: GUtility.createHeaders(), body: encodeData)
         .then((response) {
@@ -56,7 +56,7 @@ class ServiceGuest {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.GUEST, queryParameters)
-        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST, queryParameters);
+        : Uri.https(PATH.FOREIGN_URL, PATH.GUEST, queryParameters);
     GUtility.log('guest get query $query');
 
     http.get(query, headers: _headers).then((response) {
@@ -81,7 +81,7 @@ class ServiceGuest {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.GUEST)
-        : Uri.https(PATH.FORIEGN_URL, PATH.GUEST);
+        : Uri.https(PATH.FOREIGN_URL, PATH.GUEST);
 
     http.patch(query, headers: _headers, body: encodeData).then((response) {
       Map<String, dynamic> result =

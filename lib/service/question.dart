@@ -32,7 +32,7 @@ class ServiceQuestion {
     );
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.QUESTION_COUNTER)
-        : Uri.https(PATH.FORIEGN_URL, PATH.QUESTION_COUNTER);
+        : Uri.https(PATH.FOREIGN_URL, PATH.QUESTION_COUNTER);
 
     http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
@@ -81,7 +81,7 @@ class ServiceQuestion {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count')
-        : Uri.https(PATH.FORIEGN_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count');
+        : Uri.https(PATH.FOREIGN_URL, '${PATH.QUESTION_RANDOM_COUNT}/$count');
 
     // Map<String, String> queryParameters = {"amount": count.toString()};
     // Uri query = PATH.IS_LOCAL
@@ -137,7 +137,7 @@ class ServiceQuestion {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.QUESTION_WISH)
-        : Uri.https(PATH.FORIEGN_URL, PATH.QUESTION_WISH);
+        : Uri.https(PATH.FOREIGN_URL, PATH.QUESTION_WISH);
 
     http.get(query, headers: headers).then((response) {
       if (response.statusCode != 200) {
@@ -192,7 +192,7 @@ class ServiceQuestion {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.QUESTION_WISH_BY_SUBJECT)
-        : Uri.https(PATH.FORIEGN_URL, PATH.QUESTION_WISH_BY_SUBJECT);
+        : Uri.https(PATH.FOREIGN_URL, PATH.QUESTION_WISH_BY_SUBJECT);
 
     http.get(query, headers: headers).then((response) {
       Map result = json.decode(response.body);
@@ -241,7 +241,7 @@ class ServiceQuestion {
 
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, PATH.FILTERED_QUESTION)
-        : Uri.https(PATH.FORIEGN_URL, PATH.FILTERED_QUESTION);
+        : Uri.https(PATH.FOREIGN_URL, PATH.FILTERED_QUESTION);
 
     http.post(query, body: encodeData, headers: headers).then((response) {
       Map result = json.decode(response.body);
@@ -289,7 +289,7 @@ class ServiceQuestion {
     Uri query = PATH.IS_LOCAL
         ? Uri.http(PATH.LOCAL_URL, '${PATH.QUESTION_IMAGE}/', queryParameters)
         : Uri.https(
-            PATH.FORIEGN_URL, '${PATH.QUESTION_IMAGE}/', queryParameters);
+            PATH.FOREIGN_URL, '${PATH.QUESTION_IMAGE}/', queryParameters);
 
     http.get(query, headers: _headers).then((response) {
       String imageResult = base64Encode(response.bodyBytes);
