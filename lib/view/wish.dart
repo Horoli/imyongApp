@@ -93,7 +93,7 @@ class ViewWishState extends State<ViewWish>
                           buildText(GUtility.convertSubject(
                                   getSubCategory.parent))
                               .expand(),
-                          buildText(getSubCategory.name).expand(),
+                          buildText(getSubInSubCategory.name).expand(),
                           buildText(getQuestion.question).expand(),
                           buildElevatedButton(
                             child: const Text(LABEL.EXPLANATION),
